@@ -1,0 +1,3 @@
+FScoreboard = FScoreboard or {
+
+}
