@@ -1,3 +1,0 @@
-FScoreboard = FScoreboard or {
-
-}
