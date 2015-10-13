@@ -5,4 +5,4 @@ Public addons for the :new: FlexBox server.
 Long story short, the host (Henke) couldn't host anymore because Swedish ISPs suck.
 
 #### Will this server be any better?
-"Our hopes our high for the success of this server"
+"Our hopes are high for the success of this server"
