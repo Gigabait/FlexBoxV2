@@ -1,4 +1,4 @@
-hook.Add("PlayerLoadout","FlexBoxLoadout",function(ply)
+function GAMEMODE:PlayerLoadout(ply)
     ply:RemoveAllAmmo()
     ply:Give("none")
     ply:Give("weapon_physgun")
