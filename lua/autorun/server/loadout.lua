@@ -6,4 +6,4 @@ function GAMEMODE:PlayerLoadout(ply)
     ply:Give("weapon_crowbar")
     ply:Give("gmod_tool")
     ply:Give("gmod_camera")
-end)
+end
