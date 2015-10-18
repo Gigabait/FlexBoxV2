@@ -1,4 +1,4 @@
-function GAMEMODE:PlayerLoadout(ply)
+hook.Add("PlayerLoadout","DefaultLoadout",function(ply)
     ply:RemoveAllAmmo()
     ply:Give("none")
     ply:Give("weapon_physgun")
@@ -6,4 +6,5 @@ function GAMEMODE:PlayerLoadout(ply)
     ply:Give("weapon_crowbar")
     ply:Give("gmod_tool")
     ply:Give("gmod_camera")
-end
+    return true
+end)
