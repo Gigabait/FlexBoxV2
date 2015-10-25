@@ -17,13 +17,15 @@ surface.CreateFont("fs3_text",{
 })
 
 --cvars--
-local HostnameColorR = CreateClientConVar("fs3_hostname_r", 0)
-local HostnameColorG = CreateClientConVar("fs3_hostname_g", 150)
-local HostnameColorB = CreateClientConVar("fs3_hostname_b", 130)
-local SidebarColorR  = CreateClientConVar("fs3_sidebar_r",  33)
-local SidebarColorG  = CreateClientConVar("fs3_sidebar_g",  91)
-local SidebarColorB  = CreateClientConVar("fs3_sidebar_b",  51)
-
+local HostnameColorR    = CreateClientConVar("fs3_hostname_r",   0)
+local HostnameColorG    = CreateClientConVar("fs3_hostname_g",   150)
+local HostnameColorB    = CreateClientConVar("fs3_hostname_b",   130)
+local SidebarColorR     = CreateClientConVar("fs3_sidebar_r",    33)
+local SidebarColorG     = CreateClientConVar("fs3_sidebar_g",    91)
+local SidebarColorB     = CreateClientConVar("fs3_sidebar_b",    51)
+local BackgroundColorR  = CreateClientConVar("fs3_background_r", 50)
+local BackgroundColorG  = CreateClientConVar("fs3_background_g", 50)
+local BackgroundColorB  = CreateClientConVar("fs3_background_b", 50)
 
 function CreateFScoreboard()
     if IsValid(FScoreboard) then FScoreboard:Remove() end
@@ -32,7 +34,7 @@ function CreateFScoreboard()
     FScoreboard:Center()
 
     function FScoreboard:Paint(w,h)
-        draw.RoundedBox(0,0,0,w,h,Color(50,50,50))
+        draw.RoundedBox(0,0,0,w,h,Color(BackgroundColorR:GetInt(),BackgroundColorG:GetInt(),BackgroundColorB:GetInt()))
     end
 
     local header = vgui.Create("EditablePanel",FScoreboard)
@@ -85,10 +87,10 @@ function CreateFScoreboard()
     players_button:SetFont("fs3_text")
     players_button:SetTextColor(Color(255,255,255))
     players_button:SetIcon("icon16/user.png")
-    players_button.btncol = Color(0,0,0,0)
+    players_button.btncol = Color(0,0,0,100)
 
     function players_button:Paint(w,h)
-        if self.Hovered then self.btncol = Color(0,0,0,100) else self.btncol = Color(0,0,0,0) end
+        if self.Hovered then self.btncol = Color(0,0,0,200) else self.btncol = Color(0,0,0,100) end
         draw.RoundedBox(0,0,0,w,h,self.btncol)
         draw.RoundedBox(0,0,h-1,w,1,Color(SidebarColorR:GetInt(),SidebarColorG:GetInt(),SidebarColorB:GetInt()))
     end
@@ -105,10 +107,10 @@ function CreateFScoreboard()
     settings_button:SetFont("fs3_text")
     settings_button:SetTextColor(Color(255,255,255))
     settings_button:SetIcon("icon16/cog.png")
-    settings_button.btncol = Color(0,0,0,0)
+    settings_button.btncol = Color(0,0,0,100)
 
     function settings_button:Paint(w,h)
-        if self.Hovered then self.btncol = Color(0,0,0,100) else self.btncol = Color(0,0,0,0) end
+        if self.Hovered then self.btncol = Color(0,0,0,200) else self.btncol = Color(0,0,0,100) end
         draw.RoundedBox(0,0,0,w,h,self.btncol)
         draw.RoundedBox(0,0,h-1,w,1,Color(SidebarColorR:GetInt(),SidebarColorG:GetInt(),SidebarColorB:GetInt()))
     end
@@ -322,6 +324,25 @@ function CreateFScoreboard()
     color_hostname:SetConVarR("fs3_hostname_r")
     color_hostname:SetConVarG("fs3_hostname_g")
     color_hostname:SetConVarB("fs3_hostname_b")
+
+    local color_background_lbl = vgui.Create("DLabel",settings)
+    color_background_lbl:Dock(TOP)
+    color_background_lbl:DockMargin(4,4,0,0)
+    color_background_lbl:SetText("Background Color")
+    color_background_lbl:SetFont("fs3_text")
+    color_background_lbl:SetColor(Color(255,255,255))
+    color_background_lbl:SizeToContents()
+
+    local color_background = vgui.Create("DColorMixer",settings)
+    color_background:Dock(TOP)
+    color_background:DockMargin(4,4,0,0)
+    color_background:SetPalette(true)
+    color_background:SetAlphaBar(false)
+    color_background:SetWangs(true)
+    color_background:SetColor(Color(HostnameColorR:GetInt(),HostnameColorG:GetInt(),HostnameColorB:GetInt()))
+    color_background:SetConVarR("fs3_background_r")
+    color_background:SetConVarG("fs3_background_g")
+    color_background:SetConVarB("fs3_background_b")
 
     return true
 end
