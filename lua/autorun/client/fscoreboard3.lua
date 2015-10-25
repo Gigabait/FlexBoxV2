@@ -216,25 +216,47 @@ function CreateFScoreboard()
 
                 ----
 
-                local pnl_money = vgui.Create("EditablePanel",ply_pnl)
-                pnl_money:Dock(RIGHT)
+                if ply.GetMoney then
+                    local pnl_money = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_money:Dock(RIGHT)
 
-                local money_img = vgui.Create("DImage",pnl_money)
-                money_img:SetImage("icon16/coins.png")
-                money_img:SetSize(16,16)
-                money_img:Dock(LEFT)
-                money_img:DockMargin(4,8,0,8)
+                    local money_img = vgui.Create("DImage",pnl_money)
+                    money_img:SetImage("icon16/money.png")
+                    money_img:SetSize(16,16)
+                    money_img:Dock(LEFT)
+                    money_img:DockMargin(4,8,0,8)
 
-                local money_lbl = vgui.Create("DLabel",pnl_money)
-                money_lbl:Dock(LEFT)
-                money_lbl:DockMargin(4,0,4,0)
-                money_lbl:SetText(ply:GetMoney())
-                money_lbl:SetFont("fs3_text")
-                money_lbl:SetColor(Color(255,255,255))
-                money_lbl:SizeToContents()
+                    local money_lbl = vgui.Create("DLabel",pnl_money)
+                    money_lbl:Dock(LEFT)
+                    money_lbl:DockMargin(4,0,4,0)
+                    money_lbl:SetText(ply:GetMoney())
+                    money_lbl:SetFont("fs3_text")
+                    money_lbl:SetColor(Color(255,255,255))
+                    money_lbl:SizeToContents()
 
-                pnl_money:InvalidateLayout(true)
-                pnl_money:SizeToChildren(true,false)
+                    pnl_money:InvalidateLayout(true)
+                    pnl_money:SizeToChildren(true,false)
+                elseif ply.GetCoins then
+                    local pnl_money = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_money:Dock(RIGHT)
+
+                    local money_img = vgui.Create("DImage",pnl_money)
+                    money_img:SetImage("icon16/coins.png")
+                    money_img:SetSize(16,16)
+                    money_img:Dock(LEFT)
+                    money_img:DockMargin(4,8,0,8)
+
+                    local money_lbl = vgui.Create("DLabel",pnl_money)
+                    money_lbl:Dock(LEFT)
+                    money_lbl:DockMargin(4,0,4,0)
+                    money_lbl:SetText(ply:GetCoins())
+                    money_lbl:SetFont("fs3_text")
+                    money_lbl:SetColor(Color(255,255,255))
+                    money_lbl:SizeToContents()
+
+                    pnl_money:InvalidateLayout(true)
+                    pnl_money:SizeToChildren(true,false)
+                end
 
                 ----
                 if ply.GetUTime and ply.GetUTimeStart then
@@ -264,6 +286,9 @@ function CreateFScoreboard()
         team_pnl:SizeToChildren(false,true)
         if table.Count(teamtbl) < 1 then team_pnl:SetVisible(false) end
     end
+
+    players:InvalidateLayout(true)
+    players:SizeToChildren(false,true)
 
     --settings--
 
