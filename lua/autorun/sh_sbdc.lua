@@ -7,8 +7,6 @@ QBox - Metastruct Dev Team
 Modifications - Flex
 ]]--
 
-local sbdc_bot = CreateConVar("sbdc_bot","1",{FCVAR_NOTIFY,FCVAR_ARCHIVE,FCVAR_REPLICATED},"Are bots ungodded or not? (1 - yes, 0 - no)")
-
 if SERVER then
 	AddCSLuaFile("sh_sbdc.lua")
 end
@@ -35,18 +33,17 @@ function GM:PlayerShouldTakeDamage(ply,att)
 	--EXPLANATION: sbox_godmode == -1 forces off
 	if !IsValid(ply) or sbgm:GetInt() == -1 then return true end
 
-	if IsValid(ply) and ply:IsBot() and sbdc_bot:GetBool() then
+	if IsValid(ply) and ply:IsBot() then
 		if ply.nokill == true then return false end
 		return true
 	end
 
-	--EXPLANATION: sbox_plpldamage == -1 forces off
-	if att:IsValid() and GetConVar("sbox_plpldamage"):GetInt() == -1 then
+	--EXPLANATION: sbox_playershurtplayers == -1 forces off
+	if att:IsValid() and GetConVar("sbox_playershurtplayers"):GetInt() == -1 then
 		return true
 	end
 
 	local dmgmode = ply:GetInfoNum("cl_dmg_mode",0)
-	local attmode = att:GetInfoNum("cl_dmg_mode",0)
 
 	if dmgmode == 0 then
 		return false
