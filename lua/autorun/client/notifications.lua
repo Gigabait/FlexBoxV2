@@ -42,6 +42,10 @@ function AddLegacy( text, type, length )
 		Panel.Title:SetTextColor(Color(147,63,147))
 		Panel:SetText(string.gsub(text,"aowl: ",""))
 		Panel:SizeToContents()
+	elseif string.find(text,"vote") then
+		Panel.Title:SetText("Vote")
+		Panel.Title:SetTextColor(Color(100,200,200))
+		Panel:SizeToContents()
 	elseif type == NOTIFY_GENERIC then
 		Panel.Title:SetText("Notification")
 		Panel.Title:SetTextColor(Color(0,255,0))
@@ -162,18 +166,15 @@ function PANEL:Init()
 	self.Title:DockMargin(2,2,0,0)
 	self.Title:SetFont( "NotificationTitle" )
 	self.Title:SetTextColor( Color( 0, 255, 0, 255 ) )
-	self.Title:SetExpensiveShadow( 1, Color( 0, 0, 0, 200 ) )
 	self.Title:SetContentAlignment( 5 )
 
 	self.Label = vgui.Create( "DLabel", self )
 	self.Label:Dock( TOP )
 	self.Label:SetFont( "NotificationText" )
 	self.Label:SetTextColor( Color( 255, 255, 255, 255 ) )
-	self.Label:SetExpensiveShadow( 1, Color( 0, 0, 0, 200 ) )
 	self.Label:SetContentAlignment( 5 )
 
-	self:SetBackgroundColor( Color( 20, 20, 20, 255*0.6 ) )
-
+	self:SetBackgroundColor( Color( 20, 20, 20, 255*0.6) )
 end
 
 function PANEL:SetText( txt )
