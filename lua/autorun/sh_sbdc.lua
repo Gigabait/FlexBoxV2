@@ -9,6 +9,24 @@ Modifications - Flex
 
 if SERVER then
 	AddCSLuaFile("sh_sbdc.lua")
+
+	if aowl then
+		aowl.AddCommand("god",function(player, line)
+			local newdmgmode = tonumber(line) or (player:GetInfoNum("cl_dmg_mode", 0) == 1 and 3 or 1)
+			newdmgmode = math.floor(math.Clamp(newdmgmode, 1, 4))
+			player:SendLua([[
+				pcall(include, "autorun/translation.lua") local L = translation and translation.L or function(s) return s end
+				LocalPlayer():ConCommand('cl_dmg_mode '.."]]..newdmgmode..[[")
+				if (]]..newdmgmode..[[) == 1 then
+					chat.AddText(L"God mode enabled.")
+				elseif (]]..newdmgmode..[[) == 3 then
+					chat.AddText(L"God mode disabled.")
+				else
+					chat.AddText(string.format(L"Damage mode set to ".."%d.", (]]..newdmgmode..[[)))
+				end
+			]])
+		end)
+	end
 end
 
 local GM = istable(GM) and GM or GAMEMODE
