@@ -29,7 +29,7 @@ if SERVER then
 	end
 end
 
-local GM = istable(GM) and GM or GAMEMODE
+local GM = GAMEMODE
 
 function GM:MortalRequested(ply,att)
 	local req = hook.Call("PlayerShouldTakeDamage",self,ply,att or ply)
