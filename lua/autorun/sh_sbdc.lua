@@ -29,15 +29,13 @@ if SERVER then
 	end
 end
 
-local GM = GAMEMODE
-
-function GM:MortalRequested(ply,att)
+function GAMEMODE:MortalRequested(ply,att)
 	local req = hook.Call("PlayerShouldTakeDamage",self,ply,att or ply)
 	return req == true
 end
 
 local enf
-function GM:MortalEnforced(ply,att)
+function GAMEMODE:MortalEnforced(ply,att)
 	enf = true
 	local req = hook.Call("PlayerShouldTakeDamage",nil,ply,att or ply)
 	enf = false
@@ -45,7 +43,7 @@ function GM:MortalEnforced(ply,att)
 end
 
 local sbgm = GetConVar("sbox_godmode")
-function GM:PlayerShouldTakeDamage(ply,att)
+function GAMEMODE:PlayerShouldTakeDamage(ply,att)
 	if enf then enf = false return end
 
 	--EXPLANATION: sbox_godmode == -1 forces off
@@ -77,14 +75,14 @@ end
 --Better Fall Damage--
 
 local velDeath = 600
-function GM:GetFallDamage(ply,speed)
+function GAMEMODE:GetFallDamage(ply,speed)
 	if speed < velDeath then return 0 end
 	return math.pow(0.05 * (speed - velDeath), 1.75)
 end
 
 local hurt1 = 'player/pl_pain5.wav'
 local hurt2 = "physics/body/body_medium_break3.wav"
-function GM:OnPlayerHitGround(ply,water,var,speed)
+function GAMEMODE:OnPlayerHitGround(ply,water,var,speed)
 	if water or var or !IsFirstTimePredicted() then return true end
 
 	local vel = ply:GetVelocity()*800
