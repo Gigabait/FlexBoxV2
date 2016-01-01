@@ -80,6 +80,15 @@ function CreateFScoreboard()
     local settings = vgui.Create("EditablePanel",FScoreboard)
     settings:SetVisible(false)
 
+    local scroll = vgui.Create("DScrollPanel",FScoreboard)
+    scroll:SetPos(200,100)
+    scroll:SetSize(ScrW()-500,ScrH()-250)
+    scroll:AddItem(players)
+    players:Dock(FILL)
+    players:SetTall(ScrH()-250)
+    settings:Dock(FILL)
+    settings:SetTall(ScrH()-250)
+
     local players_button = vgui.Create("DButton",sidebar)
     players_button:Dock(TOP)
     players_button:SetTall(40)
@@ -96,7 +105,7 @@ function CreateFScoreboard()
     end
 
     function players_button:DoClick()
-        players:SetVisible(true)
+        scroll:SetVisible(true)
         settings:SetVisible(false)
     end
 
@@ -117,19 +126,8 @@ function CreateFScoreboard()
 
     function settings_button:DoClick()
         settings:SetVisible(true)
-        players:SetVisible(false)
+        scroll:SetVisible(false)
     end
-
-
-    local scroll = vgui.Create("DScrollPanel",FScoreboard)
-    scroll:SetPos(200,100)
-    scroll:SetSize(ScrW()-500,ScrH()-250)
-    scroll:AddItem(players)
-    scroll:AddItem(settings)
-    players:Dock(FILL)
-    players:SetTall(scroll:GetTall())
-    settings:Dock(FILL)
-    settings:SetTall(scroll:GetTall())
 
     for _,t in pairs(team.GetAllTeams()) do
         if t == team.GetAllTeams()[0] or t == team.GetAllTeams()[1001] or t == team.GetAllTeams()[1002] then continue end
@@ -184,24 +182,11 @@ function CreateFScoreboard()
                 name:SetColor(Color(255,255,255))
                 name:SizeToContents()
 
-                if ply.IsAFK and ply:IsAFK() then
-                    local pnl_away = vgui.Create("EditablePanel",ply_pnl)
-                    pnl_away:Dock(LEFT)
-
-                    local away_img = vgui.Create("DImage",pnl_away)
-                    away_img:SetImage("icon16/clock.png")
-                    away_img:SetSize(16,16)
-                    away_img:Dock(LEFT)
-                    away_img:DockMargin(4,8,0,8)
-                end
-
-                ----
-
                 local pnl_ping = vgui.Create("EditablePanel",ply_pnl)
                 pnl_ping:Dock(RIGHT)
 
                 local ping_img = vgui.Create("DImage",pnl_ping)
-                ping_img:SetImage("icon16/transmit_blue.png")
+                ping_img:SetImage(ply:Ping() > 100 and "icon16/transmit.png" or "icon16/transmit_blue.png")
                 ping_img:SetSize(16,16)
                 ping_img:Dock(LEFT)
                 ping_img:DockMargin(4,8,0,8)
@@ -213,8 +198,28 @@ function CreateFScoreboard()
                 ping_lbl:SetFont("fs3_text")
                 ping_lbl:SetColor(Color(255,255,255))
                 ping_lbl:SizeToContents()
-
                 ----
+                if ply.GetUTime and ply.GetUTimeStart then
+                    local pnl_time = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_time:Dock(RIGHT)
+
+                    local time_img = vgui.Create("DImage",pnl_time)
+                    time_img:SetImage("icon16/time.png")
+                    time_img:SetSize(16,16)
+                    time_img:Dock(LEFT)
+                    time_img:DockMargin(4,8,0,8)
+
+                    local time_lbl = vgui.Create("DLabel",pnl_time)
+                    time_lbl:Dock(LEFT)
+                    time_lbl:DockMargin(4,0,4,0)
+                    time_lbl:SetText(math.floor((ply:GetUTime() + CurTime() - ply:GetUTimeStart())/60/60).." hr")
+                    time_lbl:SetFont("fs3_text")
+                    time_lbl:SetColor(Color(255,255,255))
+                    time_lbl:SizeToContents()
+
+                    pnl_time:InvalidateLayout(true)
+                    pnl_time:SizeToChildren(true,false)
+                end
 
                 if ply.GetMoney then
                     local pnl_money = vgui.Create("EditablePanel",ply_pnl)
@@ -258,28 +263,27 @@ function CreateFScoreboard()
                     pnl_money:SizeToChildren(true,false)
                 end
 
-                ----
-                if ply.GetUTime and ply.GetUTimeStart then
-                    local pnl_time = vgui.Create("EditablePanel",ply_pnl)
-                    pnl_time:Dock(RIGHT)
+                local pnl_deaths = vgui.Create("EditablePanel",ply_pnl)
+                pnl_deaths:Dock(RIGHT)
 
-                    local time_img = vgui.Create("DImage",pnl_time)
-                    time_img:SetImage("icon16/time.png")
-                    time_img:SetSize(16,16)
-                    time_img:Dock(LEFT)
-                    time_img:DockMargin(4,8,0,8)
+                local deaths_lbl = vgui.Create("DLabel",pnl_deaths)
+                deaths_lbl:Dock(LEFT)
+                deaths_lbl:DockMargin(4,0,4,0)
+                deaths_lbl:SetText("Deaths: "..ply:Deaths())
+                deaths_lbl:SetFont("fs3_text")
+                deaths_lbl:SetColor(Color(255,255,255))
+                deaths_lbl:SizeToContents()
 
-                    local time_lbl = vgui.Create("DLabel",pnl_time)
-                    time_lbl:Dock(LEFT)
-                    time_lbl:DockMargin(4,0,4,0)
-                    time_lbl:SetText(math.floor((ply:GetUTime() + CurTime() - ply:GetUTimeStart())/60/60).." hr")
-                    time_lbl:SetFont("fs3_text")
-                    time_lbl:SetColor(Color(255,255,255))
-                    time_lbl:SizeToContents()
+                local pnl_frags = vgui.Create("EditablePanel",ply_pnl)
+                pnl_frags:Dock(RIGHT)
 
-                    pnl_time:InvalidateLayout(true)
-                    pnl_time:SizeToChildren(true,false)
-                end
+                local frags_lbl = vgui.Create("DLabel",pnl_frags)
+                frags_lbl:Dock(LEFT)
+                frags_lbl:DockMargin(4,0,4,0)
+                frags_lbl:SetText("Frags: "..ply:Frags())
+                frags_lbl:SetFont("fs3_text")
+                frags_lbl:SetColor(Color(255,255,255))
+                frags_lbl:SizeToContents()
             end
         end
         team_pnl:InvalidateLayout(true)
