@@ -41,7 +41,7 @@ end
 function CommitGrab.AnnounceCommit()
 	for _,pl in pairs(player.GetAll()) do
 		pl:PrintMessage(3,"Latest FlexBox repo commit:")
-		pl:PrintMessage(3,"Commit #"..#CommitGrab.Data.." by "..CommitGrab.LatestCommit.commit.author.name)
+		pl:PrintMessage(3,"Commit "..CommitGrab.LatestCommit.sha.." by "..CommitGrab.LatestCommit.commit.author.name)
 		pl:PrintMessage(3,"\t"..CommitGrab.LatestCommit.commit.message)
 		pl:PrintMessage(3,"Files:")
 		for _,f in pairs(CommitGrab.CommitData.files) do
@@ -53,6 +53,7 @@ end
 timer.Create(Tag..".UpdateCommits",120,0,function()
 	CommitGrab.GrabData()
 	CommitGrab.GrabCommitData()
+	timer.Simple(10,function())
 	if CommitGrab.Data[1] != CommitGrab.LatestCommit then
 		CommitGrab.LatestCommit = CommitGrab.Data[1]
 		timer.Simple(1,function()
