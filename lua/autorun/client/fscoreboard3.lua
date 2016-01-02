@@ -160,6 +160,63 @@ function CreateFScoreboard()
                     draw.RoundedBox(4,0,0,w,h,Color(0,0,0,200))
                 end
 
+                function ply_pnl:OnMouseReleased(btn)
+                    if btn == MOUSE_RIGHT then
+                            local menu = DermaMenu()
+
+                            if LocalPlayer() != ply then
+                                menu:AddOption( "Goto", function() LocalPlayer():ConCommand("aowl goto _"..ply:EntIndex()) end ):SetIcon("icon16/arrow_right.png")
+                                menu:AddOption( "Bring", function() LocalPlayer():ConCommand("aowl bring _"..ply:EntIndex()) end ):SetIcon("icon16/arrow_inout.png")
+                                menu:AddSpacer()
+                                local spawn,sicn = menu:AddSubMenu( "Spawn", function() LocalPlayer():ConCommand("aowl spawn _"..ply:EntIndex()) end )
+                                sicn:SetIcon("icon16/heart.png")
+                                if !ply:Alive() then
+                                    spawn:AddOption("Revive",function() LocalPlayer():ConCommand("aowl revive _"..ply:EntIndex()) end):SetIcon("icon16/heart_add.png")
+                                end
+                                menu:Open()
+                            end
+
+                            if ply == LocalPlayer() then
+                                menu:AddOption( "Blink", function() LocalPlayer():ConCommand("aowl goto _"..ply:EntIndex()) end ):SetIcon("icon16/arrow_right.png")
+                                menu:AddOption( "Rename", function() Derma_StringRequest(
+                                    "Name",
+                                    "Enter a new name for yourself.",
+                                    ply:Nick(),
+                                    function(txt) RunConsoleCommand("aowl","name",txt) end,
+                                    function(txt) return false end)
+                                end):SetIcon("icon16/textfield_rename.png")
+
+                                local c,cicn = menu:AddSubMenu( "CTP", function() ctp:Toggle() end )
+                                cicn:SetIcon("icon16/camera.png")
+                                c:AddOption("Enable",function() ctp:Enable() end):SetIcon("icon16/camera_add.png")
+                                c:AddOption("Disable",function() ctp:Disable() end):SetIcon("icon16/camera_delete.png")
+                                c:AddOption("Menu",function() LocalPlayer():ConCommand("ctp_toggle_menu") end):SetIcon("icon16/camera_edit.png")
+                                c:AddSpacer()
+                                c2,c2icn = c:AddSubMenu("Camera Style",function() return end)
+                                c2icn:SetIcon("icon16/camera_edit.png")
+                                c3,c3icn = c2:AddSubMenu("Custom",function() return end)
+                                c3icn:SetIcon("icon16/folder.png")
+                                for _,f in pairs(file.Find("ctp/cvar_presets/*","DATA")) do
+                                    local nf = f:gsub("%.txt","")
+                                    c3:AddOption(nf,function() ctp:Enable() ctp:LoadCVarPreset(nf) end)
+                                end
+                                c2:AddOption("Thirdperson",function() ctp:Enable() ctp:LoadCVarPreset("Valve Thirdperson") end)
+                                c2:AddOption("Cinematic",function() ctp:Enable() ctp:LoadCVarPreset("Cinematic") end)
+                                c2:AddOption("Cinematic 2",function() ctp:Enable() ctp:LoadCVarPreset("Cinematic 2") end)
+                                c2:AddOption("Helicopter View",function() ctp:Enable() ctp:LoadCVarPreset("Helicopter View") end)
+                                c2:AddOption("Isometric",function() ctp:Enable() ctp:LoadCVarPreset("Isometric") end)
+                                c2:AddOption("Slow",function() ctp:Enable() ctp:LoadCVarPreset("Slow") end)
+
+                                menu:AddSpacer()
+                                local spawn,sicn = menu:AddSubMenu( "Spawn", function() LocalPlayer():ConCommand("aowl spawn _"..ply:EntIndex()) end )
+                                sicn:SetIcon("icon16/heart.png")
+                                menu:Open()
+                            end
+
+                            return true
+                    end
+                end
+
                 local avatar = vgui.Create("AvatarImage",ply_pnl)
                 avatar:Dock(LEFT)
                 avatar:SetSize(32,32)
@@ -181,6 +238,28 @@ function CreateFScoreboard()
                 name:SetFont("fs3_text")
                 name:SetColor(Color(255,255,255))
                 name:SizeToContents()
+
+                if ply.IsAFK and ply:IsAFK() then
+                    local pnl_away = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_away:Dock(LEFT)
+
+                    local away_img = vgui.Create("DImage",pnl_away)
+                    away_img:SetImage("icon16/clock.png")
+                    away_img:SetSize(16,16)
+                    away_img:Dock(LEFT)
+                    away_img:DockMargin(4,8,0,8)
+                end
+
+                if !ply:Alive then
+                    local pnl_ded = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_ded:Dock(LEFT)
+
+                    local ded_img = vgui.Create("DImage",pnl_ded)
+                    ded_img:SetImage("icon16/heart_delete.png")
+                    ded_img:SetSize(16,16)
+                    ded_img:Dock(LEFT)
+                    ded_img:DockMargin(4,8,0,8)
+                end
 
                 local pnl_ping = vgui.Create("EditablePanel",ply_pnl)
                 pnl_ping:Dock(RIGHT)
