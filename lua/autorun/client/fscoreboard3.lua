@@ -151,6 +151,23 @@ function CreateFScoreboard()
                 team_pnl:SetTall(26+(34*table.Count(teamtbl)))
                 team_pnl:DockPadding(0,20,0,4)
 
+                local name_c
+                for col in string.gmatch(ply:Nick(),"%^(%d)") do
+                name_c = PlayerColors[col]
+                end
+                for col1,col2,col3 in string.gmatch(ply:Nick(),"<hsv=(%d+%.?%d*),(%d+%.?%d*),(%d+%.?%d*)>") do
+                name_c = HSVToColor(col1,col2,col3)
+                end
+                for col1,col2,col3 in string.gmatch(ply:Nick(),"<color=(%d+%.?%d*),(%d+%.?%d*),(%d+%.?%d*)>") do
+                name_c = Color(col1,col2,col3,255)
+                end
+                local namec = name_c and name_c or Color(255,255,255)
+
+                local name_noc = ply:Nick()
+                name_noc = string.gsub(name_noc,"<hsv=(%d+%.?%d*),(%d+%.?%d*),(%d+%.?%d*)>","")
+                name_noc = string.gsub(name_noc,"<color=(%d+%.?%d*),(%d+%.?%d*),(%d+%.?%d*)>","")
+                name_noc = string.gsub(name_noc,"%^(%d+%.?%d*)","")
+
                 local ply_pnl = vgui.Create("EditablePanel",team_pnl)
                 ply_pnl:Dock(TOP)
                 ply_pnl:DockMargin(4,4,4,0)
@@ -234,9 +251,9 @@ function CreateFScoreboard()
                 local name = vgui.Create("DLabel",ply_pnl)
                 name:Dock(LEFT)
                 name:DockMargin(4,0,0,0)
-                name:SetText(ply:Name())
+                name:SetText(name_noc)
                 name:SetFont("fs3_text")
-                name:SetColor(Color(255,255,255))
+                name:SetColor(namec)
                 name:SizeToContents()
 
                 if ply.IsAFK and ply:IsAFK() then
@@ -250,7 +267,7 @@ function CreateFScoreboard()
                     away_img:DockMargin(4,8,0,8)
                 end
 
-                if !ply:Alive then
+                if !ply:Alive() then
                     local pnl_ded = vgui.Create("EditablePanel",ply_pnl)
                     pnl_ded:Dock(LEFT)
 
