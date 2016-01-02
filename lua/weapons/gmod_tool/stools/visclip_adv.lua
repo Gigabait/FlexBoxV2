@@ -42,7 +42,7 @@ function TOOL:Think()
 		self.pos = ent:LocalToWorld( ent:OBBCenter() )
 		local LinePoint1 = self.pos
 		local LinePoint2 = self.pos + ang:Forward()
-		local dist = -(self.norm:Dot(pos-LinePoint1))/(self.norm:Dot(LinePoint2-LinePoint1))
+		local dist = -(self.norm:Dot(self.pos-LinePoint1))/(self.norm:Dot(LinePoint2-LinePoint1))
 
 		umsg.Start("visual_clip_data" , self:GetOwner())
 			local ang = ent:WorldToLocalAngles(self.norm:Angle())
