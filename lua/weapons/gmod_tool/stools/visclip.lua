@@ -18,7 +18,7 @@ TOOL.ClientConVar["inside"] = "0"
 if CLIENT then
 	language.Add( "tool.visual.name", "Visual Clip Tool" )
 	language.Add( "tool.visual.desc", "Visually Clip Models" )
-	language.Add( "tool.visual.0", "Primary: Create a plane to clip on \nSecondary: Clip Model \nReload: Remove Clips" )
+	language.Add( "tool.visual.0", "Primary: Create a plane to clip on \tSecondary: Clip Model \tReload: Remove Clips" )
 end
 
 

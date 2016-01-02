@@ -15,10 +15,10 @@ TOOL.ClientConVar["inside"] = "0"
 if CLIENT then
 	language.Add( "tool.visual_adv.name", "Visual Clip Tool - Advanced" )
 	language.Add( "tool.visual_adv.desc", "Visually Clip Models" )
-	language.Add( "tool.visual_adv.0", "Primary: Click two different ares to define a clipplane \nPrimary + Shift: Clip by plane \nReload: Remove Clips" )
+	language.Add( "tool.visual_adv.0", "Primary: Click two different ares to define a clipplane \tPrimary + Shift: Clip by plane \tReload: Remove Clips" )
 	language.Add( "tool.visual_adv.1", "Primary: Click on a second spot" )
-	language.Add( "tool.visual_adv.2", "Primary: Select the side of the prop you want to keep	Seconday: Confirm clip" )
-	language.Add( "tool.visual_adv.3", "Shift + Primary: Define a new plane 	Secondary: Confirm clip")
+	language.Add( "tool.visual_adv.2", "Primary: Select the side of the prop you want to keep \tSeconday: Confirm clip" )
+	language.Add( "tool.visual_adv.3", "Shift + Primary: Define a new plane \tSecondary: Confirm clip")
 end
 
 
