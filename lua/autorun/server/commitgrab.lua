@@ -44,7 +44,10 @@ function CommitGrab.AnnounceCommit()
 		pl:PrintMessage(3,"\t"..CommitGrab.LatestCommit.commit.message)
 		pl:PrintMessage(3,"Files:")
 		for _,f in pairs(CommitGrab.CommitData.files) do
-			pl:PrintMessage(3,"\t"..f.filename)
+			if f.additions == 0 then prefix = "D"
+			elseif f.deletions == 0 then prefix = "A"
+			else prefix = "U" end
+			pl:PrintMessage(3,prefix.."\t"..f.filename)
 		end
 	end
 end
