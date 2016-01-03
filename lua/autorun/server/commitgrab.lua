@@ -50,7 +50,7 @@ function CommitGrab.AnnounceCommit()
 	end
 end
 
-timer.Create(Tag..".UpdateCommits",120,0,function()
+timer.Create(Tag..".UpdateCommits",60,0,function()
 	CommitGrab.GrabData()
 	CommitGrab.GrabCommitData()
 	timer.Simple(10,function()
