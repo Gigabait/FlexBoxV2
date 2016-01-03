@@ -197,8 +197,8 @@ function CreateFScoreboard()
                                     b:AddOption( spr and "Unblock Spray" or "Block Spray",function() LocalPlayer():ConCommand("blockspray "..ply:EntIndex()) end):SetImage(spr and "icon16/picture.png" or "icon16/picture_empty.png")
                                 end
                                 if pac then
-                                    local bpac = ent.pac_ignored and pac.UnIgnoreEntity or pac.IgnoreEntity
-                                    b:AddOption(ent.pac_ignored and "Unignore PAC" or "Ignore PAC",function() bpac(ent) end):SetImage(ent.pac_ignored and "icon16/user_add.png" or "icon16/user_delete.png")
+                                    local bpac = plypac_ignored and pac.UnIgnoreEntity or pac.IgnoreEntity
+                                    b:AddOption(plypac_ignored and "Unignore PAC" or "Ignore PAC",function() bpac(ply) end):SetImage(plypac_ignored and "icon16/user_add.png" or "icon16/user_delete.png")
                                 end
                                 menu:AddSpacer()
                                 menu:AddOption("PM",function() ply:ConCommand("chat_open_pm "..ply:SteamID()) end):SetIcon("icon16/group.png")
