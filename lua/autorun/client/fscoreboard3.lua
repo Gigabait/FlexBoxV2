@@ -181,21 +181,32 @@ function CreateFScoreboard()
                     if btn == MOUSE_RIGHT then
                             local menu = DermaMenu()
 
-                            if LocalPlayer() != ply then
-                                menu:AddOption( "Goto", function() LocalPlayer():ConCommand("aowl goto _"..ply:EntIndex()) end ):SetIcon("icon16/arrow_right.png")
-                                menu:AddOption( "Bring", function() LocalPlayer():ConCommand("aowl bring _"..ply:EntIndex()) end ):SetIcon("icon16/arrow_inout.png")
+                            if ply != LocalPlayer() then
+                                menu:AddOption("Goto",function() LocalPlayer():ConCommand("aowl goto _"..ply:EntIndex()) end):SetIcon("icon16/arrow_right.png")
+                                menu:AddOption("Bring",function() LocalPlayer():ConCommand("aowl bring _"..ply:EntIndex()) end):SetIcon("icon16/arrow_inout.png")
                                 menu:AddSpacer()
-                                local spawn,sicn = menu:AddSubMenu( "Spawn", function() LocalPlayer():ConCommand("aowl spawn _"..ply:EntIndex()) end )
-                                sicn:SetIcon("icon16/heart.png")
-                                if !ply:Alive() then
-                                    spawn:AddOption("Revive",function() LocalPlayer():ConCommand("aowl revive _"..ply:EntIndex()) end):SetIcon("icon16/heart_add.png")
+                                if LocalPlayer():IsAdmin() then
+                                    menu:AddOption("Cleanup",function() LocalPlayer():ConCommand("aowl cleanup _"..ply:EntIndex()) end):SetIcon("icon16/bin_empty.png")
                                 end
-                                menu:Open()
+                                local b,bicn = menu:AddSubMenu("Block Menu")
+                                bicn:SetIcon("icon16/user_delete.png")
+                                local muted = ply:IsMuted()
+                                b:AddOption(muted and "Unmute" or "Mute",function() ply:SetMuted(not muted) end):SetImage(muted and "icon16/sound_add.png" or "icon16/sound_delete.png")
+                                if SprayList then
+                                    local spr = ply:IsSprayBlocked()
+                                    b:AddOption( spr and "Unblock Spray" or "Block Spray",function() LocalPlayer():ConCommand("blockspray "..ply:EntIndex()) end):SetImage(spr and "icon16/picture.png" or "icon16/picture_empty.png")
+                                end
+                                if pac then
+                                    local bpac = ent.pac_ignored and pac.UnIgnoreEntity or pac.IgnoreEntity
+                                    b:AddOption(ent.pac_ignored and "Unignore PAC" or "Ignore PAC",function() bpac(ent) end):SetImage(ent.pac_ignored and "icon16/user_add.png" or "icon16/user_delete.png")
+                                end
+                                menu:AddSpacer()
+                                menu:AddOption("PM",function() ply:ConCommand("chat_open_pm "..ply:SteamID()) end):SetIcon("icon16/group.png")
                             end
 
                             if ply == LocalPlayer() then
-                                menu:AddOption( "Blink", function() LocalPlayer():ConCommand("aowl goto _"..ply:EntIndex()) end ):SetIcon("icon16/arrow_right.png")
-                                menu:AddOption( "Rename", function() Derma_StringRequest(
+                                menu:AddOption("Blink",function() LocalPlayer():ConCommand("aowl goto _"..ply:EntIndex()) end):SetIcon("icon16/arrow_right.png")
+                                menu:AddOption("Rename",function() Derma_StringRequest(
                                     "Name",
                                     "Enter a new name for yourself.",
                                     ply:Nick(),
@@ -203,7 +214,7 @@ function CreateFScoreboard()
                                     function(txt) return false end)
                                 end):SetIcon("icon16/textfield_rename.png")
 
-                                local c,cicn = menu:AddSubMenu( "CTP", function() ctp:Toggle() end )
+                                local c,cicn = menu:AddSubMenu("CTP",function() ctp:Toggle() end )
                                 cicn:SetIcon("icon16/camera.png")
                                 c:AddOption("Enable",function() ctp:Enable() end):SetIcon("icon16/camera_add.png")
                                 c:AddOption("Disable",function() ctp:Disable() end):SetIcon("icon16/camera_delete.png")
@@ -223,12 +234,12 @@ function CreateFScoreboard()
                                 c2:AddOption("Helicopter View",function() ctp:Enable() ctp:LoadCVarPreset("Helicopter View") end)
                                 c2:AddOption("Isometric",function() ctp:Enable() ctp:LoadCVarPreset("Isometric") end)
                                 c2:AddOption("Slow",function() ctp:Enable() ctp:LoadCVarPreset("Slow") end)
-
-                                menu:AddSpacer()
-                                local spawn,sicn = menu:AddSubMenu( "Spawn", function() LocalPlayer():ConCommand("aowl spawn _"..ply:EntIndex()) end )
-                                sicn:SetIcon("icon16/heart.png")
-                                menu:Open()
                             end
+
+                            menu:AddSpacer()
+                            menu:AddOption(ply:SteamID(),function() SetClipboardText(ply:SteamID()) end):SetIcon("icon16/vcard.png")
+                            menu:AddOption("Entity Index: "..ply:EntIndex(),function() SetClipboardText(ply:SteamID()) end):SetIcon("icon16/status_online.png")
+                            menu:Open()
 
                             return true
                     end
