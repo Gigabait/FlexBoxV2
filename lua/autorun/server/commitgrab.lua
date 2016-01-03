@@ -9,12 +9,11 @@ CommitGrab = CommitGrab or {}
 http.Fetch("https://api.github.com/repos/B1IS/FlexBoxV2/commits",
 function(body)
 	CommitGrab.Data = util.JSONToTable(body)
+	CommitGrab.LatestCommit = CommitGrab.Data[1]
 end,
 function(err)
 	MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err)
 end)
-
-CommitGrab.LatestCommit = CommitGrab.Data[1]
 
 function CommitGrab.GrabData()
 	http.Fetch("https://api.github.com/repos/B1IS/FlexBoxV2/commits",
