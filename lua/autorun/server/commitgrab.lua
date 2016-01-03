@@ -56,7 +56,7 @@ timer.Create(Tag..".UpdateCommits",60,0,function()
 	CommitGrab.GrabData()
 	CommitGrab.GrabCommitData()
 	timer.Simple(10,function()
-		if CommitGrab.Data[1] != CommitGrab.LatestCommit then
+		if CommitGrab.Data[1].sha != CommitGrab.LatestCommit.sha then
 			CommitGrab.LatestCommit = CommitGrab.Data[1]
 			timer.Simple(1,function()
 				CommitGrab.AnnounceCommit()
