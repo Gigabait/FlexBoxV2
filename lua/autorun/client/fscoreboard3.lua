@@ -17,22 +17,22 @@ surface.CreateFont("fs3_text",{
 })
 
 local PlayerColors = {
-    ["0"]  = Color(0,0,0),
-    ["1"]  = Color(128,128,128),
-    ["2"]  = Color(192,192,192),
-    ["3"]  = Color(255,255,255),
-    ["4"]  = Color(0,0,128),
-    ["5"]  = Color(0,0,255),
-    ["6"]  = Color(0,128,128),
-    ["7"]  = Color(0,255,255),
-    ["8"]  = Color(0,128,0),
-    ["9"]  = Color(0,255,0),
-    ["10"] = Color(128,128,0),
-    ["11"] = Color(255,255,0),
-    ["12"] = Color(128,0,0),
-    ["13"] = Color(255,0,0),
-    ["14"] = Color(128,0,128),
-    ["15"] = Color(255,0,255),
+    ["0"]  = Color(0, 0, 0),
+    ["1"]  = Color(128, 128, 128),
+    ["2"]  = Color(192, 192, 192),
+    ["3"]  = Color(255, 255, 255),
+    ["4"]  = Color(0, 0, 128),
+    ["5"]  = Color(0, 0, 255),
+    ["6"]  = Color(0, 128, 128),
+    ["7"]  = Color(0, 255, 255),
+    ["8"]  = Color(0, 128, 0),
+    ["9"]  = Color(0, 255, 0),
+    ["10"] = Color(128, 128, 0),
+    ["11"] = Color(255, 255, 0),
+    ["12"] = Color(128, 0, 0),
+    ["13"] = Color(255, 0, 0),
+    ["14"] = Color(128, 0, 128),
+    ["15"] = Color(255, 0, 255),
 }
 
 --cvars--
@@ -196,6 +196,11 @@ function CreateFScoreboard()
                     draw.RoundedBox(4,0,0,w,h,Color(0,0,0,200))
                 end
 
+                local SetFriendStatusOverride = friendsh and friendsh.SetFriendStatusOverride
+                if not SetFriendStatusOverride then return end
+                local GetFriendStatusOverride = friendsh and friendsh.GetFriendStatusOverride
+                if not GetFriendStatusOverride then return end
+
                 function ply_pnl:OnMouseReleased(btn)
                     if btn == MOUSE_RIGHT then
                             local menu = DermaMenu()
@@ -207,8 +212,13 @@ function CreateFScoreboard()
                                 if LocalPlayer():IsAdmin() then
                                     menu:AddOption("Cleanup",function() LocalPlayer():ConCommand("aowl cleanup _"..ply:EntIndex()) end):SetIcon("icon16/bin_empty.png")
                                 end
-                                local b,bicn = menu:AddSubMenu("Block Menu")
-                                bicn:SetIcon("icon16/user_delete.png")
+
+                                local pp,ppicn = menu:AddSubMenu("Prop Protection") ppicn:SetIcon("icon16/brick_link.png")
+                                pp:AddOption("Default",function() SetFriendStatusOverride(ply:SteamID(),nil) end):SetIcon("icon16/user.png")
+                                pp:AddOption("Allow",function() SetFriendStatusOverride(ply:SteamID(),true) end):SetIcon("icon16/user_green.png")
+                                pp:AddOption("Block",function() SetFriendStatusOverride(ply:SteamID(),false) end):SetIcon("icon16/user_red.png")
+
+                                local b,bicn = menu:AddSubMenu("Block Menu") bicn:SetIcon("icon16/user_delete.png")
                                 local muted = ply:IsMuted()
                                 b:AddOption(muted and "Unmute" or "Mute",function() ply:SetMuted(not muted) end):SetImage(muted and "icon16/sound_add.png" or "icon16/sound_delete.png")
                                 if SprayList then
@@ -253,6 +263,8 @@ function CreateFScoreboard()
                                 c2:AddOption("Helicopter View",function() ctp:Enable() ctp:LoadCVarPreset("Helicopter View") end)
                                 c2:AddOption("Isometric",function() ctp:Enable() ctp:LoadCVarPreset("Isometric") end)
                                 c2:AddOption("Slow",function() ctp:Enable() ctp:LoadCVarPreset("Slow") end)
+
+                                menu:AddOption("Cleanup Self",function() LocalPlayer():ConCommand("aowl cleanup #me") end):SetIcon("icon16/bin_empty.png")
                             end
 
                             menu:AddSpacer()
@@ -285,6 +297,26 @@ function CreateFScoreboard()
                 name:SetFont("fs3_text")
                 name:SetColor(namec)
                 name:SizeToContents()
+
+                if GetFriendStatusOverride(ply) == true or ply:IsFriend(LocalPlayer(),ply) then
+                    local pnl_friend = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_friend:Dock(LEFT)
+
+                    local friend_img = vgui.Create("DImage",pnl_friend)
+                    friend_img:SetImage("icon16/user_green.png")
+                    friend_img:SetSize(16,16)
+                    friend_img:Dock(LEFT)
+                    friend_img:DockMargin(4,8,0,8)
+                elseif GetFriendStatusOverride(ply) == false then
+                    local pnl_friend = vgui.Create("EditablePanel",ply_pnl)
+                    pnl_friend:Dock(LEFT)
+
+                    local friend_img = vgui.Create("DImage",pnl_friend)
+                    friend_img:SetImage("icon16/user_red.png")
+                    friend_img:SetSize(16,16)
+                    friend_img:Dock(LEFT)
+                    friend_img:DockMargin(4,8,0,8)
+                end
 
                 if ply.IsAFK and ply:IsAFK() then
                     local pnl_away = vgui.Create("EditablePanel",ply_pnl)

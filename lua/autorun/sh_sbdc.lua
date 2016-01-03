@@ -28,7 +28,7 @@ if SERVER then
 		end)
 	end
 end
-
+timer.Simple(10,function()
 function GAMEMODE:MortalRequested(ply,att)
 	local req = hook.Call("PlayerShouldTakeDamage",self,ply,att or ply)
 	return req == true
@@ -173,3 +173,4 @@ if CLIENT then
 		spawnmenu.AddToolMenuOption("Options","Player","#sbdc_title","#sbdc_title","","",SBDCSpawnmenu)
 	end)
 end
+end)
