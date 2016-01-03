@@ -1,3 +1,4 @@
+if SW then
 aowl.AddCommand({"settime","time"}, function(ply,line,time)
 
 	if not SW then
@@ -97,6 +98,7 @@ aowl.AddCommand({"setweather","weather"}, function(ply,line,weather)
 		return false, "Invalid input!"
 	end
 end, "moderators")
+end
 
 aowl.AddCommand("fixlightmaps",function()
     if !luadev then
