@@ -299,19 +299,13 @@ function CreateFScoreboard()
                 name:SizeToContents()
 
                 if GetFriendStatusOverride(ply) == true or ply:IsFriend(LocalPlayer(),ply) then
-                    local pnl_friend = vgui.Create("EditablePanel",ply_pnl)
-                    pnl_friend:Dock(LEFT)
-
-                    local friend_img = vgui.Create("DImage",pnl_friend)
+                    local friend_img = vgui.Create("DImage",ply_pnl)
                     friend_img:SetImage("icon16/user_green.png")
                     friend_img:SetSize(16,16)
                     friend_img:Dock(LEFT)
                     friend_img:DockMargin(4,8,0,8)
                 elseif GetFriendStatusOverride(ply) == false then
-                    local pnl_friend = vgui.Create("EditablePanel",ply_pnl)
-                    pnl_friend:Dock(LEFT)
-
-                    local friend_img = vgui.Create("DImage",pnl_friend)
+                    local friend_img = vgui.Create("DImage",ply_pnl)
                     friend_img:SetImage("icon16/user_red.png")
                     friend_img:SetSize(16,16)
                     friend_img:Dock(LEFT)
@@ -319,10 +313,7 @@ function CreateFScoreboard()
                 end
 
                 if ply.IsAFK and ply:IsAFK() then
-                    local pnl_away = vgui.Create("EditablePanel",ply_pnl)
-                    pnl_away:Dock(LEFT)
-
-                    local away_img = vgui.Create("DImage",pnl_away)
+                    local away_img = vgui.Create("DImage",ply_pnl)
                     away_img:SetImage("icon16/clock.png")
                     away_img:SetSize(16,16)
                     away_img:Dock(LEFT)
@@ -330,15 +321,14 @@ function CreateFScoreboard()
                 end
 
                 if !ply:Alive() then
-                    local pnl_ded = vgui.Create("EditablePanel",ply_pnl)
-                    pnl_ded:Dock(LEFT)
-
-                    local ded_img = vgui.Create("DImage",pnl_ded)
+                    local ded_img = vgui.Create("DImage",ply_pnl)
                     ded_img:SetImage("icon16/heart_delete.png")
                     ded_img:SetSize(16,16)
                     ded_img:Dock(LEFT)
                     ded_img:DockMargin(4,8,0,8)
                 end
+
+                ----
 
                 local pnl_ping = vgui.Create("EditablePanel",ply_pnl)
                 pnl_ping:Dock(RIGHT)
