@@ -67,7 +67,7 @@ function CommitGrab.AnnounceCommit(repo)
 	end
 end
 
-timer.Create(Tag..".UpdateCommits",60,0,function()
+hook.Add("Tick",Tag..".UpdateCommits",function()
 	CommitGrab.GrabData()
 	CommitGrab.GrabCommitData()
 	timer.Simple(10,function()
