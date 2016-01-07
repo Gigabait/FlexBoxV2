@@ -9,6 +9,11 @@ CommitGrab.Repos = {
 	"B1IS/FlexBoxV2",
 	"LUModder/FWP",
 }
+CommitGrab.Data = {}
+CommitGrab.OldData = {}
+CommitGrab.CommitData = {}
+CommitGrab.OldCommitData = {}
+CommitGrab.LatestCommit = {}
 
 for _,repo in pairs(CommitGrab.Repos) do
 	http.Fetch("https://api.github.com/repos/"..repo.."/commits",
