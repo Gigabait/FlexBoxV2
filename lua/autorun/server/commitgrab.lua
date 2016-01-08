@@ -2,7 +2,7 @@
 FlexBox Commit Grab v1
 By Flex
 Feel free to modify
-]]--
+--]]
 local Tag = "CommitGrab"
 CommitGrab = CommitGrab or {}
 CommitGrab.Repos = {
@@ -22,7 +22,7 @@ for _,repo in pairs(CommitGrab.Repos) do
 		CommitGrab.LatestCommit[repo] = CommitGrab.Data[repo][1]
 	end,
 	function(err)
-		MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err.."(repo: "..repo..")")
+		MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err.."(repo: "..repo..")\n")
 	end)
 end
 
@@ -34,7 +34,7 @@ function CommitGrab.GrabData()
 			CommitGrab.Data[repo] = util.JSONToTable(body)
 		end,
 		function(err)
-			MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err.."(repo: "..repo..")")
+			MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err.."(repo: "..repo..")\n")
 		end)
 	end
 end
@@ -47,27 +47,28 @@ function CommitGrab.GrabCommitData()
 			CommitGrab.CommitData[repo] = util.JSONToTable(body)
 		end,
 		function(err)
-			MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err.."(repo: "..repo..")")
+			MsgC(Color(100,200,100),"[CommitGrab] ",color_white,"Error getting data: "..err.." (repo: "..repo..")\n")
 		end)
 	end
 end
 
 function CommitGrab.AnnounceCommit(repo)
 	for _,pl in pairs(player.GetAll()) do
-			pl:PrintMessage(3,"Latest commit for "..repo..":")
-			pl:PrintMessage(3,"Commit "..CommitGrab.LatestCommit[repo].sha.." by "..CommitGrab.LatestCommit[repo].commit.author.name)
-			pl:PrintMessage(3,"\t"..CommitGrab.LatestCommit[repo].commit.message)
-			pl:PrintMessage(3,"Files:")
+			pl:PrintMessage(3,"<color=100,200,100>Latest commit for <color=255,255,255>"..repo.."<color=100,200,100>:")
+			pl:PrintMessage(3,"<color=100,200,100>Commit <color=255,255,255>"..CommitGrab.LatestCommit[repo].sha.." <color=100,200,100>by <color=255,255,255>"..CommitGrab.LatestCommit[repo].commit.author.name)
+			pl:PrintMessage(3,"<color=255,255,255>\t"..CommitGrab.LatestCommit[repo].commit.message)
+			pl:PrintMessage(3,"<color=100,200,100>Files:")
 			for _,f in pairs(CommitGrab.CommitData[repo].files) do
 				if f.additions == 0 then prefix = "D"
 				elseif f.deletions == 0 then prefix = "A"
 				else prefix = "U" end
-				pl:PrintMessage(3,prefix.."\t"..f.filename)
+				pl:PrintMessage(3,"<color=255,255,255>"..prefix.."\t"..f.filename)
 			end
 	end
 end
 
-hook.Add("Tick",Tag..".UpdateCommits",function()
+--hook.Add("Tick",Tag..".UpdateCommits",function()
+timer.Create(Tag..".UpdateCommits",0,0,function()
 	CommitGrab.GrabData()
 	CommitGrab.GrabCommitData()
 	timer.Simple(10,function()
