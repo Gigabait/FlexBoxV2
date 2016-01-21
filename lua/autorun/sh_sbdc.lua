@@ -7,6 +7,8 @@ QBox - Metastruct Dev Team
 Modifications - Flex
 ]]--
 
+local Tag = "SBDC"
+
 if SERVER then
 	AddCSLuaFile("sh_sbdc.lua")
 
@@ -28,22 +30,22 @@ if SERVER then
 		end)
 	end
 end
-timer.Simple(10,function()
-function GAMEMODE:MortalRequested(ply,att)
+
+hook.Add("MortalRequested",Tag,function(ply,att)
 	local req = hook.Call("PlayerShouldTakeDamage",self,ply,att or ply)
 	return req == true
-end
+end)
 
 local enf
-function GAMEMODE:MortalEnforced(ply,att)
+hook.Add("MortalEnforced",Tag,function(ply,att)
 	enf = true
 	local req = hook.Call("PlayerShouldTakeDamage",nil,ply,att or ply)
 	enf = false
 	return req == true
-end
+end)
 
 local sbgm = GetConVar("sbox_godmode")
-function GAMEMODE:PlayerShouldTakeDamage(ply,att)
+hook.Add("PlayerShouldTakeDamage",Tag,function(ply,att)
 	if enf then enf = false return end
 
 	--EXPLANATION: sbox_godmode == -1 forces off
@@ -70,24 +72,24 @@ function GAMEMODE:PlayerShouldTakeDamage(ply,att)
 	end
 
 	return true
-end
+end)
 
 --Better Fall Damage--
 
 local velDeath = 600
-function GAMEMODE:GetFallDamage(ply,speed)
+hook.Add("GetFallDamage",Tag,function(ply,speed)
 	if speed < velDeath then return 0 end
 	return math.pow(0.05 * (speed - velDeath), 1.75)
-end
+end)
 
 local hurt1 = 'player/pl_pain5.wav'
 local hurt2 = "physics/body/body_medium_break3.wav"
-function GAMEMODE:OnPlayerHitGround(ply,water,var,speed)
+hook.Add("OnPlayerHitGround",Tag,function(ply,water,var,speed)
 	if water or var or !IsFirstTimePredicted() then return true end
 
 	local vel = ply:GetVelocity()*800
 	vel.z = vel.z*0.5
-	local dmg = hook.Call("GetFallDamage",self,ply,speed)
+	local dmg = hook.Call("GetFallDamage",GAMEMODE,ply,speed)
 	dmg = isnumber(dmg) and dmg or 0
 	if dmg <= 0 then return true end
 
@@ -98,7 +100,7 @@ function GAMEMODE:OnPlayerHitGround(ply,water,var,speed)
 		nofall = GetConVar("cl_dmg_nofall"):GetBool()
 	end
 
-	local enforced = self:MortalEnforced(ply,ply)
+	local enforced = hook.Call("MortalEnforced",GAMEMODE,ply,ply)
 
 	if !enforced and sbgm:GetInt() != -1 and nofall then
 		return true
@@ -129,7 +131,7 @@ function GAMEMODE:OnPlayerHitGround(ply,water,var,speed)
 	if hpdiff > 0 then end
 
 	return true
-end
+end)
 
 if CLIENT then
 	language.Add("msg_fall","Gravity")
