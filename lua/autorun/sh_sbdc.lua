@@ -175,4 +175,3 @@ if CLIENT then
 		spawnmenu.AddToolMenuOption("Options","Player","#sbdc_title","#sbdc_title","","",SBDCSpawnmenu)
 	end)
 end
-end)
