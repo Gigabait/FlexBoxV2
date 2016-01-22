@@ -1,4 +1,3 @@
-resource.AddWorkshop( '173482196' ) -- SProps Workshop Edition
 resource.AddWorkshop( '150899249' ) -- Rp_City17 - Open Beta [Build 210]
 resource.AddWorkshop( '218917501' ) -- Simple Weather Content
 resource.AddWorkshop( '133285346' ) -- Gm Grand Build
