@@ -1,41 +1,47 @@
 fb_addons_list = {
 	workshop = {
+		collection = {
+			id = "536311663",
+			name = "Server Collection",
+			desc = "Everything workshop content is here, maps and all",
+			collection = true,
+		},
 		sprops = {
 			id = "173482196",
 			name = "SProps",
-			desc = "More props to build with."
+			desc = "More props to build with.",
 		},
 		wiremod = {
 			id = "160250458",
 			name = "Wiremod",
-			desc = "Adds wiring, chips, logic and other stuff. SVN version updated more often.",
+			desc = "Adds wiring, chips, logic and other stuff.",
 		},
 	},
 	svn = {
 		chatsounds = {
 			url = "https://github.com/Metastruct/garrysmod-chatsounds/trunk",
 			name = "Chatsounds",
-			desc = "Adds fun to chatting. Size: ~1GB+"
+			desc = "Adds fun to chatting.",
 		},
 		acf = {
 			url = "https://github.com/nrlulz/ACF/trunk",
 			name = "ACF",
-			desc = "Adds cannons, guns and motors. Size: ~1.5GB+",
+			desc = "Adds cannons, guns and motors.",
 		},
-		acfcustom = {
-			url = "https://github.com/bouletmarc/ACF_CustomMod/trunk",
-			name = "ACF Custom Mod",
-			desc = "Adds extra guns and motors to ACF. Size: ~80MB+",
+		acfmissiles = {
+			url = "https://github.com/Bubbus/ACF-Missiles/trunk",
+			name = "ACF missiles",
+			desc = "Adds missile based weapons to ACF.",
 		},
 		wiremod = {
 			url = "https://github.com/wiremod/wire/trunk",
 			name = "Wiremod",
-			desc = "Adds wiring, chips, logic and other stuff. More updated than Workshop. Size: ~100MB+"
+			desc = "Adds wiring, chips, logic and other stuff. Server uses this version, but you're not required to use it.",
 		},
 		wireextras = {
 			url = "https://github.com/wiremod/wire-extras/trunk",
 			name = "Wiremod Extras",
-			desc = "Unofficial Wiremod stuff. Size: ~10MB+",
+			desc = "Unofficial Wiremod stuff.",
 		},
 	},
 }
@@ -46,10 +52,11 @@ spawnmenu.AddCreationTab( "Addons", function()
 	
 	local sheet = vgui.Create("DPropertySheet",scroll)
 	sheet:Dock(FILL)
-	local ws_pan = vgui.Create("EditablePanel",scoll)
+	local ws_pan = vgui.Create("EditablePanel",scroll)
+	local svn_pan = vgui.Create("EditablePanel",scroll)
 	
-	sheet:AddSheet("Workshop",ws_pan,"icon16/folder.png")
-	
+	sheet:AddSheet("Workshop",ws_pan,"icon16/wrench_orange.png")
+	sheet:AddSheet("SVN",svn_pan,"icon16/folder_user.png")
 
 	for k,v in pairs(fb_addons_list.workshop) do
 		local addon_panel = vgui.Create("DPanel",ws_pan)
@@ -77,6 +84,9 @@ spawnmenu.AddCreationTab( "Addons", function()
 		if steamworks.IsSubscribed(v.id) then
 			addon_subscribe:SetText("Subscribed")
 			addon_subscribe:SetDisabled(true)
+		elseif v.collection then
+			addon_subscribe:SetText("Show Collection")
+			addon_subscribe:SetDisabled(false)
 		else
 			addon_subscribe:SetText("Subscribe")
 			addon_subscribe:SetDisabled(false)
