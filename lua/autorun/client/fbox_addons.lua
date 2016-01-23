@@ -47,21 +47,19 @@ fb_addons_list = {
 }
 
 spawnmenu.AddCreationTab( "Addons", function()
-
-	local scroll = vgui.Create("DScrollPanel")
-	
-	local sheet = vgui.Create("DPropertySheet",scroll)
-	sheet:Dock(FILL)
+	local scroll = vgui.Create("DPropertySheet")
 	local ws_pan = vgui.Create("EditablePanel",scroll)
 	local svn_pan = vgui.Create("EditablePanel",scroll)
-	
-	sheet:AddSheet("Workshop",ws_pan,"icon16/wrench_orange.png")
-	sheet:AddSheet("SVN",svn_pan,"icon16/folder_user.png")
+
+	scroll:Dock(FILL)
+
+	scroll:AddSheet("Workshop",ws_pan,"icon16/wrench_orange.png")
+	scroll:AddSheet("SVN",svn_pan,"icon16/folder_user.png")
 
 	for k,v in pairs(fb_addons_list.workshop) do
 		local addon_panel = vgui.Create("DPanel",ws_pan)
 		addon_panel:Dock(TOP)
-		addon_panel:DockMargin(0,5,0,0)
+		addon_panel:DockMargin(4,0,4,4)
 		addon_panel:SetTall(100)
 
 		local addon_name = vgui.Create("DLabel",addon_panel)
@@ -101,7 +99,7 @@ spawnmenu.AddCreationTab( "Addons", function()
 	for k,v in pairs(fb_addons_list.svn) do
 		local addon_panel = vgui.Create("DPanel",svn_pan)
 		addon_panel:Dock(TOP)
-		addon_panel:DockMargin(0,5,0,0)
+		addon_panel:DockMargin(4,0,4,4)
 		addon_panel:SetTall(100)
 
 		local addon_name = vgui.Create("DLabel",addon_panel)
@@ -124,6 +122,9 @@ spawnmenu.AddCreationTab( "Addons", function()
 		addon_url:AllowInput(false)
 		addon_url:SetValue(v.url)
 	end
+
+	ws_pan:Dock(FILL)
+	svn_pan:Dock(FILL)
 
 	return scroll
 
