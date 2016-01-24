@@ -1,7 +1,9 @@
+easylua.StartEntity("lua_npc_wander")
+
 ENT.Base 					= "base_ai"
 ENT.Type 					= "ai"
 ENT.Author					= "Mare"
-ENT.PrintName 				= "Metrocop"
+ENT.PrintName 				= "Wander"
 ENT.Spawnable 				= false
 ENT.AdminSpawnable 			= false
 
@@ -19,32 +21,152 @@ end
 if SERVER then
 	ENT.AutomaticFrameAdvance	= true
 
-	function ENT:GetCitizenName()
-		return "Metrocop"
-	end
+	-- names
+		local function namestr(l)
+			local t={}
+			for n in l:gmatch'[^%s]+' do
+				t[#t+1] = n
+			end
+			return t
+		end
+
+		local names = {
+			male = namestr[[MIKE STANLEY LEONARD NATHAN DALE MANUEL RODNEY CURTIS NORMAN ALLEN MARVIN VINCENT GLENN JEFFERY TRAVIS JEFF CHAD JACOB LEE MELVIN ALFRED KYLE FRANCIS BRADLEY JESUS HERBERT FREDERICK RAY JOEL EDWIN DON EDDIE RICKY TROY RANDALL BARRY ALEXANDER BERNARD MARIO LEROY FRANCISCO MARCUS MICHEAL THEODORE CLIFFORD MIGUEL OSCAR JAY JIM TOM CALVIN ALEX JON RONNIE BILL LLOYD TOMMY LEON DEREK WARREN DARRELL JEROME FLOYD LEO ALVIN TIM WESLEY GORDON DEAN GREG JORGE DUSTIN PEDRO DERRICK DAN LEWIS ZACHARY COREY HERMAN MAURICE VERNON ROBERTO CLYDE GLEN HECTOR SHANE RICARDO SAM RICK LESTER BRENT RAMON CHARLIE TYLER GILBERT GENE MARC REGINALD]],
+			female = namestr[[AMY ANNA REBECCA VIRGINIA PAMELA MARTHA DEBRA AMANDA STEPHANIE CAROLYN CHRISTINE MARIE JANET CATHERINE FRANCES ANN JOYCE DIANE ALICE JULIE HEATHER TERESA DORIS GLORIA EVELYN JEAN CHERYL MILDRED KATHERINE JOAN ASHLEY JUDITH ROSE JANICE KELLY NICOLE JUDY CHRISTINA KATHY THERESA DENISE TAMMY IRENE JANE LORI RACHEL MARILYN ANDREA LOUISE SARA ANNE JACQUELINE WANDA BONNIE JULIA RUBY LOIS TINA PHYLLIS NORMA PAULA DIANA ANNIE LILLIAN EMILY ROBIN PEGGY CRYSTAL GLADYS RITA DAWN CONNIE FLORENCE TRACY EDNA TIFFANY CARMEN ROSA CINDY GRACE WENDY VICTORIA EDITH KIM SHERRY SYLVIA JOSEPHINE SHANNON ETHEL ELLEN ELAINE MARJORIE CARRIE CHARLOTTE MONICA ESTHER PAULINE EMMA JUANITA ANITA RHONDA HAZEL AMBER EVA DEBBIE APRIL LESLIE CLARA LUCILLE JAMIE JOANNE ELEANOR VALERIE DANIELLE MEGAN ALICIA SUZANNE MICHELE GAIL]]
+		}
+
+		function ENT:RandomName(gender)
+			local n = table.Random(names[gender == true and "male" or gender=="false" and "female" or gender or "male"])
+			n = n:sub(1,1)..n:sub(2,-1):lower()
+			return n
+		end
+
+		function ENT:GetCitizenName()
+			return self:RandomName(self:GetGender() or "male") or "Citizen"
+		end
 
 	ENT.sounds = {
-		greet = {
-			"npc/metropolice/vo/backup.wav",
-			"npc/metropolice/vo/checkformiscount.wav",
-			"npc/metropolice/vo/citizen.wav",
-			"npc/metropolice/vo/copy.wav",
-			"npc/metropolice/vo/gotsuspect1here.wav",
-			"npc/metropolice/vo/holdit.wav",
-			"npc/metropolice/vo/keepmoving.wav",
-			"npc/metropolice/vo/movealong.wav",
+		female = {
+			greet = {
+				"vo/npc/female01/hi01.wav",
+				"vo/npc/female01/hi02.wav",
+				"vo/Streetwar/barricade/female01/c17_05_letusthru.wav",
+				"vo/coast/odessa/female01/nlo_cheer01.wav",
+				"vo/npc/female01/excuseme01.wav",
+				"vo/npc/female01/excuseme02.wav",
+				"vo/npc/female01/gordead_ans14.wav",
+				"vo/npc/female01/moan01.wav",
+				"vo/npc/female01/moan02.wav",
+				"vo/npc/female01/moan03.wav",
+				"vo/trainyard/female01/cit_hit04.wav",
+				"vo/npc/female01/moan04.wav",
+				"vo/npc/female01/moan05.wav",
+				"vo/npc/female01/pardonme01.wav",
+				"vo/npc/female01/pardonme02.wav",
+				"vo/npc/female01/answer32.wav",
+				"vo/npc/female01/answer30.wav",
+				"vo/npc/female01/answer09.wav",
+				"vo/npc/female01/answer01.wav",
+				"vo/npc/female01/nice01.wav",
+				"vo/npc/female01/outofyourway02.wav",
+				"vo/trainyard/female01/cit_window_use01.wav",
+				"vo/trainyard/female01/cit_pedestrian03.wav",
+				"vo/trainyard/female01/cit_pedestrian04.wav",
+				"vo/trainyard/female01/cit_pedestrian05.wav",
+				"vo/trainyard/female01/cit_pedestrian01.wav",
+				"vo/trainyard/female01/cit_pedestrian02.wav",
+				"vo/npc/female01/ohno.wav",
+				"vo/npc/female01/gordead_ques16.wav",
+				"vo/npc/female01/gordead_ques10.wav",
+				--random on touch chatter goes here
+			},
+			bench = {
+				"vo/trainyard/female01/cit_bench01.wav",
+				"vo/trainyard/female01/cit_bench02.wav",
+				"vo/trainyard/female01/cit_bench03.wav",
+				"vo/trainyard/female01/cit_bench04.wav",
+			},
+			hit = {
+				"vo/trainyard/female01/cit_hit01.wav",
+				"vo/trainyard/female01/cit_hit02.wav",
+				"vo/trainyard/female01/cit_hit03.wav",
+				"vo/trainyard/female01/cit_hit04.wav",
+				"vo/trainyard/female01/cit_hit05.wav",
+				"vo/npc/female01/hitingut01.wav",
+				"vo/npc/female01/hitingut02.wav",
+				"vo/npc/female01/imhurt01.wav",
+				"vo/npc/female01/imhurt02.wav",
+				"vo/npc/female01/ow01.wav",
+				"vo/npc/female01/ow02.wav",
+				"vo/npc/alyx/gasp02.wav",
+				"vo/npc/alyx/gasp03.wav",
+			},
+			scared = {
+				"vo/canals/female01/stn6_incoming.wav",
+				"vo/canals/female01/stn6_shellingus.wav",
+				"vo/coast/odessa/female01/nlo_cubdeath01.wav",
+				"vo/coast/odessa/female01/nlo_cubdeath02.wav",
+				"vo/npc/female01/notthemanithought02.wav",
+				"vo/npc/female01/notthemanithought01.wav",
+				"vo/npc/female01/no01.wav",
+				"vo/npc/female01/no02.wav",
+				"vo/npc/female01/imhurt02.wav",
+				"vo/npc/female01/help01.wav",
+				--scared voice goes here
+			}
 		},
-		hit = {
-			"npc/metropolice/pain1.wav",
-			"npc/metropolice/pain2.wav",
-			"npc/metropolice/pain3.wav",
-			"npc/metropolice/pain4.wav",
-		},
-		bench = {
-			"",
-		},
-		scared = {
-			"",
+		male = {
+			greet = {
+				"vo/npc/male01/hi01.wav",
+				"vo/npc/male01/hi02.wav",
+				--"vo/canals/male01/gunboat_owneyes.wav",
+				"vo/npc/male01/gordead_ans19.wav",
+				"vo/npc/male01/gordead_ans01.wav",
+				"vo/npc/male01/excuseme01.wav",
+				"vo/npc/male01/excuseme02.wav",
+				"vo/npc/male01/busy02.wav",
+				"vo/npc/male01/answer40.wav",
+				"vo/npc/male01/answer39.wav",
+				"vo/npc/male01/answer30.wav",
+				"vo/trainyard/male01/cit_pedestrian01.wav",
+				"vo/trainyard/male01/cit_pedestrian02.wav",
+				"vo/trainyard/male01/cit_pedestrian03.wav",
+				"vo/trainyard/male01/cit_pedestrian04.wav",
+				"vo/trainyard/male01/cit_pedestrian05.wav",
+				"vo/npc/male01/answer05.wav",
+				--random on touch chatter goes here
+			},
+			bench = {
+				"vo/trainyard/male01/cit_bench01.wav",
+				"vo/trainyard/male01/cit_bench02.wav",
+				"vo/trainyard/male01/cit_bench03.wav",
+				"vo/trainyard/male01/cit_bench04.wav",
+			},
+			hit = {
+				"vo/trainyard/male01/cit_hit01.wav",
+				"vo/trainyard/male01/cit_hit02.wav",
+				"vo/trainyard/male01/cit_hit03.wav",
+				"vo/trainyard/male01/cit_hit04.wav",
+				"vo/trainyard/male01/cit_hit05.wav",
+				"vo/npc/male01/hitingut01.wav",
+				"vo/npc/male01/hitingut02.wav",
+				"vo/npc/male01/imhurt01.wav",
+				"vo/npc/male01/imhurt02.wav",
+				"vo/npc/male01/ow01.wav",
+				"vo/npc/male01/ow02.wav",
+			},
+			scared = {
+				"vo/trainyard/male01/cit_hit01.wav",
+				"vo/trainyard/male01/cit_hit02.wav",
+				"vo/trainyard/male01/cit_hit03.wav",
+				"vo/trainyard/male01/cit_hit04.wav",
+				"vo/trainyard/male01/cit_hit05.wav",
+				"vo/Streetwar/sniper/male01/c17_09_help01.wav",
+				"vo/Streetwar/sniper/male01/c17_09_help02.wav",
+				"vo/npc/male01/notthemanithought02.wav",
+				"vo/npc/male01/heretohelp02.wav",
+				--scared voice goes here
+			},
 		},
 	}
 
@@ -82,7 +204,54 @@ if SERVER then
 	ENT.sittable = true
 
 	ENT.sittable = {
-
+		{
+			Vector(-1203, -31, 399),
+			Angle(0,-90,0),
+			false,
+		},
+		{
+			Vector(-63, -797, 399),
+			Angle(0,-90,0),
+			false,
+		},
+		{
+			Vector(125, -797, 399),
+			Angle(0,-90,0),
+			false,
+		},
+		--Train Station
+		{
+			Vector(-1536, -1682, 79),
+			Angle(0,90,0),
+			false,
+		},
+		{
+			Vector(-1787, -1682, 79),
+			Angle(0,90,0),
+			false,
+		},
+		{
+			Vector(-2061, -1682, 79),
+			Angle(0,90,0),
+			false,
+		},
+		--Train Station Tables
+		{
+			Vector(-2257, -1205, 80),
+			Angle(0,-180,0),
+			false,
+		},
+		{
+			Vector(-2349, -1205, 80),
+			Angle(0,0,0),
+			false,
+		},
+		--Apartments near train
+		{
+			Vector(1559, -769, 658),
+			Angle(0,0,0),
+			false,
+		},
 	}
 
 
@@ -90,21 +259,21 @@ if SERVER then
 	local function RandomNPC()
 		local spawns = {
 			Vector(1467, -1460, 384),
-			Vector(55, -1303, 384),
-			Vector(2986, -1618, 64),
+			Vector(1791, -342, 640),
+			Vector(-1148, -1198, 64),
 		}
-		local npcs = ents.FindByClass("lua_npc_metrocop")
-		if #npcs > 20 then return end
+		local npcs = ents.FindByClass("lua_npc_wander")
+		if #npcs > 50 then return end
 		local spawn = table.Random(spawns)
 		if not spawn then return end
 
-		local Metrocop = ents.Create("lua_npc_metrocop")
-		Metrocop:SetPos(spawn)
-		Metrocop:Spawn()
-		Metrocop:Activate()
+		local wander = ents.Create("lua_npc_wander")
+		wander:SetPos(spawn)
+		wander:Spawn()
+		wander:Activate()
 	end
 
-	timer.Create("ms_spawn_cops",4,0,RandomNPC)
+	timer.Create("ms_spawn_npcs",4,0,RandomNPC)
 
 	local ENT=ENT
 	function ENT:GetSittable()
@@ -124,7 +293,7 @@ if SERVER then
 	-- ACTUALL NPC CODE STARTS HERE------------------------------------------------------------------------------------------------
 	ENT.Base						= "base_ai"
 	ENT.Type						= "ai"
-	ENT.PrintName					= "Metrocop"
+	ENT.PrintName					= "Wander"
 	ENT.Author						= "Mare"
 
 	ENT.PhysgunDisabled				= false
@@ -159,7 +328,27 @@ if SERVER then
 	ENT.ANIM_wave:AddTask("PlaySequence", {Name="Wave",ID = 77, Speed = 0, Dur = 5})
 	ENT.ANIM_wave:AddTask("EndWave")
 	function ENT:DBG(...)
-		--Msg("[Metrocop "..tostring(self:EntIndex())..'] ') print(...)
+		--Msg("[Wanderer "..tostring(self:EntIndex())..'] ') print(...)
+	end
+	function ENT:OnPlayerGreeting(pl,halloween_bag)
+		local lg = self.lastgreet or 0
+		local now = CurTime()
+
+		self:DBG("ongreet",pl,halloween_bag and "hwn" or "")
+		if now-lg<3 then self:DBG("timeout",pl) return end
+		if self:GetNPCState() == NPC_STATE_ALERT then self:DBG("alert",pl) return end
+
+		if pl:GetPos():DistToSqr(self:GetPos())> 512*512 then return end
+
+		self:DBG("hello",pl)
+
+		self.lastgreet = now
+
+		local a = pl:GetPos() - self:GetPos()
+		a:Normalize()
+		self:SetAngles(a:Angle())
+		self:PlayAnim(self.ANIM_wave)
+		self:EmitSound("vo/npc/"..self:GetGender().."01/hi0"..math.random(1,2)..".wav")
 	end
 
 	function ENT:TaskStart_AlignSit(data)
@@ -195,10 +384,13 @@ if SERVER then
 	end
 
 	ENT.Task_EndSit, ENT.Task_EndWave = ENT.Task_AlignSit, ENT.Task_AlignSit
+
 end
 
+ENT.Models = {"Male_01", "male_02", "male_03", "Male_04", "Male_05", "male_06", "male_07", "male_08", "male_09","Female_01", "Female_02", "Female_03", "Female_04", "Female_06", "Female_07"}
+
 function ENT:Initialize()
-	self:SetModel("models/police.mdl")
+	self:SetModel("models/Humans/Group02/" .. table.Random(self.Models) .. ".mdl")
 	self:SetSolid(SOLID_BBOX)
 	self:SetMoveType(MOVETYPE_STEP)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
@@ -213,16 +405,21 @@ function ENT:Initialize()
 		self:SetNPCState(NPC_STATE_IDLE)
 		self.LastSound = CurTime()
 		self.next_alert = CurTime()
-		self:Give("weapon_stunstick")
 	end
 end
 
 if SERVER then
 	ENT.next_alert = 0
 
+	function ENT:GetGender()
+		self.__gender = self.__gender or self:GetModel():lower():find("female",1,true)
+			and "female" or "male"
+		return self.__gender
+	end
+
 	function ENT:PlaySound(type)
 		if self.LastSound > CurTime() then return end
-		local sound = table.Random(self.sounds[type])
+		local sound = table.Random(self.sounds[self:GetGender()][type])
 		self:EmitSound(sound,math.random(90,100),math.random(90,110))
 		self.busy = true
 		self.LastSound = CurTime() + self.SoundDelay
@@ -488,4 +685,6 @@ if SERVER then
 	end
 
 end
---local t = ents.FindByClass"lua_npc_metrocop" for k,v in next,t do v:Remove() end
+--local t = ents.FindByClass"lua_npc_wander" for k,v in next,t do v:Remove() end
+
+easylua.EndEntity(false,false)
