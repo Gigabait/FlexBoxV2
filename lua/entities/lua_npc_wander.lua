@@ -19,8 +19,6 @@ end
 if SERVER then
 	ENT.AutomaticFrameAdvance	= true
 
-	ENT.Models = {"Male_01", "male_02", "male_03", "Male_04", "Male_05", "male_06", "male_07", "male_08", "male_09","Female_01", "Female_02", "Female_03", "Female_04", "Female_06", "Female_07"}
-
 	-- names
 		local function namestr(l)
 			local t={}
@@ -385,14 +383,19 @@ if SERVER then
 
 	ENT.Task_EndSit, ENT.Task_EndWave = ENT.Task_AlignSit, ENT.Task_AlignSit
 
-	function ENT:Initialize()
-		self:SetModel("models/Humans/Group02/" .. table.Random(self.Models) .. ".mdl")
+end
+
+ENT.Models = {"Male_01", "male_02", "male_03", "Male_04", "Male_05", "male_06", "male_07", "male_08", "male_09","Female_01", "Female_02", "Female_03", "Female_04", "Female_06", "Female_07"}
+
+function ENT:Initialize()
+	self:SetModel("models/Humans/Group02/" .. table.Random(self.Models) .. ".mdl")
+	self:SetSolid(SOLID_BBOX)
+	self:SetMoveType(MOVETYPE_STEP)
+	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	if SERVER then
 		self:SetHullType(HULL_HUMAN)
 		self:SetHullSizeNormal()
-		self:SetSolid(SOLID_BBOX)
-		self:SetMoveType(MOVETYPE_STEP)
 		self:SetLagCompensated( true )
-		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		self:SetTrigger(true)
 		self:CapabilitiesAdd(bit.bor( CAP_USE , CAP_AUTO_DOORS , CAP_OPEN_DOORS , CAP_ANIMATEDFACE , CAP_TURN_HEAD , CAP_MOVE_GROUND, CAP_USE_WEAPONS, CAP_AIM_GUN, CAP_WEAPON_RANGE_ATTACK1 ))
 		self:SetMaxYawSpeed(20)
@@ -400,8 +403,10 @@ if SERVER then
 		self:SetNPCState(NPC_STATE_IDLE)
 		self.LastSound = CurTime()
 		self.next_alert = CurTime()
-
 	end
+end
+
+if SERVER then
 	ENT.next_alert = 0
 
 	function ENT:GetGender()

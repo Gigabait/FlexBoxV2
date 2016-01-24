@@ -195,15 +195,17 @@ if SERVER then
 	end
 
 	ENT.Task_EndSit, ENT.Task_EndWave = ENT.Task_AlignSit, ENT.Task_AlignSit
+end
 
-	function ENT:Initialize()
-		self:SetModel("models/police.mdl")
+function ENT:Initialize()
+	self:SetModel("models/police.mdl")
+	self:SetSolid(SOLID_BBOX)
+	self:SetMoveType(MOVETYPE_STEP)
+	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	if SERVER then
 		self:SetHullType(HULL_HUMAN)
 		self:SetHullSizeNormal()
-		self:SetSolid(SOLID_BBOX)
-		self:SetMoveType(MOVETYPE_STEP)
 		self:SetLagCompensated( true )
-		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		self:SetTrigger(true)
 		self:CapabilitiesAdd(bit.bor( CAP_USE , CAP_AUTO_DOORS , CAP_OPEN_DOORS , CAP_ANIMATEDFACE , CAP_TURN_HEAD , CAP_MOVE_GROUND, CAP_USE_WEAPONS, CAP_AIM_GUN, CAP_WEAPON_RANGE_ATTACK1 ))
 		self:SetMaxYawSpeed(20)
@@ -213,6 +215,9 @@ if SERVER then
 		self.next_alert = CurTime()
 		self:Give("weapon_stunstick")
 	end
+end
+
+if SERVER then
 	ENT.next_alert = 0
 
 	function ENT:PlaySound(type)
