@@ -309,7 +309,7 @@ if SERVER then
 
 	end
 
-	function ENT:AlertOthers()
+	function ENT:AlertOthers(att)
 
 		local isalert = self:GetNPCState() == NPC_STATE_ALERT
 
@@ -327,7 +327,10 @@ if SERVER then
 					v:TaskStart_EndSit()
 				end
 
-				v:SetNPCState( NPC_STATE_COMBAT )
+				v:SetNPCState( NPC_STATE_ALERT )
+				if IsValid(att) then
+					v:SetTarget(att)
+				end
 				v.iDelay = 0
 				v.next_alert = CurTime() + 5
 				v:SelectSchedule()
@@ -341,8 +344,9 @@ if SERVER then
 
 		self:SpawnBlood(dmg)
 
-		self:AlertOthers()
-		self:SetNPCState(NPC_STATE_COMBAT)
+		self:AlertOthers(dmg:GetAttacker())
+		self:SetNPCState(NPC_STATE_ALERT)
+		self:SetTarget(dmg:GetAttacker())
 		self:SetHealth(self:Health() - dmg:GetDamage())
 
 		if self.LastSound < CurTime() then

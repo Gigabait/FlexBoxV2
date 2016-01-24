@@ -124,3 +124,28 @@ FBoxMapData["rp_city17_district47"] = {
 		},
 	},
 }
+
+FBoxMapData["gm_genesis_b24"] = {
+	metrocops = {
+		spawns = {
+
+		},
+		walktable = {
+
+		},
+		sittable = {
+
+		},
+	},
+	wanderer = {
+		spawns = {
+
+		},
+		walktable = {
+
+		},
+		sittable = {
+
+		},
+	},
+}
