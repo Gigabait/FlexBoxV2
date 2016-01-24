@@ -263,7 +263,7 @@ if SERVER then
 			Vector(-1148, -1198, 64),
 		}
 		local npcs = ents.FindByClass("lua_npc_wander")
-		if #npcs > 50 then return end
+		if #npcs > 20 then return end
 		local spawn = table.Random(spawns)
 		if not spawn then return end
 

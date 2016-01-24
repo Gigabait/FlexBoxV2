@@ -96,7 +96,7 @@ if SERVER then
 			Vector(2986, -1618, 64),
 		}
 		local npcs = ents.FindByClass("lua_npc_metrocop")
-		if #npcs > 20 then return end
+		if #npcs > 10 then return end
 		local spawn = table.Random(spawns)
 		if not spawn then return end
 
@@ -360,7 +360,7 @@ if SERVER then
 					v:TaskStart_EndSit()
 				end
 
-				v:SetNPCState( NPC_STATE_ALERT )
+				v:SetNPCState( NPC_STATE_COMBAT )
 				v.iDelay = 0
 				v.next_alert = CurTime() + 5
 				v:SelectSchedule()
@@ -375,6 +375,7 @@ if SERVER then
 		self:SpawnBlood(dmg)
 
 		self:AlertOthers()
+		self:SetNPCState(NPC_STATE_COMBAT)
 		self:SetHealth(self:Health() - dmg:GetDamage())
 
 		if self.LastSound < CurTime() then
