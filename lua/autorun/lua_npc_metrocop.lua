@@ -51,7 +51,7 @@ if SERVER then
 	}
 
 
-	ENT.walktable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.walktable or {}
+	ENT.walktable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.walktable or {Vector(0,0,0),}
 
 
 	ENT.sittable = true
