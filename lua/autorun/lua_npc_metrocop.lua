@@ -2,10 +2,14 @@ easylua.StartEntity("lua_npc_metrocop")
 
 ENT.Base 					= "base_ai"
 ENT.Type 					= "ai"
-ENT.Author					= "Mare"
+ENT.Author					= "Mare, Potatofactory, Flex"
 ENT.PrintName 				= "Metrocop"
 ENT.Spawnable 				= false
 ENT.AdminSpawnable 			= false
+
+function ENT:SetupDataTables()
+	self:NetworkVar( "Int", 0, "WarningsIssued" )
+end
 
 if CLIENT then
 	ENT.lobbyok = true
@@ -22,7 +26,7 @@ if SERVER then
 	ENT.AutomaticFrameAdvance	= true
 
 	function ENT:GetCitizenName()
-		return "Metrocop"
+		return "Metrocop P-C17D47-" .. math.floor(self:GetPos().Z) .. "/" .. self:GetEntIndex()
 	end
 
 	ENT.sounds = {
@@ -51,23 +55,31 @@ if SERVER then
 	}
 
 
-	ENT.Warnings = {
-		[1] = {
+	ENT.WarningLines = {
+		["angry"] = {
+			"npc/metropolice/vo/11-99officerneedsassistance.wav",
+			"npc/metropolice/vo/contactwith243suspect.wav",
+			"npc/metropolice/vo/cpisoverrunwehavenocontainment.wav",
+			"npc/metropolice/vo/cpweneedtoestablishaperimeterat.wav",
+			"npc/metropolice/vo/Ivegot408hereatlocation.wav",
+			"npc/metropolice/vo/malcompliant10107my1020.wav",
+		},
+		{
 			"npc/metropolice/vo/backup.wav",
 			"npc/metropolice/vo/firstwarningmove.wav",
+			"npc/metropolice/vo/lookingfortrouble.wav",
 		},
-		[2] = {
+		{
 			"npc/metropolice/vo/secondwarning.wav",
 			"npc/metropolice/vo/thisisyoursecondwarning.wav",
+			"npc/metropolice/vo/lookingfortrouble.wav",
 		},
-		[3] = {
+		{
 			"npc/metropolice/vo/finalwarning.wav",
 			"npc/metropolice/vo/readytoprosecutefinalwarning.wav",
 			"npc/metropolice/vo/code100.wav",
 		},
 	}
-
-	ENT.warningi = 0
 
 	ENT.walktable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.walktable or {Vector(0,0,0),}
 
@@ -215,11 +227,17 @@ if SERVER then
 	end
 
 	function ENT:PlayWarning()
-		if not table.HasValue(self.Warnings, self.warningi) then return end
-		self:EmitSound(table.Random(self.Warnings[warningi]),math.random(90,100),math.random(90,110))
-		self.busy = true
-		self.LastSound = CurTime() + self.SoundDelay
-		self.warningi = self.warningi + 1
+		local IssuedWarnings = self:GetWarningsIssued()
+		if not self.WarningLines[IssuedWarnings] then
+			self:EmitSound(table.Random(self.WarningLines[IssuedWarnings]), math.random(90, 100), math.random(90, 110))
+			self.busy = true
+			self.LastSound = CurTime() + self.SoundDelay
+			self:SetWarningsIssued(IssuedWarnings + 1)
+		else
+			self:EmitSound(table.Random(self.WarningLines["angry"]), math.random(90, 100), math.random(90, 110))
+			self.busy = true
+			self.LastSound = CurTime() + self.SoundDelay
+		end
 	end
 
 	function ENT:PlayAnim(anim)
@@ -397,13 +415,15 @@ if SERVER then
 		self:SetNPCState( NPC_STATE_DEAD )
 		self:ClearSchedule()
 
-		if self.BecomeRagdollOnClientX then
-			self.SelectSchedule=nullf
-			self:BecomeRagdollOnClientX(dmg)
-		else
-			self:SetSchedule( SCHED_FALL_TO_GROUND )
-			SafeRemoveEntityDelayed(self,4)
-		end
+		-- This was breaking the death anim
+
+		--	if self.BecomeRagdollOnClientX then
+		--		self.SelectSchedule=nullf
+		--		self:BecomeRagdollOnClientX(dmg)
+		--	else
+		--		self:SetSchedule( SCHED_FALL_TO_GROUND )
+		--		SafeRemoveEntityDelayed(self,4)
+		--	end
 	end
 
 	function ENT:OnRemove()
