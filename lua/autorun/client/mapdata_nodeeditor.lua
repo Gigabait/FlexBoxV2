@@ -14,6 +14,11 @@ local NPC_METRO = 0
 local NPC_CITIZEN = 1
 
 local function NodeEditor(ply,cmd,args)
+	local totalnodes = #FBoxMapData[game.GetMap()].metrocops.walktable + #FBoxMapData[game.GetMap()].metrocops.sittable + #FBoxMapData[game.GetMap()].metrocops.spawns + #FBoxMapData[game.GetMap()].wanderer.walktable + #FBoxMapData[game.GetMap()].wanderer.sittable + #FBoxMapData[game.GetMap()].wanderer.spawns
+	local totalwalk = #FBoxMapData[game.GetMap()].metrocops.walktable + #FBoxMapData[game.GetMap()].wanderer.walktable
+	local totalsit = #FBoxMapData[game.GetMap()].metrocops.sittable + #FBoxMapData[game.GetMap()].wanderer.sittable
+	local totalspawns = #FBoxMapData[game.GetMap()].metrocops.spawns + #FBoxMapData[game.GetMap()].wanderer.spawns
+
 	NE_frame = vgui.Create("DFrame")
 	NE_frame:SetPos(10,10)
 	NE_frame:SetSize(600,500)
@@ -90,14 +95,20 @@ local function NodeEditor(ply,cmd,args)
 
 	local editpane = vgui.Create("DPanel",NE_frame)
 	editpane:Dock(FILL)
-	local vec_lbl = vgui.Create("DLabel",editpane)
-	vec_lbl:SetColor(Color(0,0,0))
-	vec_lbl:Dock(TOP)
-	vec_lbl:DockMargin(4,4,0,0)
-	vec_lbl:SetText("Node Vector:")
-	local vec_box = vgui.Create("DTextEntry",editpane)
-	vec_box:Dock(TOP)
-	vec_box:DockMargin(4,4,4,0)
+	local node_txt = vgui.Create("DLabel",editpane)
+	node_txt:SetColor(Color(0,0,0))
+	node_txt:Dock(TOP)
+	node_txt:DockMargin(4,4,4,0)
+	node_txt:SetText(game.GetMap().." has a total of "..totalnodes.." nodes ("..totalwalk.." walk nodes, "..totalsit.." sit nodes, "..totalspawns.." spawn nodes)"
+	local node_prop = vgui.Create("DProperties",editpane)
+	node_prop:Dock(FILL)
+	node_prop:DockMargin(4,4,4,4)
+	local node_pos = node_prop:CreateRow("Node Properties","Node Position")
+	node_pos:Setup("Generic")
+	node_pos:SetValue("0,0,0")
+	local node_type = node_prop:CreateRow("Node Properties","Node Type")
+	node_type:Setup("Combo",{"Node type"})
+	node_type:SetValue("0,0,0")
 
 end
 
