@@ -108,8 +108,9 @@ local function NodeEditor(ply,cmd,args)
 	node_pos:SetValue("0,0,0")
 	local node_type = node_prop:CreateRow("Node Properties","Node Type")
 	node_type:Setup("Combo",{text = "Node Type"})
-	node_type:AddChoice("NODE_WALK",NODE_WALK)
-	node_type:AddChoice("NODE_WALK",NODE_WALK)
+	node_type:AddChoice("NODE_WALK",NODE_WALK):SetIcon(icons.node_walk)
+	node_type:AddChoice("NODE_SIT",NODE_SIT):SetIcon(icons.node_sit)
+	node_type:AddChoice("NODE_SPAWN",NODE_SPAWN):SetIcon(icons.node_spawn)
 
 end
 
