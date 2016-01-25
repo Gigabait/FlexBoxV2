@@ -51,8 +51,25 @@ if SERVER then
 	}
 
 
-	ENT.walktable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.walktable or {Vector(0,0,0),}
+	ENT.Warnings = {
+		[1] = {
+			"npc/metropolice/vo/backup.wav",
+			"npc/metropolice/vo/firstwarningmove.wav",
+		},
+		[2] = {
+			"npc/metropolice/vo/secondwarning.wav",
+			"npc/metropolice/vo/thisisyoursecondwarning.wav",
+		},
+		[3] = {
+			"npc/metropolice/vo/finalwarning.wav",
+			"npc/metropolice/vo/readytoprosecutefinalwarning.wav",
+			"npc/metropolice/vo/code100.wav",
+		},
+	}
 
+	ENT.warningi = 0
+
+	ENT.walktable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.walktable or {Vector(0,0,0),}
 
 	ENT.sittable = true
 
@@ -195,6 +212,14 @@ if SERVER then
 		self:EmitSound(sound,math.random(90,100),math.random(90,110))
 		self.busy = true
 		self.LastSound = CurTime() + self.SoundDelay
+	end
+
+	function ENT:PlayWarning()
+		if not table.HasValue(self.Warnings, self.warningi) then return end
+		self:EmitSound(table.Random(self.Warnings[warningi]),math.random(90,100),math.random(90,110))
+		self.busy = true
+		self.LastSound = CurTime() + self.SoundDelay
+		self.warningi = self.warningi + 1
 	end
 
 	function ENT:PlayAnim(anim)
@@ -350,6 +375,7 @@ if SERVER then
 		self:SetHealth(self:Health() - dmg:GetDamage())
 
 		if self.LastSound < CurTime() then
+			self:PlayWarning() -- Placeholder
 			self:PlaySound("hit")
 			self.LastSound = CurTime() + self.SoundDelay
 		end
