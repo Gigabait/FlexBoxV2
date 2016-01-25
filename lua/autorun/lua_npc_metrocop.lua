@@ -403,7 +403,10 @@ if SERVER then
 	end
 
 	function ENT:StartTouch(ent)
-		if self:GetNPCState() ~= NPC_STATE_ALERT then
+		if ent:GetClass() == "func_door" then
+			ent:Fire("unlock")
+			ent:Fire("open")
+		elseif self:GetNPCState() ~= NPC_STATE_ALERT then
 			if math.random()<1/5 then
 				self:PlaySound("greet")
 			end

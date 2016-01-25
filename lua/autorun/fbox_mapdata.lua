@@ -2,11 +2,12 @@ FBoxMapData = FBoxMapData or {}
 FBoxMapData["rp_city17_district47"] = {
 	metrocops = {
 		spawns = {
-			Vector(1467, -1460, 384),
-			Vector(55, -1303, 384),
+			Vector(-1467.384644, -721.093384, 648.031250),
+			Vector(149, 0, 225),
 			Vector(2986, -1618, 64),
 		},
 		walktable = {
+			Vector(-581.884521, -3.805609, 384.031250),
 			Vector(1450, -825, 384),
 			Vector(3124, -1412, 384),
 			Vector(2989, -875, 384),
