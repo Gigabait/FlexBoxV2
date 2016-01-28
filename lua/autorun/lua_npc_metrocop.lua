@@ -6,6 +6,8 @@ ENT.Author					= "Mare, Potatofactory, Flex"
 ENT.PrintName 				= "Metrocop"
 ENT.Spawnable 				= false
 ENT.AdminSpawnable 			= false
+ENT.IssuedWarnings			= 0
+
 
 function ENT:SetupDataTables()
 	self:NetworkVar( "Int", 0, "WarningsIssued" )
@@ -26,7 +28,7 @@ if SERVER then
 	ENT.AutomaticFrameAdvance	= true
 
 	function ENT:GetCitizenName()
-		return "Metrocop P-C17D47-" .. math.floor(self:GetPos().Z) .. "/" .. self:GetEntIndex()
+		return "Metrocop P-C17D47-" .. math.floor(self:GetPos().Z) .. "/" .. self:EntIndex()
 	end
 
 	ENT.sounds = {
@@ -34,11 +36,8 @@ if SERVER then
 			"npc/metropolice/vo/backup.wav",
 			"npc/metropolice/vo/checkformiscount.wav",
 			"npc/metropolice/vo/citizen.wav",
-			"npc/metropolice/vo/copy.wav",
-			"npc/metropolice/vo/gotsuspect1here.wav",
-			"npc/metropolice/vo/holdit.wav",
 			"npc/metropolice/vo/keepmoving.wav",
-			"npc/metropolice/vo/movealong.wav",
+			"npc/metropolice/vo/keepmoving.wav",
 		},
 		hit = {
 			"npc/metropolice/pain1.wav",
@@ -47,9 +46,6 @@ if SERVER then
 			"npc/metropolice/pain4.wav",
 		},
 		bench = {
-			"",
-		},
-		scared = {
 			"",
 		},
 	}
@@ -137,7 +133,6 @@ if SERVER then
 
 
 	ENT.SoundDelay					= 4
-	ENT.ScareDelay					= 20
 	ENT.iDelay						= 0
 
 
@@ -207,35 +202,51 @@ function ENT:Initialize()
 		self:SetTrigger(true)
 		self:CapabilitiesAdd(bit.bor( CAP_USE , CAP_AUTO_DOORS , CAP_OPEN_DOORS , CAP_ANIMATEDFACE , CAP_TURN_HEAD , CAP_MOVE_GROUND, CAP_USE_WEAPONS, CAP_AIM_GUN, CAP_WEAPON_RANGE_ATTACK1 ))
 		self:SetMaxYawSpeed(20)
-		self:SetHealth(100)
+		self:SetHealth(750 - math.Clamp(#ents.FindByClass(self:GetClass()) * 50, 50, 500))
 		self:SetNPCState(NPC_STATE_IDLE)
 		self.LastSound = CurTime()
 		self.next_alert = CurTime()
-		self:Give("weapon_stunstick")
+		self:Give(table.Random({
+			"weapon_stunstick",
+			"weapon_pistol"
+		}))
 	end
 end
 
 if SERVER then
 	ENT.next_alert = 0
 
-	function ENT:PlaySound(type)
+	function ENT:PlaySound(type) -- Marked for removal
 		if self.LastSound > CurTime() then return end
 		local sound = table.Random(self.sounds[type])
-		self:EmitSound(sound,math.random(90,100),math.random(90,110))
+		self:EmitSound("npc/metropolice/vo/on" .. math.random(1, 2) .. ".wav")
+		timer.Simple( .5, function()
+			self:EmitSound(sound, math.random(90, 100), math.random(90, 110))
+		end )
+		--self:EmtiSound("npc/metropolice/vo/off" .. math.random(1, 2) .. ".wav")
+		-- First we need to way to get the duration of the radio audio
 		self.busy = true
 		self.LastSound = CurTime() + self.SoundDelay
 	end
 
 	function ENT:PlayWarning()
-		local IssuedWarnings = self:GetWarningsIssued()
-		if not self.WarningLines[IssuedWarnings] then
-			self:EmitSound(table.Random(self.WarningLines[IssuedWarnings]), math.random(90, 100), math.random(90, 110))
-			self.busy = true
-			self.LastSound = CurTime() + self.SoundDelay
-			self:SetWarningsIssued(IssuedWarnings + 1)
-		else
-			self:EmitSound(table.Random(self.WarningLines["angry"]), math.random(90, 100), math.random(90, 110))
-			self.busy = true
+		local function GenerateSctipt( str )
+			sound.Add( {
+				name = "metrocop_radio",
+				channel = CHAN_VOICE,
+				volume = 1.0,
+				level = 80,
+				pitch = { 95, 110 },
+				sound = str
+			} )
+		end
+		self.IssuedWarnings = self.IssuedWarnings + 1
+		if self.LastSound <= CurTime() then
+			GenerateSctipt(self.IssuedWarnings <= #self.WarningLines and 
+				table.Random(self.WarningLines[self.IssuedWarnings]) or
+				table.Random(self.WarningLines["angry"]))
+
+			self:EmitSound("metrocop_radio", math.random(90, 100), math.random(90, 110))
 			self.LastSound = CurTime() + self.SoundDelay
 		end
 	end
@@ -274,10 +285,10 @@ if SERVER then
 		if self.bSit and self:GetPos():Distance(self.gotosit[1]) < 18 and not self.bSitting then
 			self:PlayAnim(self.ANIM_sit)
 		elseif not self.bSit then
-			if self:GetNPCState() == NPC_STATE_ALERT and self.bScared then
-				self:SetNPCState( NPC_STATE_IDLE )
-				self.bScared = nil
-			elseif self:GetNPCState() == NPC_STATE_NONE then
+			--if self:GetNPCState() == NPC_STATE_ALERT and self.bScared then
+			--	self:SetNPCState( NPC_STATE_IDLE )
+			--	self.bScared = nil
+			if self:GetNPCState() == NPC_STATE_NONE then
 				self:SetNPCState( NPC_STATE_IDLE )
 			end
 			self:SelectSchedule()
@@ -299,11 +310,9 @@ if SERVER then
 				self:SetSched( SCHED_FORCED_GO )
 				self.iDelay = RealTime() + 20
 			end
-		elseif state == NPC_STATE_ALERT then
-			self:SetLastPosition( table.Random(self:GetWalktable()) + Vector( 0, 0, 40 ) )
-			self:SetSchedule( SCHED_FORCED_GO_RUN )
-			self.iDelay = RealTime() + self.ScareDelay
-			self.bScared = true
+		--elseif state == NPC_STATE_ALERT then
+			--self:SetLastPosition( table.Random(self:GetWalktable()) + Vector( 0, 0, 40 ) )
+			--self:SetSchedule( SCHED_FORCED_GO_RUN )
 		end
 	end
 
@@ -388,12 +397,13 @@ if SERVER then
 		self:SpawnBlood(dmg)
 
 		self:AlertOthers(dmg:GetAttacker())
-		self:SetNPCState(NPC_STATE_ALERT)
+		--self:SetNPCState(NPC_STATE_ALERT)
 		self:SetTarget(dmg:GetAttacker())
 		self:SetHealth(self:Health() - dmg:GetDamage())
 
+		self:PlayWarning() -- Placeholder
+
 		if self.LastSound < CurTime() then
-			self:PlayWarning() -- Placeholder
 			self:PlaySound("hit")
 			self.LastSound = CurTime() + self.SoundDelay
 		end
@@ -408,22 +418,16 @@ if SERVER then
 
 		local ent = dmg:GetAttacker()
 
-
-
 		self:OnNPCKilled(ent,dmg:GetInflictor())
 
 		self:SetNPCState( NPC_STATE_DEAD )
+		self:SetSchedule( SCHED_FALL_TO_GROUND )
 		self:ClearSchedule()
 
-		-- This was breaking the death anim
+		self:StopSound( "metrocop_radio" )
 
-		--	if self.BecomeRagdollOnClientX then
-		--		self.SelectSchedule=nullf
-		--		self:BecomeRagdollOnClientX(dmg)
-		--	else
-		--		self:SetSchedule( SCHED_FALL_TO_GROUND )
-		--		SafeRemoveEntityDelayed(self,4)
-		--	end
+		self:EmitSound( "npc/metropolice/die" .. math.random(1, 4) ..".wav" )
+
 	end
 
 	function ENT:OnRemove()
@@ -453,7 +457,7 @@ if SERVER then
 			ent:Fire("unlock")
 			ent:Fire("open")
 		elseif self:GetNPCState() ~= NPC_STATE_ALERT then
-			if math.random()<1/5 then
+			if math.random() < 1 / 5 then
 				self:PlaySound("greet")
 			end
 		else

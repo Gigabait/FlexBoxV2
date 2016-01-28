@@ -30,7 +30,12 @@ local function gp2Callback( ply, cmd, args )
 		chat.AddText("ERROR: Unknown placemarker")
 		return
 	end
-	chat.AddText(string.format("Vector( %f, %f, %f )", x, y, z))
+
+	local niceangle = EyeAngles():SnapTo("p", 90):SnapTo("y", 45)
+	
+	LocalPlayer():SetEyeAngles(niceangle)
+
+	chat.AddText(string.format("Vector( %f, %f, %f ), Angle( %i, %i, %i )", x, y, z, niceangle.p, niceangle.y, niceangle.r))
 	return
 end
 
