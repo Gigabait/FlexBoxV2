@@ -8,6 +8,7 @@ ENT.Value 					= 0
 
 ENT.Configuration 			= {
 	["defines"] = {
+		["warn_negative"] = true,
 		["low"]	= 100,
 		["max_value"] = 1000,
 		["sfxValueChanged"] = "vo/Citadel/br_laugh01.wav",
@@ -37,6 +38,10 @@ if SERVER then
 	end
 
 	function ENT:AssignValue( num )
+		if num < 0 and self.Configuration["defines"]["warn_negative"] then
+			self:SetColor( 255, 225, 225 )
+			self.Configuration["lighting"]["colour"] = Color( 255, 220, 220 )
+		end
 		if num <= self.Configuration["defines"]["low"] then
 			self:SetModel( self.Configuration["models"]["low"] )
 		else
