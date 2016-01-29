@@ -194,7 +194,7 @@ function ENT:Initialize()
 	self:SetModel("models/police.mdl")
 	self:SetSolid(SOLID_BBOX)
 	self:SetMoveType(MOVETYPE_STEP)
-	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	--self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	if SERVER then
 		self:SetHullType(HULL_HUMAN)
 		self:SetHullSizeNormal()

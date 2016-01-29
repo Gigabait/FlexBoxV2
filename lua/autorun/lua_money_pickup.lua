@@ -35,9 +35,10 @@ if SERVER then
 		self:SetModel( self.Configuration["models"]["low"] ) -- Temportary
 		self:PhysicsInit( SOLID_BBOX )
 		self:PhysWake()
+		self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 	end
 
-	function ENT:AssignValue( num )
+	function ENT:SetValue( num )
 		if num < 0 and self.Configuration["defines"]["warn_negative"] then
 			self:SetColor( 255, 225, 225 )
 			self.Configuration["lighting"]["colour"] = Color( 255, 220, 220 )
