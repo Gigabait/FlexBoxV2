@@ -1,0 +1,1 @@
+IncludeSharedFile("sh_npcs")
