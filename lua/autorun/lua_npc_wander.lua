@@ -514,11 +514,13 @@ if SERVER then
 		self:SetNPCState( NPC_STATE_DEAD )
 		self:ClearSchedule()
 
-		dropmoney = ents.Create("lua_money_pickup")
-		dropmoney:SetPos( self:SetPos() )
-		dropmoney:Spawn()
-		dropmoney:SetValue( math.random(0, 100) == 100 and math.random(200, 500) or math.random(0, 75) )
-
+		if tobool(math.random(0, 1)) then
+			dropmoney = ents.Create("lua_money_pickup")
+			dropmoney:SetPos( self:GetPos() + Vector( 0, 0, 50 ) )
+			dropmoney:Spawn()
+			dropmoney:SetValue( math.random(0, 100) == 100 and math.random(200, 500) or math.random(0, 75) )
+		end
+		
 		if self.BecomeRagdollOnClientX then
 			self.SelectSchedule=nullf
 			self:BecomeRagdollOnClientX(dmg)

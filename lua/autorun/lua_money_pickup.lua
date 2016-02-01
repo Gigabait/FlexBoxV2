@@ -11,9 +11,10 @@ ENT.Configuration 			= {
 		["warn_negative"] = true,
 		["low"]	= 100,
 		["max_value"] = 1000,
-		["sfxValueChanged"] = "vo/Citadel/br_laugh01.wav",
-		["sfxPickupMoney"] = "vo/npc/female01/nice01.wav",
+		["sfxValueChanged"] = "ambient/levels/canals/windchime".. math.random(4,5) ..".wav",
+		["sfxPickupMoney"] = "ambient/levels/labs/coinslot1.wav",
 	},
+
 
 	["models"] = {
 		["low"] = "models/props/cs_assault/Dollar.mdl",

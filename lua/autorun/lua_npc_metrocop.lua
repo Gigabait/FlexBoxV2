@@ -8,11 +8,6 @@ ENT.Spawnable 				= false
 ENT.AdminSpawnable 			= false
 ENT.IssuedWarnings			= 0
 
-
-function ENT:SetupDataTables()
-	self:NetworkVar( "Int", 0, "WarningsIssued" )
-end
-
 if CLIENT then
 	ENT.lobbyok = true
 	ENT.PhysgunDisabled = false
@@ -130,15 +125,8 @@ if SERVER then
 	ENT.IsMSNPC						= true
 	ENT.lobbyok						= true
 
-
-
 	ENT.SoundDelay					= 4
 	ENT.iDelay						= 0
-
-
-
-
-
 
 	ENT.ANIM_sit = ai_schedule.New("anim_sit")
 	ENT.ANIM_sit:AddTask("AlignSit")
@@ -285,14 +273,23 @@ if SERVER then
 		if self.bSit and self:GetPos():Distance(self.gotosit[1]) < 18 and not self.bSitting then
 			self:PlayAnim(self.ANIM_sit)
 		elseif not self.bSit then
-			--if self:GetNPCState() == NPC_STATE_ALERT and self.bScared then
-			--	self:SetNPCState( NPC_STATE_IDLE )
-			--	self.bScared = nil
 			if self:GetNPCState() == NPC_STATE_NONE then
 				self:SetNPCState( NPC_STATE_IDLE )
 			end
 			self:SelectSchedule()
 		end
+	end
+
+	function ENT:ResetEnemy()
+		local enttable = ents.FindByClass("npc_*")
+
+		for _, x in pairs(enttable) do
+			if (x:GetClass() != self:GetClass()) then
+				self:AddEntityRelationship( x, 2, 10 )
+			end
+		end
+
+		self:AddRelationship("player D_NU 10")
 	end
 
 	function ENT:SelectSchedule()
@@ -310,9 +307,6 @@ if SERVER then
 				self:SetSched( SCHED_FORCED_GO )
 				self.iDelay = RealTime() + 20
 			end
-		--elseif state == NPC_STATE_ALERT then
-			--self:SetLastPosition( table.Random(self:GetWalktable()) + Vector( 0, 0, 40 ) )
-			--self:SetSchedule( SCHED_FORCED_GO_RUN )
 		end
 	end
 
@@ -397,7 +391,13 @@ if SERVER then
 		self:SpawnBlood(dmg)
 
 		self:AlertOthers(dmg:GetAttacker())
-		--self:SetNPCState(NPC_STATE_ALERT)
+
+ 	  	self:ResetEnemy()
+ 	  	self:SetEnemy( dmg:GetAttacker() )
+	   	self:AddEntityRelationship( dmg:GetAttacker(), 1, 20 )
+
+		self:SetSchedule( SCHED_CHASE_ENEMY )
+
 		self:SetTarget(dmg:GetAttacker())
 		self:SetHealth(self:Health() - dmg:GetDamage())
 
