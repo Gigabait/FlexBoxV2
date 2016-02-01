@@ -206,7 +206,7 @@ if SERVER then
 
 	function ENT:PlaySound(type) -- Marked for removal
 		if self.LastSound > CurTime() then return end
-		local sound = table.Random(self.sounds[type])
+		local sound = table.Random(self.sounds[type] )
 		self:EmitSound("npc/metropolice/vo/on" .. math.random(1, 2) .. ".wav")
 		timer.Simple( .5, function()
 			self:EmitSound(sound, math.random(90, 100), math.random(90, 110))
@@ -460,8 +460,8 @@ if SERVER then
 			if math.random() < 1 / 5 then
 				self:PlaySound("greet")
 			end
-		else
-			self:PlaySound("scared")
+		--else
+			-- self:PlaySound("angry")
 		end
 	end
 
