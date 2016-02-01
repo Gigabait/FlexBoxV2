@@ -61,6 +61,10 @@ function META:Katching()
 	sound.Play("chatsounds/autoadd/dota2/buy.ogg",self:GetPos())
 end
 
+function META:PayMoney(price)
+	self:SetCoins(self:GetCoins()-price)
+end
+
 hook.Add("PlayerDisconnected","fbox_money_save",function(ply)
 	if CLIENT then return end
 	ply:SaveMoney()
