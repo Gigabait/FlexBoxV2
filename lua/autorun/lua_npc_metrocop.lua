@@ -8,7 +8,6 @@ ENT.Spawnable 				= false
 ENT.AdminSpawnable 			= false
 ENT.IssuedWarnings			= 0
 
-
 if CLIENT then
 	ENT.lobbyok = true
 	ENT.PhysgunDisabled = false
@@ -128,6 +127,9 @@ if SERVER then
 
 	ENT.SoundDelay					= 4
 	ENT.iDelay						= 0
+
+	ENT.schedJump = ai_schedule.New( "Jump" ) 
+	ENT.schedJump:EngTask( "TASK_PLAY_SEQUENCE", ACT_JUMP )
 
 	ENT.ANIM_sit = ai_schedule.New("anim_sit")
 	ENT.ANIM_sit:AddTask("AlignSit")
@@ -268,7 +270,6 @@ if SERVER then
 		local function setmeleefalse()
 			if self:Health() < 0 then return end
 			self.MeleeAttacking = false
-			self.Leaping = false
 			self:SetSchedule(SCHED_CHASE_ENEMY)
 		end
 		local function Attack_Melee()
@@ -278,9 +279,9 @@ if SERVER then
 			if entstoattack != nil then
 				for _,v in pairs(entstoattack) do
 					if ( (v:IsNPC() || ( v:IsPlayer() && v:Alive())) && (v != self) && (v:GetClass() != self:GetClass()) || (v:GetClass() == "prop_physics")) then
-						v:TakeDamage( self.Damage, self ) 
+						v:TakeDamage( 15, self, self:GetActiveWeapon() ) 
 						if v:IsPlayer() then
-							v:ViewPunch(Angle(math.random(-1,1)*self.Damage,math.random(-1,1)*self.Damage,math.random(-1,1)*self.Damage))
+							v:ViewPunch(Angle(math.random(-1,1)*15,math.random(-1,1)*15,math.random(-1,1)*15))
 						end
 						if v:GetClass() == "prop_physics" then
 							local phys = v:GetPhysicsObject()
@@ -302,20 +303,9 @@ if SERVER then
 		end
 
 		if self:GetEnemy() != nil then
-				if math.random(1,15) == 1 && self:GetPos():Distance(self:GetEnemy():GetPos()) < self.LeapDistance && self:GetPos():Distance(self:GetEnemy():GetPos()) > self.MinLeapDistance && self.Leaps == true && self.Leaping == false then
-					self:SetSchedule(schedJump)
-					self.Leaping = true
-  					self:SetVelocity( (self:GetEnemy():GetPos()-self:GetPos() + Vector(0,0,50)):Normalize() * self.LeapSpeed )
-					timer.Simple(0.25,setmeleefalse)
-				end
 				if (self:GetEnemy():GetPos():Distance(self:GetPos()) < 70) || self:HasPropInFrontOfMe() then
 					if self.MeleeAttacking == false then
-						if self.Leaping == false then
-							self:SetSchedule( SCHED_MELEE_ATTACK1 )
-						else
-							self:EmitSound( self.attackleap)
-							self:SetLocalVelocity( Vector( 0, 0, 0 ) )
-						end
+						self:SetSchedule( SCHED_MELEE_ATTACK1 )
 						timer.Create( "melee_attack_timer" .. self.Entity:EntIndex( ), 0.6, 1, Attack_Melee )
 						self.MeleeAttacking = true;
 					end
@@ -352,6 +342,15 @@ if SERVER then
 		self:AddRelationship("player D_NU 10")
 	end
 
+	function ENT:HasPropInFrontOfMe()
+		local entstoattack = ents.FindInSphere(self:GetPos() + self:GetForward()*75,47)
+		for _,v in pairs(entstoattack) do
+			if v:GetClass() == "prop_physics" then
+			return true
+			end
+		end
+		return false
+	end
 
 	function ENT:SelectSchedule()
 		local state = self:GetNPCState()
@@ -453,16 +452,19 @@ if SERVER then
 
 		self:AlertOthers(dmg:GetAttacker())
 
-	   	self:ResetEnemy()
-	   	self:AddEntityRelationship( dmg:GetAttacker(), 1, 10 )
-	   	self:SetEnemy(dmg:GetAttacker())
-		self:SetSchedule(SCHED_CHASE_ENEMY)
-		self.Chasing = true
-
-		self:SetTarget(dmg:GetAttacker())
 		self:SetHealth(self:Health() - dmg:GetDamage())
 
-		self:PlayWarning() -- Placeholder
+		if self.WarningLines[self.IssuedWarnings] then
+			self:SetTarget(dmg:GetAttacker())
+		   	self:ResetEnemy()
+		   	self:AddEntityRelationship( dmg:GetAttacker(), 1, 10 )
+		   	self:SetEnemy(dmg:GetAttacker())
+			self:SetSchedule(SCHED_CHASE_ENEMY)
+			self.Chasing = true
+		end
+
+		self:PlayWarning()
+
 
 		if self.LastSound < CurTime() then
 			self:PlaySound("hit")

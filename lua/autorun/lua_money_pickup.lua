@@ -54,19 +54,19 @@ if SERVER then
 						local newmoney = ents.Create( self:GetClass() )
 						newmoney:SetPos( self:GetPos() )
 						newmoney:Spawn()
-						newmoney:AssignValue( self.Configuration["defines"]["max_value"] )
+						newmoney:SetValue( self.Configuration["defines"]["max_value"] )
 					end
 				else
 					for i=1, entsneeded - 1 do 
 						local newmoney = ents.Create( self:GetClass() )
 						newmoney:SetPos( self:GetPos() )
 						newmoney:Spawn()
-						newmoney:AssignValue( self.Configuration["defines"]["max_value"] )
+						newmoney:SetValue( self.Configuration["defines"]["max_value"] )
 					end
 					local floatmoney = ents.Create( self:GetClass() )
 					floatmoney:SetPos( self:GetPos() )
 					floatmoney:Spawn()
-					floatmoney:AssignValue( math.floor( self.Configuration["defines"]["max_value"] * extras ) )
+					floatmoney:SetValue( math.floor( self.Configuration["defines"]["max_value"] * extras ) )
 				end
 
 				self:Remove() -- No longer needed
