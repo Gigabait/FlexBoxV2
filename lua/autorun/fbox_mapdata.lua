@@ -1,13 +1,14 @@
 FBoxMapData = FBoxMapData or {}
 FBoxMapData["rp_city17_district47"] = {
+	temp = {},
 	metrocops = {
 		spawns = {
-			Vector(-1467.384644, -721.093384, 648.031250),
+			Vector(-1467, -721, 648),
 			Vector(149, 0, 225),
 			Vector(2986, -1618, 64),
 		},
 		walktable = {
-			Vector(-581.884521, -3.805609, 384.031250),
+			Vector(-581, -3, 384),
 			Vector(1450, -825, 384),
 			Vector(3124, -1412, 384),
 			Vector(2989, -875, 384),
@@ -72,6 +73,39 @@ FBoxMapData["rp_city17_district47"] = {
 			Vector(2761, -1236, 560),
 			Vector(2273, -1092, 384),
 			Vector(2737, -1231, 384),
+			Vector( 1776, -978, 640 ),
+			Vector( 1907, -959, 640 ),
+			Vector( 1915, -1104, 640 ),
+			Vector( 2463, -1081, 640 ),
+			Vector( 2762, -1091, 560 ),
+			Vector( 2338, -1223, 384 ),
+			Vector( 2572, -1083, 384 ),
+			Vector( 2738, -1068, 384 ),
+			Vector( 2900, -1229, 384 ),
+			Vector( 1882, -842, 640 ),
+			Vector( 1893, 57, 640 ),
+			Vector( 1997, -131, 640 ),
+			Vector( 2323, -123, 640 ),
+			Vector( 2689, -127, 648 ),
+			Vector( 1892, -514, 640 ),
+			Vector( 1788, -516, 640 ),
+			Vector( 1656, -569, 640 ),
+			Vector( 1538, -555, 640 ),
+			Vector( 1548, -363, 640 ),
+			Vector( 2273, -1078, 640 ),
+			Vector( 2160, -1182, 640 ),
+			Vector( 2030, -1214, 640 ),
+			Vector( 1927, -1221, 640 ),
+			Vector( 1970, -1408, 640 ),
+			Vector( 2499, -1218, 640 ),
+			Vector( 2373, -1232, 640 ),
+			Vector( 1793, -1093, 640 ),
+			Vector( 1616, -1083, 640 ),
+			Vector( 1710, -1409, 640 ),
+			Vector( 683, -809, 384 ),
+			Vector( 684, 562, 384 ),
+			Vector( 629, 835, 349 ),
+
 		},
 		sittable = {
 			{
@@ -122,31 +156,6 @@ FBoxMapData["rp_city17_district47"] = {
 				Angle(0,0,0),
 				false,
 			},
-		},
-	},
-}
-
-FBoxMapData["gm_genesis_b24"] = {
-	metrocops = {
-		spawns = {
-
-		},
-		walktable = {
-
-		},
-		sittable = {
-
-		},
-	},
-	wanderer = {
-		spawns = {
-
-		},
-		walktable = {
-
-		},
-		sittable = {
-
 		},
 	},
 }
