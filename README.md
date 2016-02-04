@@ -5,6 +5,8 @@ Public addons for the :new: FlexBox server.
 - Small scripts
 - FScoreboard for aowl
 - Fixed tools
+- Map data
+- Node tools
 
 ####What's not included?
 - Chatbox
