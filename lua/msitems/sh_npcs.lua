@@ -1,3 +1,5 @@
+msitems = msitems or {}
+msitems.NPCShops = msitems.NPCShops or {}
 msitems.NPCShops["vending"] = {
 	name = "Vending Machine",
 	sentences = {
