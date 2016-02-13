@@ -553,6 +553,17 @@ if SERVER then
 	end
 
 	function ENT:StartTouch(ent)
+		if ent:GetClass() == "rpg_missile" then -- Fix for the RPG exploit, Instead mimic the effect
+			local explode = ents.Create( "env_explosion" )
+			explode:SetPos( ent:GetPos() )
+			explode:SetOwner( ent:GetOwner() )
+			explode:Spawn()
+			explode:SetKeyValue( "iMagnitude", "100" )
+			explode:Fire( "Explode", 0, 0 )
+			explode:EmitSound( "ambient/explosions/explode_4.wav", 400, 400 )
+			ent:StopSound("Missile.Ignite")	
+			ent:Fire("Kill")
+		end
 		if self:GetNPCState() ~= NPC_STATE_ALERT then
 			if math.random()<1/5 then
 				self:PlaySound("greet")
