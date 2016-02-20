@@ -3,8 +3,11 @@
 -- Original by user4992
 
 PropSaver = PropSaver or {}
+PropSaver.TempTables = {}
+PropSaver.LoadedProps = {}
+PropSaver.LoadedOwners = {}
 
-PropIndex = 0
+local PropIndex = 0
 
 function PropSaver.AddPropToTable( entity, model, pos, ang, scale, owner, static, material, color )
 
@@ -31,7 +34,7 @@ function PropSaver.LoadPropTable( LoadingTable , TableOwner )
 
 	for i=1,#LoadingTable do
 
-		SpawnPropFromTable( i , LoadingTable , TableOwner )
+		PropSaver.SpawnPropFromTable( i , LoadingTable , TableOwner )
 
 	end
 
@@ -59,6 +62,7 @@ function PropSaver.SpawnPropFromTable( index , CurrentPropTable , Owner )
 	SpawnedProp:SetOwner( Loading["owner"] )
 	SpawnedProp:SetMaterial( Loading["material"] )
 	SpawnedProp:SetColor( Loading["color"] )
+	SpawnedProp:SetRenderMode(RENDERMODE_TRANSALPHA)
 
 	SpawnedProp.PhysgunDisabled = Loading["static"]
 
@@ -114,12 +118,12 @@ function PropSaver.SpawnPropFromTable( index , CurrentPropTable , Owner )
 
 	PropIndex = PropIndex + 1
 
-	LoadedProps[PropIndex] = SpawnedProp
-	LoadedOwners[PropIndex] = Owner
+	PropSaver.LoadedProps[PropIndex] = SpawnedProp
+	PropSaver.LoadedOwners[PropIndex] = Owner
 
 end
 
-function ClearTableProps( PropTable, CleaningOwner )
+function PropSaver.ClearTableProps( PropTable, CleaningOwner )
 	if #PropTable > 0 then
 		for k, v in pairs( PropTable ) do
 			if IsValid( v ) then
@@ -135,7 +139,7 @@ function ClearTableProps( PropTable, CleaningOwner )
 	end
 end
 
-function PropSaver.DefineProp( prop,automate )
+function PropSaver.DefineProp( prop,automate,ply )
 
 	local PropClass = tostring( prop:GetClass() )
 	local PropModel = tostring( prop:GetModel() )
@@ -149,8 +153,30 @@ function PropSaver.DefineProp( prop,automate )
 	if prop.CanTool and (not prop:CanTool()) then PropProtected = true end
 
 	if automate then
-		local rand = math.random()
-		local PropSaver.TempTables[rand] = {}
+		local rand = math.random(1,10000)
+		PropSaver.TempTables[rand] = {}
+
+		if prop.CPPIGetOwner then
+			if CLIENT then
+				for _,ent in pairs(ents.FindByClass("*")) do
+					if ent.CPPIGetOwner and ent:CPPIGetOwner() == LocalPlayer() then
+						table.insert(PropSaver.TempTables[rand],{["entity"] = ent:GetClass(),["model"] = ent:GetModel(),["pos"] = ent:GetPos(),["ang"] = ent:GetAngles(),["owner"] = nil,["static"] = true,["material"] = ent:GetMaterial(),["color"] = ent:GetColor(),["protected"] = prop.CanTool and (not prop:CanTool()) and true or false})
+						print("prop added: ",ent)
+					end
+				end
+				print("Prop table number: "..rand.." (PropSaver.TempTables["..rand.."])")
+			elseif SERVER then
+				if IsValid(ply) then
+					for _,ent in pairs(ents.FindByClass("*")) do
+						if ent.CPPIGetOwner and ent:CPPIGetOwner() == ply then
+							table.insert(PropSaver.TempTables[rand],{["entity"] = ent:GetClass(),["model"] = ent:GetModel(),["pos"] = ent:GetPos(),["ang"] = ent:GetAngles(),["owner"] = nil,["static"] = true,["material"] = ent:GetMaterial(),["color"] = ent:GetColor(),["protected"] = prop.CanTool and (not prop:CanTool()) and true or false})
+							print("prop added: ",ent)
+						end
+					end
+					print("Prop table number: ",rand,ply)
+				end
+			end
+		end
 	else
 		print( '{ ["entity"] = "'.. PropClass ..'" , ["model"] = "' .. PropModel .. '" , ["pos"] = Vector(' .. PropPos .. '), ["ang"] = Angle('.. PropAng ..'), ["owner"] = nil , ["static"] = true , ["material"] = "' .. PropMat .. '" , ["color"] = color_white , ["protected"] = "' .. tostring(PropProtected) .. '"}, ')
 	end
