@@ -33,9 +33,9 @@ local function gp2Callback( ply, cmd, args )
 
 	local niceangle = EyeAngles():SnapTo("p", 90):SnapTo("y", 45)
 	
-	LocalPlayer():SetEyeAngles(niceangle)
+	--LocalPlayer():SetEyeAngles(niceangle)
 
-	chat.AddText(Color(255,255,255),string.format("Vector( %n, %n, %n ), Angle( %i, %i, %i )", math.floor(x), math.floor(y), math.floor(z), niceangle.p, niceangle.y, niceangle.r))
+	chat.AddText(Color(255,255,255),string.format("Vector( %i, %i, %i ), Angle( %i, %i, %i )", math.floor(x), math.floor(y), math.floor(z), niceangle.p, niceangle.y, niceangle.r))
 	return
 end
 

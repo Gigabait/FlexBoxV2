@@ -1,3 +1,4 @@
+local SWEP = weapons.Get("gmod_tool")
 local matScreen 	= Material( "models/weapons/v_toolgun/screen" )
 local txidScreen	= surface.GetTextureID( "models/weapons/v_toolgun/screen" )
 local txRotating	= surface.GetTextureID( "pp/fb" )
@@ -17,7 +18,7 @@ local cam=cam
 surface.CreateFont( "GModToolScreen",
 {
 	font		= "Courier New",
-	size		= 50,
+	size		= 40,
 })
 
 surface.CreateFont( "GModToolConsole",
@@ -53,7 +54,7 @@ end
 local lastcur=0
 local lastreal=0
 local diffchange=0
-function SWEP:RenderScreen()
+function wep:RenderScreen()
 
 	local real=RealTime()
 	local cur = CurTime()
@@ -131,7 +132,7 @@ function SWEP:RenderScreen()
 
 			local rainbow = HSVToColor(RealTime()*10%360,0.5,0.5)
 			surface.SetDrawColor(200,100,0)
-			surface.DrawRect(0,0,TEX_SIZE,60)
+			surface.DrawRect(0,0,TEX_SIZE,50)
 
 			surface.SetFont( "GModToolScreen" )
 			DrawScrollingText( "#tool."..mode..".name", 4, TEX_SIZE )
