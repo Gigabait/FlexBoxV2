@@ -54,7 +54,7 @@ end
 local lastcur=0
 local lastreal=0
 local diffchange=0
-function wep:RenderScreen()
+function SWEP:RenderScreen()
 
 	local real=RealTime()
 	local cur = CurTime()
