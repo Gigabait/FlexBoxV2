@@ -1,4 +1,3 @@
-local SWEP = weapons.Get("gmod_tool")
 local matScreen 	= Material( "models/weapons/v_toolgun/screen" )
 local txidScreen	= surface.GetTextureID( "models/weapons/v_toolgun/screen" )
 local txRotating	= surface.GetTextureID( "pp/fb" )
