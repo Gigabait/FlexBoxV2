@@ -22,6 +22,5 @@ function ENT:Draw3D2D(w,h)
 	draw.DrawText("2. No prop spamming","DermaLarge",20,110,Color(255,255,255),TEXT_ALIGN_LEFT)
 	draw.DrawText("3. No laggy dupes","DermaLarge",20,140,Color(255,255,255),TEXT_ALIGN_LEFT)
 	draw.DrawText("4. No INTENTIONAL server crashing","DermaLarge",20,170,Color(255,255,255),TEXT_ALIGN_LEFT)
-	draw.DrawText("5. Have Fun","DermaLarge",20,200+math.sin(RealTime()*5)*10,HSVToColor(RealTime()*100%360,1,1),TEXT_ALIGN_LEFT)
-	draw.DrawText("●u● Server managed by Flex, hosted by Sauermon ●u●","DermaLarge",w/2+math.sin(RealTime()*2)*w/10,h-50+math.sin(RealTime()*5)*-10,Color(0,150,130),TEXT_ALIGN_CENTER)
+	draw.DrawText("Server managed by Flex and KaosHeaven, hosted by Sauermon","DermaLarge",w/2+math.sin(RealTime()*2)*w/12,h-50+math.sin(RealTime()*5)*-10,Color(0,150,130),TEXT_ALIGN_CENTER)
 end
