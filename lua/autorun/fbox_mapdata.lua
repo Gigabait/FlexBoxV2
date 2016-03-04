@@ -9,7 +9,7 @@ local function mdata_print(txt)
 end
 
 
-for _,file in pairs(file.Find("lua/mapdata/*","GAME") do
+for _,file in pairs(file.Find("lua/mapdata/*","GAME")) do
 	include("mapdata/"..file..".lua")
 	mdata_print("Loaded "..file)
 end
