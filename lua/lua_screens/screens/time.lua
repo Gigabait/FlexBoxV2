@@ -17,7 +17,7 @@ surface.CreateFont("fbox_clock",{
 })
 
 function ENT:Draw3D2D(w,h)
-	local time = os.date("%H:%m")
+	local time = os.date("%H:%M")
 	local t_exp = string.Explode("",time)
 	draw.RoundedBox(0,0,0,w,h,Color(0,0,0,200))
 	draw.RoundedBox(0,20,30,w-40,h-60,Color(0,80,70))
