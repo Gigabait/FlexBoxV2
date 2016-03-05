@@ -1,4 +1,4 @@
-ENT.Width	=	96
+ENT.Width	=	128
 ENT.Height	=	48
 ENT.Scale	=	0.3
 ENT.debug	=	true
