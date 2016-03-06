@@ -255,3 +255,6 @@ local market = FBoxMapData["rp_city17_district47"].market
 for k,v in pairs(PropSaver.LoadedProps) do if IsValid(v) and v.market_prop then v:Remove() end end
 PropSaver.LoadPropTable(market)
 for k,v in pairs(PropSaver.LoadedProps) do if IsValid(v) and !v.dm_prop then v.market_prop = true end end
+for _,ent in pairs(ents.FindByClass("func_brush")) do
+	if ent:GetModel() == "*305" then ent:Remove() end
+end

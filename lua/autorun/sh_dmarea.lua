@@ -1,14 +1,9 @@
 local tag = "fboxdm"
 
 if SERVER then
-	local function strip(ply)
-		ply:StripWeapon("none")
-		ply:StripWeapon("weapon_physgun")
-		ply:StripWeapon("weapon_physcannon")
-		ply:StripWeapon("weapon_crowbar")
-		ply:StripWeapon("gmod_tool")
-		ply:StripWeapon("gmod_camera")
-	end
+	local swep_whitelist = {
+		["weapon_fwp_railgun"] = true
+	}
 
 	local function default(ply)
 		ply:Give("none")
@@ -17,6 +12,22 @@ if SERVER then
 		ply:Give("weapon_crowbar")
 		ply:Give("gmod_tool")
 		ply:Give("gmod_camera")
+	end
+
+	local function remof(ply)
+		for _, weapon in pairs(ply:GetWeapons()) do
+			if !swep_whitelist[weapon:GetClass()] then
+				weapon:Remove()
+			end
+		end
+	end
+
+	local function remof_out(ply)
+		for _, weapon in pairs(ply:GetWeapons()) do
+			if swep_whitelist[weapon:GetClass()] then
+				weapon:Remove()
+			end
+		end
 	end
 
 	local delay = CurTime()
@@ -41,10 +52,10 @@ if SERVER then
 				ply.in_dmsafe = false
 				ply:SetNWBool("in_dm",true)
 				ply:SetNWBool("in_dmsafe",false)
-				strip(ply)
+				remof(ply)
 				ply:ConCommand("cl_dmg_mode 3")
 			elseif table.HasValue(safe,ply) then
-				strip(ply)
+				remof(ply)
 				ply.in_dm = false
 				ply.in_dmsafe = true
 				ply:SetNWBool("in_dm",false)
@@ -52,6 +63,7 @@ if SERVER then
 				ply:ConCommand("cl_dmg_mode 1")
 			else
 				default(ply)
+				remof_out(ply)
 				ply.in_dmsafe = false
 				ply.in_dm = false
 				ply:SetNWBool("in_dm",false)
@@ -74,8 +86,9 @@ if SERVER then
 		end
 	end)
 
-	local function no(ply,a)
+	local function no(ply,a,b)
 		if ply.in_dm or ply.in_dmsafe then
+			ply:ChatPrint("You're not allowed to spawn anything in the deathmatch area.")
 			return false
 		end
 	end
@@ -86,7 +99,7 @@ if SERVER then
 	hook.Add("PlayerSpawnProp",tag,no)
 	hook.Add("PlayerSpawnRagdoll",tag,no)
 	hook.Add("PlayerSpawnSENT",tag,no)
-	hook.Add("PlayerSpawnSWEP",tag,no)
+	hook.Add("PlayerSpawnWeapon",tag,no)
 	hook.Add("PlayerSpawnVehicle",tag,no)
 
 	aowl.GotoLocations["dm@rp_city17_district47"] = Vector(1343, -1623, 64)

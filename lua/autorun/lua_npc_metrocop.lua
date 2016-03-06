@@ -72,16 +72,16 @@ if SERVER then
 		},
 	}
 
-	ENT.walktable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.walktable or {Vector(0,0,0),}
+	ENT.walktable = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.metrocops.walktable or {Vector(0,0,0),}
 
 	ENT.sittable = true
 
-	ENT.sittable = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.sittable or {}
+	ENT.sittable = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.metrocops.sittable or {}
 
 
 
 	local function RandomNPC()
-		local spawns = FBoxMapData[game.GetMap()] != nil and FBoxMapData[game.GetMap()].metrocops.spawns or {Vector(0,0,0),}
+		local spawns = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.metrocops.spawns or {Vector(0,0,0),}
 		local npcs = ents.FindByClass("lua_npc_metrocop")
 		if #npcs > 10 then return end
 		local spawn = table.Random(spawns)

@@ -31,26 +31,6 @@ FBoxMapData["rp_city17_district47"].dmprops = {
 	},
 	{
 		["protected"] = false,
-		["pos"] = Vector(-510.07995605469, -1623.7746582031, 135.57832336426),
-		["material"] = "models/gibs/metalgibs/metal_gibs",
-		["color"] = Color(255, 255, 255, 255),
-		["entity"] = "prop_physics",
-		["model"] = "models/hunter/plates/plate3x3.mdl",
-		["ang"] = Angle(-89.920722961426, -80.471725463867, 80.534355163574),
-		["static"] = true,
-	},
-	{
-		["protected"] = false,
-		["pos"] = Vector(3191.2893066406, -1533.6380615234, 157.76863098145),
-		["material"] = "models/gibs/metalgibs/metal_gibs",
-		["color"] = Color(255, 255, 255, 255),
-		["entity"] = "prop_physics",
-		["model"] = "models/hunter/plates/plate8x16.mdl",
-		["ang"] = Angle(89.999816894531, 0.25433850288391, 180),
-		["static"] = true,
-	},
-	{
-		["protected"] = false,
 		["pos"] = Vector(2852.2709960938, -1899.6864013672, 433.50082397461),
 		["material"] = "models/gibs/metalgibs/metal_gibs",
 		["color"] = Color(255, 255, 255, 255),
@@ -548,4 +528,7 @@ local dmprops = FBoxMapData["rp_city17_district47"].dmprops
 for k,v in pairs(PropSaver.LoadedProps) do if IsValid(v) and v.dm_prop then v:Remove() end end
 PropSaver.LoadPropTable(dmprops)
 PropSaver.LoadPropTable(dmspec)
-for k,v in pairs(PropSaver.LoadedProps) do if IsValid(v) and !v.alley_prop or !v.lab_prop then v.dm_prop = true end end
+for k,v in pairs(PropSaver.LoadedProps) do if IsValid(v) and !v.alley_prop or !v.market_prop then v.dm_prop = true end end
+for _,ent in pairs(ents.FindByClass("func_brush")) do
+	if ent:GetModel() == "*313" then ent:Remove() end
+end

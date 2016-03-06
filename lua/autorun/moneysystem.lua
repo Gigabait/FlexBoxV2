@@ -62,7 +62,7 @@ function META:Katching()
 end
 
 function META:PayMoney(price)
-	self:SetCoins(self:GetCoins()-price)
+	self:SetMoney(self:GetMoney()-price)
 end
 
 hook.Add("PlayerDisconnected","fbox_money_save",function(ply)

@@ -13,10 +13,11 @@ ENT.Spawnable 		= false
 ENT.AdminSpawnable 	= false
 
 ENT.AutomaticFrameAdvance = true
-ENT.ms_notouch=true
 
 ENT.IsMSNPC = true
 ENT.RenderGroup = RENDERGROUP_BOTH
+
+local Models = {"Female_01", "Female_02", "Female_03", "Female_04", "Female_06", "Female_07", "Male_01", "male_02", "male_03", "Male_04", "Male_05", "male_06", "male_07", "male_08", "male_09"}
 
 if SERVER then
 	local prot = ai_schedule.New( "protect selff" )
@@ -58,7 +59,7 @@ local sounds = {
 
 function ENT:Initialize()
 
-	self:SetModel( "models/Humans/Group01/male_01.mdl" )
+	self:SetModel( "models/Humans/Group01/" .. table.Random(Models) .. ".mdl" )
 	self:SetSolid( SOLID_BBOX )
 	self:SetMoveType( MOVETYPE_STEP )
 	if SERVER then
@@ -71,7 +72,7 @@ function ENT:Initialize()
 		self:AddEFlags(EFL_NO_DISSOLVE)
 		self:SetUseType(SIMPLE_USE)
 		if self.role then
-			ms.RegisterNPC(self,self.role)
+			FBoxMapData.RegisterNPC(self,self.role)
 		else
 			print(self,"has no npc role!")
 		end
@@ -215,9 +216,6 @@ if SERVER then
 					e:Activate()
 					e:Fire("Dissolve",ent:GetName(),0)
 					SafeRemoveEntityDelayed(e,0.1)
-					if self:IsValid() then
-						if MetAchievements and MetaWorks.FireEvent then MetaWorks.FireEvent("ms_npcdissolve", v, self, weapon) end
-					end
 				end
 			end
 		end)
