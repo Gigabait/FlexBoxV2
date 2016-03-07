@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 if SERVER then
     util.AddNetworkString("imahacker")
     
