@@ -1010,4 +1010,4 @@ function SKIN:PaintMenuBar( panel, w, h )
 end
 
 
-derma.DefineSkin( "meta", "Metastruct", SKIN )
+derma.DefineSkin( "flexbox", "FlexBox", SKIN )
