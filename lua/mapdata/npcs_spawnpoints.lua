@@ -36,15 +36,13 @@ FBoxMapData["rp_city17_district47"].npc_spawns = {
 	{"dmshop",Vector( 1463, -1461, 64 ), Angle( 0, 180, 0 )},
 }
 
-hook.Add("InitPostEntity",_NAME..'npcs',function()
-	for k,v in pairs(FBoxMapData["rp_city17_district47"].npc_spawns) do
-		local npc = ents.Create'lua_npc'
-		npc:SetPos(v[2])
-		npc.role=v[1]
-		npc:SetAngles(v[3])
-		npc:Spawn()
-		npc:SetPermanent(true)
-		npc.PhysgunDisabled = true
-	end
-	hook.Remove("InitPostEntity",_NAME..'npcs')
-end)
+for k,v in pairs(FBoxMapData["rp_city17_district47"].npc_spawns) do
+	for _,n in pairs(ents.FindByClass("lua_npc")) do n:Remove() end
+	local npc = ents.Create'lua_npc'
+	npc:SetPos(v[2])
+	npc.role=v[1]
+	npc:SetAngles(v[3])
+	npc:Spawn()
+	npc:SetPermanent(true)
+	npc.PhysgunDisabled = true
+end
