@@ -1,11 +1,9 @@
 local function LSOptions(panel)
-
-	local check_hud = vgui.Create("DCheckBoxLabel",panel)
-	check_hud:DockMargin(5,5,0,0)
-	check_hud:SetText("Enabled?")
-	check_hud:SetValue(1)
-	check_hud:SetConVar("fhud_enabled")
-	check_hud:SetTextColor(Color(0,0,0))
+	local c_en = vgui.Create("DCheckBoxLabel",panel)
+	c_en:DockMargin(5,5,0,0)
+	c_en:SetText("Enable music on loading screen")
+	c_en:SetValue(1)
+	
 end
 
 local function add()
