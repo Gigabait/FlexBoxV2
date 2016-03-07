@@ -13,5 +13,6 @@ elseif CLIENT then
     local ac = {}
     for _,ply in pairs(player.GetAll()) do
         table.insert(ac,c..ply:Nick())
+    end
     end)
 end
