@@ -1,8 +1,14 @@
 local function LSOptions(panel)
 	local c_en = vgui.Create("DCheckBoxLabel",panel)
-	c_en:DockMargin(5,5,0,0)
+	c_en:Dock(TOP)
+	c_en:DockMargin(4,4,0,0)
 	c_en:SetText("Enable music on loading screen")
 	c_en:SetValue(1)
+	
+	local  b_wr = vgui.Create("DButton",panel)
+	b_wr:Dock(TOP)
+	b_wr:DockMargin(4,4,4,0)
+	b_wr:SetText("Write Config")
 	
 end
 
