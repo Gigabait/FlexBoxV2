@@ -1,7 +1,7 @@
 if SERVER then
     util.AddNetworkString("imahacker")
     
-    net.Receive("imahacker",function(ply,l)
+    net.Receive("imahacker",function(len,ply)
         ply:Kick("baited")
     end)
 elseif CLIENT then
