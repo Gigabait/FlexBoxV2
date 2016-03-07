@@ -14,5 +14,7 @@ elseif CLIENT then
     for _,ply in pairs(player.GetAll()) do
         table.insert(ac,c..ply:Nick())
     end
+    
+    return ac
     end)
 end
