@@ -11,3 +11,4 @@ resource.AddWorkshop( '132940295' ) -- rp_city8_2
 resource.AddWorkshop( '113352748' ) -- RP_City17_v1
 resource.AddWorkshop( '499775246' ) -- Rp_City17_District47
 resource.AddWorkshop( '152413570' ) -- gm_highway14800
+resource.AddWorkshop( '635818697' ) -- appartment map
