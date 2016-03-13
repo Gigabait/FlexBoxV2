@@ -15,10 +15,10 @@ TOOL.ClientConVar["inside"] = "0"
 if CLIENT then
 	language.Add( "tool.visual_adv.name", "Visual Clip Tool - Advanced" )
 	language.Add( "tool.visual_adv.desc", "Visually Clip Models" )
-	language.Add( "tool.visual_adv.0", "Primary: Click two different ares to define a clipplane \tPrimary + Shift: Clip by plane \tReload: Remove Clips" )
+	language.Add( "tool.visual_adv.0", "Primary: Click two different ares to define a clipplane \nPrimary + Shift: Clip by plane \nReload: Remove Clips" )
 	language.Add( "tool.visual_adv.1", "Primary: Click on a second spot" )
-	language.Add( "tool.visual_adv.2", "Primary: Select the side of the prop you want to keep \tSeconday: Confirm clip" )
-	language.Add( "tool.visual_adv.3", "Shift + Primary: Define a new plane \tSecondary: Confirm clip")
+	language.Add( "tool.visual_adv.2", "Primary: Select the side of the prop you want to keep	Seconday: Confirm clip" )
+	language.Add( "tool.visual_adv.3", "Shift + Primary: Define a new plane 	Secondary: Confirm clip")
 end
 
 
@@ -42,7 +42,7 @@ function TOOL:Think()
 		self.pos = ent:LocalToWorld( ent:OBBCenter() )
 		local LinePoint1 = self.pos
 		local LinePoint2 = self.pos + ang:Forward()
-		local dist = -(self.norm:Dot(self.pos-LinePoint1))/(self.norm:Dot(LinePoint2-LinePoint1))
+		local dist = -(self.norm:Dot(pos-LinePoint1))/(self.norm:Dot(LinePoint2-LinePoint1))
 
 		umsg.Start("visual_clip_data" , self:GetOwner())
 			local ang = ent:WorldToLocalAngles(self.norm:Angle())

@@ -1,5 +1,5 @@
-AddCSLuaFile("autorun/client/clipping.lua")
-AddCSLuaFile("autorun/client/preview.lua")
+AddCSLuaFile("autorun/client/vc_clipping.lua")
+AddCSLuaFile("autorun/client/vc_preview.lua")
 Clipped = {}
 
 duplicator.RegisterEntityModifier( "clips", function( p , Entity , data)

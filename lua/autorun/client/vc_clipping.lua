@@ -128,5 +128,5 @@ end)
 
 MsgN("clipping reloaded")
 concommand.Add("reload_clipping" , function( ply , cmd , arg )
-	include("autorun/client/clipping.lua")
+	include("autorun/client/vc_clipping.lua")
 end)
