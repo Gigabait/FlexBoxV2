@@ -1005,4 +1005,4 @@ function SKIN:PaintMenuBar( panel, w, h )
 end
 
 
-derma.DefineSkin( "flexbox", "FlexBox", SKIN )
+derma.DefineSkin( "sleekblack", "Sleek Black", SKIN )
