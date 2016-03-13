@@ -4,30 +4,25 @@ local Color = Color
 
 SKIN = {}
 
-SKIN.PrintName 		= "FlexBox Derma Skin"
+SKIN.PrintName 		= "Sleek Black Derma Skin"
 SKIN.Author 		= "Flex"
 SKIN.DermaVersion	= 1
-local month-- = tonumber(os.date("%m")) or -1
-local S = "gwenskin/flexbox.png"
-if month == 10 then
-	S = "gwenskin/halloween.png"
-end
-
+local S = "gwenskin/sleekblack.png"
 
 local tex = Material( S )
 if not tex or tex:IsError() then
 	tex = Material( "gwenskin/gmoddefault.png" )
 elseif SKINDEBUG then
 	local lastt
-	local function fboxup()
+	local function sleekup()
 		local t = file.Time("materials/"..S,'GAME')
 		if lastt then
 			if t~=lastt then
 				lastt = t
 				print"changed"
-				RunConsoleCommand("mat_reloadmaterial","flexbox")
+				RunConsoleCommand("mat_reloadmaterial","sleekblack")
 				timer.Simple(0.3,function()
-					include'skins/flexbox.lua'
+					include'skins/sleekblack.lua'
 					include'skins/default.lua'
 					derma.RefreshSkins()
 					InjectConsoleCommand(nil,"derma_controls")
@@ -39,8 +34,8 @@ elseif SKINDEBUG then
 			lastt = t
 		end
 	end
-	fboxup()
-	timer.Create("fboxup",0.3,0,fboxup)
+	sleekup()
+	timer.Create("sleepup",0.3,0,sleekup)
 end
 SKIN.GwenTexture	= tex
 
