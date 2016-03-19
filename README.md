@@ -1,14 +1,2 @@
-# FlexBox Addons v2
-Public addons for the :new: FlexBox server.
-
-####What is included?
-- Small scripts
-- FScoreboard for aowl
-- Fixed tools
-- Map data
-- Node tools
-
-####What's not included?
-- Chatbox
-- fast_addons
-- aowl
+# FlexBox FastDL
+FastDL branch because we dont have hosting space

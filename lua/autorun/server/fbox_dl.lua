@@ -1,1 +1,0 @@
-resource.AddSingleFile("sound/qboxsounds/toolgun.wav")
