@@ -1,3 +1,5 @@
+if !game.GetMap() == "rp_city17_district47" then return end
+
 local tag = "fboxdm"
 
 if SERVER then
@@ -71,7 +73,7 @@ if SERVER then
 				ply:ConCommand("cl_dmg_mode 1")
 			end
 		end
-		delay = CurTime()+1
+		delay = CurTime()+0.5
 	end)
 
 	hook.Add("PlayerShouldTakeDamage",tag,function(vic,att)

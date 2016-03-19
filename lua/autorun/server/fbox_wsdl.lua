@@ -12,3 +12,8 @@ resource.AddWorkshop( '113352748' ) -- RP_City17_v1
 resource.AddWorkshop( '499775246' ) -- Rp_City17_District47
 resource.AddWorkshop( '152413570' ) -- gm_highway14800
 resource.AddWorkshop( '635818697' ) -- appartment map
+resource.AddWorkshop( '117667617' ) -- Builders World Final v3
+resource.AddWorkshop( '124358552' ) -- Gm_Infinite_Concrete
+resource.AddWorkshop( '270479735' ) -- gm_mega_flatgrass_v4
+resource.AddWorkshop( '512557447' ) -- Triple Decker Remake
+resource.AddWorkshop( '536915311' ) -- GM_Construct_Build_Conquer_v2
