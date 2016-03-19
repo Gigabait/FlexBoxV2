@@ -1,4 +1,4 @@
-if !game.GetMap() == "rp_city17_district47" then return end
+if game.GetMap() == "rp_city17_district47" then
 
 local tag = "fboxdm"
 
@@ -129,4 +129,6 @@ if CLIENT then
 			draw.DrawText("You are in the deathmatch safezone",tag.."_font",ScrW()/2,4,Color(196,196,196,128),TEXT_ALIGN_CENTER)
 		end
 	end)
+end
+
 end
