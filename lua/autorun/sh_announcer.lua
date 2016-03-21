@@ -20,5 +20,5 @@ net.Receive("fbox_announcer",function()
 		local msg = util.JSONToTable(net.ReadString())
 		local time = os.date("*t")
 		chat.AddText(Color(118,170,217),Format("%.2d:%.2d",time.hour,time.min),Color(255,255,255)," - ",Color(200,150,100),"Announcement",Color(255,255,255),": ",unpack(msg))
-	end
+	end)
 end
