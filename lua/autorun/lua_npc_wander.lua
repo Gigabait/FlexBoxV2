@@ -171,17 +171,16 @@ if SERVER then
 	}
 
 
-	ENT.walktable = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.wanderer.walktable or {Vector(0,0,0),}
-
+	ENT.walktable = FBoxMapData[game.GetMap()].nodes and FBoxMapData[game.GetMap()].nodes.wanderer and FBoxMapData[game.GetMap()].nodes.wanderer.walktable or {}
 
 	ENT.sittable = true
 
-	ENT.sittable = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.wanderer.sittable or {}
+	ENT.sittable = FBoxMapData[game.GetMap()].nodes and FBoxMapData[game.GetMap()].nodes.wanderer and FBoxMapData[game.GetMap()].nodes.wanderer.sittable or {}
 
 
 
 	local function RandomNPC()
-		local spawns = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.wanderer.spawns or {Vector(0,0,0),}
+		local spawns = FBoxMapData[game.GetMap()].nodes and FBoxMapData[game.GetMap()].nodes.wanderer.spawns or {}
 		local npcs = ents.FindByClass("lua_npc_wander")
 		if #npcs > 20 then return end
 		local spawn = table.Random(spawns)

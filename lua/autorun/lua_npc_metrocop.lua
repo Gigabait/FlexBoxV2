@@ -72,11 +72,11 @@ if SERVER then
 		},
 	}
 
-	ENT.walktable = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.metrocops.walktable or {Vector(0,0,0),}
+	ENT.walktable = FBoxMapData[game.GetMap()].nodes and FBoxMapData[game.GetMap()].nodes.metrocops and FBoxMapData[game.GetMap()].nodes.metrocops.walktable or {}
 
 	ENT.sittable = true
 
-	ENT.sittable = FBoxMapData[game.GetMap()].nodes != nil and FBoxMapData[game.GetMap()].nodes.metrocops.sittable or {}
+	ENT.sittable = FBoxMapData[game.GetMap()].nodes and FBoxMapData[game.GetMap()].nodes.metrocops and FBoxMapData[game.GetMap()].nodes.metrocops.sittable or {}
 
 
 

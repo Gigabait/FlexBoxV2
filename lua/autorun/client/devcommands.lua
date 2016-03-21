@@ -43,6 +43,8 @@ end
 concommand.Add( "getpos2", gp2Callback )
 
 local function node_add(ply,cmd,args)
+	FBoxMapData[game.GetMap()].nodes = FBoxMapData[game.GetMap()].nodes or {}
+	FBoxMapData[game.GetMap()].nodes.temp = FBoxMapData[game.GetMap()].nodes.temp or {}
 	local tr = util.TraceLine( {
 		start = LocalPlayer():GetPos(),
 		endpos = LocalPlayer():GetPos() - Vector( 0, 0, 9999999),
@@ -51,7 +53,7 @@ local function node_add(ply,cmd,args)
 	x = math.floor(tr.HitPos.X)
 	y = math.floor(tr.HitPos.Y)
 	z = math.floor(tr.HitPos.Z)
-	table.insert(FBoxMapData[game.GetMap()].temp,Vector(x,y,z))
+	table.insert(FBoxMapData[game.GetMap()].nodes.temp,Vector(x,y,z))
 	chat.AddText(Color(255,255,255),"Node added to temp table. Export with node_export_temp.")
 end
 
@@ -63,7 +65,7 @@ local function node_export_temp(ply,cmd,args)
 end
 
 local function node_cleartemp(ply,cmd,args)
-	FBoxMapData[game.GetMap()].temp = {}
+	FBoxMapData[game.GetMap()].nodes.temp = {}
 	chat.AddText(Color(255,255,255),"Temp nodes cleared.")
 end
 
