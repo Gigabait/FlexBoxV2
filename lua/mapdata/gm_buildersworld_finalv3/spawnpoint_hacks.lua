@@ -9,12 +9,12 @@ local spawnpoints = {
 	Vector(-770, -1690, -1036),
 }
 
-function GAMEMODE:PlayerSelectSpawn( pl )
+hook.Add("PlayerSelectSpawn","buildersworld",function( pl )
 	pl:SetPos(table.Random(spawnpoints))
 	pl:DropToFloor()
 	if pl.UnStuck then pl:UnStuck() end
 	return nil
-end
+end)
 
 FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
