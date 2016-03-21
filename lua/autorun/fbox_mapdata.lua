@@ -20,3 +20,5 @@ aowl.AddCommand("reloadmapdata",function(ply,line)
 	mdata_print("Reload called by ",tostring(ply))
 	FBoxMapData.LoadMapdata()
 end)
+
+FBoxMapData.LoadMapdata()
