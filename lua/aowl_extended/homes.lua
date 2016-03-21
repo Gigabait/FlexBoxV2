@@ -5,7 +5,7 @@ aowl.AddCommand("home",function(ply,line,vec1,vec2,vec3)
         if !vec1 and !vec2 and !vec3 then
             ply:SetPData("fbox_home_pos",ply:GetPos())
         elseif vec1 and vec2 and vec3 then
-            ply:SetPData("fbox_home_pos",Vector(tonumber(vec1),tonumber(vec2),tonumber(vec3))
+            ply:SetPData("fbox_home_pos",Vector(tonumber(vec1),tonumber(vec2),tonumber(vec3)))
         end
     elseif line == "remove" then
         ply:SetPData("fbox_home_pos","")
