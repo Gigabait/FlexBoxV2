@@ -21,4 +21,5 @@ aowl.AddCommand("reloadmapdata",function(ply,line)
 	FBoxMapData.LoadMapdata()
 end)
 
+include("autorun/propsaver.lua")
 FBoxMapData.LoadMapdata()
