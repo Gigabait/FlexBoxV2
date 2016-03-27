@@ -2,6 +2,7 @@ local slogans = [[
 whats an fps
 adminhelp
 flexbox.us.to
+fire up the $5 booter
 ]]
 ----------------------------------------------------
 -- ^ how long our quotes can be                 ^ --
