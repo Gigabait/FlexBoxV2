@@ -3,8 +3,6 @@ PAC3 Spawnlist Generator
 by Flex
 
 Based off of Homestuck Playset's spawnlist generator by ▌i⁢C (http://steamcommunity.com/profiles/76561198018719108/)
-
-To Python1320: apply sprops-like hack so it doesnt save so it can autoupdate TF2 content
 --]]
 
 if (SERVER) then AddCSLuaFile() return end
