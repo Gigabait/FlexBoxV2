@@ -43,6 +43,21 @@ local function GenerateSpawnlist(uid, name, id, parent, icon)
 	end
 end
 
+local function GetModels(path,tbl)
+	for _,mdl in pairs(file.Find(path.."/*","GAME")) do
+		if not mdl:find(".mdl") or not mdl:find("arms") or not mdl:find("animations") then continue end
+		AppendToSpawnlist("model", path.."/"..mdl, SpawnTables[tbl])
+	end
+end
+
+local function GetModelsFromSub(path)
+	for _,dir in next,select(2,file.Find(path.."/*","GAME")) do
+		for _,mdl in pairs(file.Find(path..dir.."/*","GAME")) do
+			if not mdl:find(".mdl") or not mdl:find("arms") or not mdl:find("animations") then continue end
+			AppendToSpawnlist("model", path..dir.."/"..mdl, SpawnTables[tbl])
+		end
+	end
+end
 
 GenerateSpawnlist("PAC3", "PAC3", 2000, nil, "icon16/user_edit.png")
 AppendToSpawnlist("header", "PAC3 Spawnlist made by Flex", SpawnTables["PAC3"])
@@ -196,134 +211,36 @@ AppendToSpawnlist("model", "models/pac/jiggle/clothing/base_trench_1_gravity.mdl
 
 -- AUTOMATION BELOW --
 --Weapons
-for _,mdl in pairs(file.Find("models/weapons/c_models/*","GAME")) do
-	if not mdl:find(".mdl") or not mdl:find("arms") or not mdl:find("animations") then continue end
-	AppendToSpawnlist("model", "models/weapons/c_models/"..mdl, SpawnTables["TF2Weapons"])
-end
-for _,dir in next,select(2,file.Find("models/weapons/c_models/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/weapons/c_models/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/weapons/c_models/"..dir.."/"..mdl, SpawnTables["TF2Weapons"])
-	end
-end
+GetModels("models/weapons/c_models","TF2Weapons")
+GetModelsFromSub("models/weapons/c_models","TF2Weapons")
 
 --Hats
-for _,mdl in pairs(file.Find("models/player/items/all_class/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/all_class/"..mdl, SpawnTables["AllClass"])
-end
-for _,mdl in pairs(file.Find("models/player/items/scout/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/scout/"..mdl, SpawnTables["Scout"])
-end
-for _,mdl in pairs(file.Find("models/player/items/soldier/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/soldier/"..mdl, SpawnTables["Soldier"])
-end
-for _,mdl in pairs(file.Find("models/player/items/pyro/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/pyro/"..mdl, SpawnTables["Pyro"])
-end
-for _,mdl in pairs(file.Find("models/player/items/demo/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/demo/"..mdl, SpawnTables["Demo"])
-end
-for _,mdl in pairs(file.Find("models/player/items/heavy/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/heavy/"..mdl, SpawnTables["Heavy"])
-end
-for _,mdl in pairs(file.Find("models/player/items/engineer/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/engineer/"..mdl, SpawnTables["Engineer"])
-end
-for _,mdl in pairs(file.Find("models/player/items/medic/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/medic/"..mdl, SpawnTables["Medic"])
-end
-for _,mdl in pairs(file.Find("models/player/items/sniper/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/sniper/"..mdl, SpawnTables["Sniper"])
-end
-for _,mdl in pairs(file.Find("models/player/items/spy/*","GAME")) do
-	if not mdl:find(".mdl") then continue end
-	AppendToSpawnlist("model", "models/player/items/spy/"..mdl, SpawnTables["Spy"])
-end
+GetModels("models/player/items/all_class","AllClass")
+GetModels("models/player/items/scout","Scout")
+GetModels("models/player/items/soldier","Soldier")
+GetModels("models/player/items/pyro","Pyro")
+GetModels("models/player/items/demo","Demo")
+GetModels("models/player/items/heavy","Heavy")
+GetModels("models/player/items/engineer","Engineer")
+GetModels("models/player/items/medic","Medic")
+GetModels("models/player/items/sniper","Sniper")
+GetModels("models/player/items/spy","Spy")
 
 --MvM
-for _,dir in next,select(2,file.Find("models/player/items/mvm_loot/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/player/items/mvm_loot/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/player/items/mvm_loot/"..dir.."/"..mdl, SpawnTables["MvM"])
-	end
-end
+GetModelsFromSub("models/player/items/mvm_loot","MvM")
 
 --Workshop
-for _,dir in next,select(2,file.Find("models/workshop/player/items/all_class/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/all_class/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/all_class/"..dir.."/"..mdl, SpawnTables["WSAllClass"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/scout/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/scout/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/scout/"..dir.."/"..mdl, SpawnTables["WSScout"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/soldier/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/soldier/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/soldier/"..dir.."/"..mdl, SpawnTables["WSSoldier"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/pyro/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/pyro/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/pyro/"..dir.."/"..mdl, SpawnTables["WSPyro"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/demo/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/demo/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/demo/"..dir.."/"..mdl, SpawnTables["WSDemo"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/heavy/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/heavy/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/heavy/"..dir.."/"..mdl, SpawnTables["WSHeavy"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/engineer/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/engineer/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/engineer/"..dir.."/"..mdl, SpawnTables["WSEngineer"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/medic/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/medic/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/medic/"..dir.."/"..mdl, SpawnTables["WSMedic"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/sniper/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/sniper/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/sniper/"..dir.."/"..mdl, SpawnTables["WSSniper"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/player/items/spy/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/player/items/spy/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/player/items/spy/"..dir.."/"..mdl, SpawnTables["WSSpy"])
-	end
-end
-for _,dir in next,select(2,file.Find("models/workshop/weapons/c_models/*","GAME")) do
-	for _,mdl in pairs(file.Find("models/workshop/weapons/c_models/"..dir.."/*","GAME")) do
-		if not mdl:find(".mdl") then continue end
-		AppendToSpawnlist("model", "models/workshop/weapons/c_models/"..dir.."/"..mdl, SpawnTables["WSWep"])
-	end
-end
+GetModelsFromSub("models/workshop/player/items/all_class","WSAllClass")
+GetModelsFromSub("models/workshop/player/items/scout","WSScout")
+GetModelsFromSub("models/workshop/player/items/soldier","WSSoldier")
+GetModelsFromSub("models/workshop/player/items/pyro","WSPyro")
+GetModelsFromSub("models/workshop/player/items/demo","WSDemo")
+GetModelsFromSub("models/workshop/player/items/heavy","WSHeavy")
+GetModelsFromSub("models/workshop/player/items/engineer","WSEngineer")
+GetModelsFromSub("models/workshop/player/items/medic","WSMedic")
+GetModelsFromSub("models/workshop/player/items/sniper","WSSniper")
+GetModelsFromSub("models/workshop/player/items/spy","WSSpy")
+GetModelsFromSub("models/workshop/weapons/c_models","WSWep")
 
 hook.Add("PopulatePropMenu", "HSSpawnlistAdd", function()
 	if !tobool(LocalPlayer():GetInfo("pac_spawnlist")) then return end
