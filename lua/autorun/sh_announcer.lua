@@ -2,7 +2,8 @@ if SERVER then
 util.AddNetworkString("fbox_announcer")
 	local msgs = {
 		{"Chat with us on ",Color(115,139,215),"Discord",Color(255,255,255),": ",Color(200,100,100),"http://discord.gg/0qPf8afP8tPllmm1"},
-		{"Seeing errors? Check the ",Color(100,200,100),"Addons",Color(255,255,255)," tab in the spawnmenu."},
+		{"Seeing errors? Check the help menu by pressing ",Color(100,200,100),"F2",Color(255,255,255)," or typing ",Color(100,200,100),"!help",Color(255,255,255),"."},
+		{"Want to build privately? Check out the ",Color(200,200,000),"Layers",Color(255,255,255)," tool in the spawnmenu."},
 	}
 	local delay = CurTime()
 	hook.Add("Think","FlexBoxAnnouncer",function()
