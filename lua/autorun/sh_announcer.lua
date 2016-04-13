@@ -10,16 +10,16 @@ util.AddNetworkString("fbox_announcer")
 		if delay and delay > CurTime() then return end
 		local msg = util.TableToJSON(table.Random(msgs))
 		net.Start("fbox_announcer")
-net.WriteString(msg)
-net.Broadcast()
+			net.WriteString(msg)
+		net.Broadcast()
 		delay = delay + 300
 	end)
 end
 
 if CLIENT then
-net.Receive("fbox_announcer",function()
+	net.Receive("fbox_announcer",function()
 		local msg = util.JSONToTable(net.ReadString())
 		local time = os.date("*t")
-		chat.AddText(Color(118,170,217),Format("%.2d:%.2d",time.hour,time.min),Color(255,255,255)," - ",Color(200,150,100),"Announcement",Color(255,255,255),": ",unpack(msg))
+		chat.AddText(Color(200,200,100),Format("%.2d:%.2d",time.hour,time.min),Color(60,60,60)," \xe3\x80\x8a ",Color(220,70,100),"Announcement",Color(60,60,60)," \xe3\x80\x8b ",Color(255,255,255),unpack(msg))
 	end)
 end
