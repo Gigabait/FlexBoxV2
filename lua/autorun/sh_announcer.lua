@@ -17,9 +17,12 @@ util.AddNetworkString("fbox_announcer")
 end
 
 if CLIENT then
+	local noicons = CreateClientConVar("chat_rankicons", "1", true)
+
 	net.Receive("fbox_announcer",function()
 		local msg = util.JSONToTable(net.ReadString())
 		local time = os.date("*t")
-		chat.AddText(Color(200,200,100),Format("%.2d:%.2d",time.hour,time.min),Color(60,60,60)," \xe3\x80\x8a ",Color(220,70,100),"Announcement",Color(60,60,60)," \xe3\x80\x8b ",Color(255,255,255),unpack(msg))
+		local ic = noicons:GetBool() and "<texture=icon16/comments.png>" or ""
+		chat.AddText(Color(200,200,100),Format("%.2d:%.2d ",time.hour,time.min),Color(60,60,60),"\xe3\x80\x8a ",Color(255,255,255),ic,Color(220,70,100),"Announcement",Color(60,60,60)," \xe3\x80\x8b ",Color(255,255,255),unpack(msg))
 	end)
 end

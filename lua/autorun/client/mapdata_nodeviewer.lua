@@ -64,7 +64,7 @@ hook.Add("PostDrawOpaqueRenderables","FBoxMapData.DrawNodes",function()
 		MapNode(node,NODE_SPAWN,NPC_CITIZEN)
 	end
 
-	for _,node in pairs(FBoxMapData[game.GetMap()].temp) do
+	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.temp) do
 		MapNode(node,NODE_TEMP,NPC_NONE)
 	end
 end)
