@@ -30,7 +30,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-783.75952148438, -1678.4298095703, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x2.mdl",
@@ -40,7 +40,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-781.81652832031, -1703.8963623047, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate2x2.mdl",
@@ -50,7 +50,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-757.93487548828, -1721.2016601562, -1144.3648681641),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",
@@ -60,7 +60,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-759.50238037109, -1666.3155517578, -1144.3648681641),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",
@@ -70,7 +70,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-723.69177246094, -1722.7034912109, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x2.mdl",
@@ -80,7 +80,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-724.39105224609, -1705.2236328125, -1144.3647460938),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",
@@ -90,7 +90,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-740.27575683594, -1697.1511230469, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate2x2.mdl",
@@ -110,7 +110,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-750.74615478516, -1719.7651367188, -1144.3648681641),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",
@@ -120,7 +120,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-784.65423583984, -1722.4165039062, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x2.mdl",
@@ -130,7 +130,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-825.85522460938, -1713.0667724609, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x2.mdl",
@@ -150,7 +150,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-728.77429199219, -1667.2928466797, -1144.3548583984),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x2.mdl",
@@ -160,7 +160,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-810.60095214844, -1680.6530761719, -1144.3648681641),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",
@@ -170,7 +170,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-713.05090332031, -1668.5548095703, -1144.3642578125),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",
@@ -210,7 +210,7 @@ FBoxMapData["gm_buildersworld_finalv3"].spawn = {
 	{
 		["protected"] = false,
 		["pos"] = Vector(-775.51379394531, -1698.3250732422, -1144.3648681641),
-		["material"] = "models/props_animated_breakable/smokestack/brickwall002a",
+		["material"] = "models/props/de_inferno/infflra",
 		["color"] = Color(255, 255, 255, 255),
 		["entity"] = "prop_physics",
 		["model"] = "models/squad/sf_plates/sf_plate1x1.mdl",

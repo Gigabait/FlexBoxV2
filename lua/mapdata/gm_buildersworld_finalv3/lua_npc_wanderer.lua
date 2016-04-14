@@ -455,7 +455,6 @@ if SERVER then
 		local wander = ents.Create("lua_npc_wander")
 		wander:SetPos(spawn)
 		wander:Spawn()
-		if math.random(0, 1) == 1 then wander:Give(math.random(0, 1) == 0 and "weapon_citizensuitcase" or "weapon_citizenpackage") end
 		wander:Activate()
 	end
 
@@ -625,9 +624,12 @@ function ENT:Initialize()
 			self:SetModel(math.random(1, 100) ~= 100 and "models/humans/group02/" .. table.Random(self.Models) .. ".mdl" or "models/gman_high.mdl")
 			if self:GetModel() == "models/gman_high.mdl" then
 				self:Give("weapon_citizensuitcase")
+			else
+				self:Give(table.Random({"weapon_citizensuitcase","weapon_citizenpackage"}))
 			end
 		elseif tobool(math.random(0, 1)) then
 			self:SetModel("models/humans/group01/" .. table.Random(self.Models) .. ".mdl")
+			self:Give(table.Random({"weapon_citizensuitcase","weapon_citizenpackage"}))
 		else
 			self:SetModel("models/humans/group03/" .. table.Random(self.Models) .. ".mdl")
 			self:Give(table.Random({
