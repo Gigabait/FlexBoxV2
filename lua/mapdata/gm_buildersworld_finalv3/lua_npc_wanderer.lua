@@ -450,7 +450,7 @@ if SERVER then
 	local function RandomNPC()
 		local npcs = ents.FindByClass("lua_npc_wander")
 		local spawn = table.Random(FBoxMapData[game.GetMap()].nodes.wanderer.spawns)
-		if #npcs >= 20 or not spawn then return end
+		if #npcs >= 50 or not spawn then return end
 
 		local wander = ents.Create("lua_npc_wander")
 		wander:SetPos(spawn)
@@ -841,56 +841,49 @@ if SERVER then
 				model = self:GetActiveWeapon():GetModel(),
 				pos = self:GetActiveWeapon():GetPos(),
 				ang = self:GetActiveWeapon():GetAngles(),
+				class = self:GetActiveWeapon():GetClass(),
 			}
 			self:GetActiveWeapon():Remove()
 			if old.model == "models/weapons/w_package.mdl" then
-				local droppedwep = ents.Create("item_healthkit")
-				droppedwep:SetPos(old.pos + Vector(0, 0, 50))
-				droppedwep:SetAngles(old.ang)
-				droppedwep:Spawn()
-				droppedwep:SetModel(old.model)
-				droppedwep:Activate()
-				droppedwep.NeedsToBeCollected = true
-				timer.Simple(300, function()
-					if IsValid(droppedwep) then
-						droppedwep:Remove()
+				local ration = ents.Create("item_randomized")
+				ration:SetPos(old.pos + Vector(0, 0, 50))
+				ration:SetAngles(old.ang)
+				ration:Spawn()
+				ration:SetModel(old.model)
+				ration:Activate()
+				timer.Simple(150,function()
+					if IsValid(ration) then
+						ration:Remove()
 					end
 				end)
 			elseif old.model == "models/weapons/w_suitcase_passenger.mdl" then
-				local droppedwep = ents.Create("prop_physics")
-				droppedwep:SetPos(old.pos + Vector(0, 0, 50))
-				droppedwep:SetAngles(old.ang)
-				droppedwep:SetModel(old.model)
-				droppedwep:Spawn()
-				droppedwep:Activate()
-				droppedwep.NeedsToBeCollected = true
-				timer.Simple(10, function()
-					if IsValid(droppedwep) then
-						droppedwep:Remove()
+				local item_case = ents.Create("item_randomized")
+				item_case:SetPos(old.pos + Vector(0, 0, 50))
+				item_case:SetAngles(old.ang)
+				item_case:SetModel(old.model)
+				item_case:Spawn()
+				item_case:Activate()
+				timer.Simple(150,function()
+					if IsValid(item_case) then
+						item_case:Remove()
 					end
 				end)
 
 				for i = 1,math.random(1,10) do
-					local droppedwep = ents.Create("lua_money_pickup")
-					droppedwep:SetPos(old.pos + Vector(0, 0, 50))
-					droppedwep:SetAngles(old.ang)
-					droppedwep:Spawn()
-					droppedwep:Activate()
-					droppedwep.NeedsToBeCollected = true
-					timer.Simple(300, function()
-						if IsValid(droppedwep) then
-							droppedwep:Remove()
-						end
-					end)
+					local dosh = ents.Create("lua_money_pickup")
+					dosh:SetPos(old.pos + Vector(0, 0, 50))
+					dosh:SetAngles(old.ang)
+					dosh:Spawn()
+					dosh:Activate()
 				end
 			else
-				local droppedwep = ents.Create("prop_physics")
+				local droppedwep = ents.Create(old.class)
 				droppedwep:SetPos(old.pos + Vector(0, 0, 50))
+				droppedwep:SetModel(old.model)
 				droppedwep:SetAngles(old.ang)
 				droppedwep:Spawn()
 				droppedwep:Activate()
-				droppedwep.NeedsToBeCollected = true
-				timer.Simple(10, function()
+				timer.Simple(150,function()
 					if IsValid(droppedwep) then
 						droppedwep:Remove()
 					end

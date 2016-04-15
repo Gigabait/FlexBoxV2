@@ -44,27 +44,26 @@ end
 
 hook.Add("PostDrawOpaqueRenderables","FBoxMapData.DrawNodes",function()
 	if !ShowNodes:GetBool() then return end
-	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.walktable) do
-		MapNode(node,NODE_WALK,NPC_METRO)
-	end
-	for _,tbl in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.sittable) do
-		MapNode(tbl[1],NODE_SIT,NPC_METRO)
-	end
-	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.spawns) do
-		MapNode(node,NODE_SPAWN,NPC_METRO)
+
+	if FBoxMapData[game.GetMap()].nodes.metrocops then
+		for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.walktable) do
+			MapNode(node,NODE_WALK,NPC_METRO)
+		end
+		for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.spawns) do
+			MapNode(node,NODE_SPAWN,NPC_METRO)
+		end
 	end
 
 	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.walktable) do
 		MapNode(node,NODE_WALK,NPC_CITIZEN)
 	end
-	for _,tbl in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.sittable) do
-		MapNode(tbl[1],NODE_SIT,NPC_CITIZEN)
-	end
 	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.spawns) do
 		MapNode(node,NODE_SPAWN,NPC_CITIZEN)
 	end
 
-	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.temp) do
-		MapNode(node,NODE_TEMP,NPC_NONE)
+	if FBoxMapData[game.GetMap()].nodes.temp then
+		for _,node in pairs(FBoxMapData[game.GetMap()].nodes.temp) do
+			MapNode(node,NODE_TEMP,NPC_NONE)
+		end
 	end
 end)
