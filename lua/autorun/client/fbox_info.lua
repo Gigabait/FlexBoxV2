@@ -255,7 +255,69 @@ function PANEL:Init()
 	a:SizeToContents()
 end
 
+function PANEL:Close()
+	hook.Remove("HUDPaintBackground","fbox_info")
+	self:Remove()
+	return true
+end
+
 vgui.Register("fbox_info",PANEL,"DFrame")
+
+local matBlurScreen = Material( "pp/blurscreen" )
+
+local starttime = 0
+local stoptime = 2
+
+local function HUDPaintBackground(   )
+	local now = RealTime()
+
+	if scoreboard_panel and scoreboard_panel:IsVisible() then
+		stoptime = now
+	end
+
+    local frac = (now - starttime) * 5
+	frac=frac>1 and 1 or frac<0 and 0 or frac
+	frac=math.sin(frac*math.pi*0.5)
+
+
+	local f2 = (now - stoptime)* 5
+
+	local sw,sh = ScrW(), ScrH()
+
+	f2=f2>1 and 1 or f2<0 and 0 or f2
+	frac=frac-f2
+	frac=frac>1 and 1 or frac<0 and 0 or frac
+
+	if f2==1 then
+		hook.Remove("HUDPaintBackground","fbox_info")
+		--	print"remove"
+	end
+
+    surface.SetMaterial( matBlurScreen )
+    surface.SetDrawColor( 255, 255, 255, frac*255 )
+
+    for i=0.33, 1, 0.33 do
+        matBlurScreen:SetFloat( "$blur", frac * 5 * i )
+        matBlurScreen:Recompute()
+        if ( render ) then render.UpdateScreenEffectTexture() end
+        surface.DrawTexturedRect( 0,0, sw, sh )
+    end
+    surface.SetDrawColor(10,10,10,frac*55)
+    surface.DrawRect(0,0,sw,sh)
+end
+
+
+local function ShowBlur()
+
+	starttime = RealTime()
+	stoptime = RealTime()+4
+	hook.Add("HUDPaintBackground","fbox_info",HUDPaintBackground)
+end
+
+local function CreatePanel()
+	vgui.Create("fbox_info")
+	ShowBlur()
+end
 
 local key = "gm_showteam"
 local function translatekey(onlykey) --thanks scap
@@ -265,13 +327,13 @@ end
 
 local function bindhook(ply,bind,pressed)
 	if not pressed or bind~=translatekey(true) then return end
-	return vgui.Create("fbox_info")
+	return CreatePanel()
 end
 
 hook.Add("PlayerBindPress","fbox_info",bindhook)
 hook.Add("PlayerSay","fbox_info",function(ply,txt)
 	if txt:match("^!help") then
-		vgui.Create("fbox_info")
+		CreatePanel()
 		return ""
 	end
 end)

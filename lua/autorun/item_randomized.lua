@@ -22,13 +22,13 @@ if SERVER then
 		if self:GetModel() == "models/weapons/w_package.mdl" then
 			local item1 = table.Random(food)
 			local item2 = table.Random(drink)
-			ply:ChatPrint("You got a "..msitems.Classes[item1].Inventory.name)
-			ply:ChatPrint("You got a "..msitems.Classes[item2].Inventory.name)
+			ply:SendLua([[notification.AddLegacy("You got a ]]..msitems.Classes[item1].Inventory.name..[[",0,5)]])
+			ply:SendLua([[notification.AddLegacy("You got a ]]..msitems.Classes[item2].Inventory.name..[[",0,5)]])
 			ply:AddToInventory(item1)
 			ply:AddToInventory(item2)
 		else
 			local item = table.Random(misc)
-			ply:ChatPrint("You got a "..msitems.Classes[item].Inventory.name)
+			ply:SendLua([[notification.AddLegacy("You got a ]]..msitems.Classes[item].Inventory.name..[[",0,5)]])
 			ply:AddToInventory(item)
 		end
 		self:Remove()

@@ -450,7 +450,7 @@ if SERVER then
 	local function RandomNPC()
 		local npcs = ents.FindByClass("lua_npc_wander")
 		local spawn = table.Random(FBoxMapData[game.GetMap()].nodes.wanderer.spawns)
-		if #npcs >= 50 or not spawn then return end
+		if #npcs >= 20 or not spawn then return end
 
 		local wander = ents.Create("lua_npc_wander")
 		wander:SetPos(spawn)
@@ -981,55 +981,6 @@ if SERVER then
 		--	end
 		--end
 
-		local items = {
-			{"prop_physics", "models/props_phx/misc/potato_launcher_explosive.mdl"},
-			{"prop_physics", "models/props_phx/misc/potato.mdl"},
-			{"prop_physics", "models/props_phx/misc/potato_launcher_explosive.mdl"},
-			{"prop_physics", "models/Items/grenadeAmmo.mdl"},
-			{"item_healthvial"},
-			{"item_battery"},
-			{"npc_headcrab"},
-		}
-
-		if IsValid(self:GetActiveWeapon()) and not self.dropped then
-			local old = {
-				model = self:GetActiveWeapon():GetModel(),
-				pos = self:GetActiveWeapon():GetPos(),
-				ang = self:GetActiveWeapon():GetAngles(),
-			}
-			local droppedwep = ents.Create("prop_physics")
-			droppedwep:SetPos(old.pos + Vector(0, 0, 50))
-			droppedwep:SetAngles(old.ang)
-			droppedwep:SetModel(old.model)
-			droppedwep:Spawn()
-			droppedwep:Activate()
-			droppedwep.NeedsToBeCollected = true
-			timer.Simple(3, function()
-				if IsValid(droppedwep) then
-					droppedwep:Remove()
-				end
-			end)
-		elseif string.find(self:GetNWString("CitizenName"), "Alien Citizen") then
-			local old = {
-				pos = self:GetPos(),
-				ang = self:GetAngles(),
-			}
-			local dat = table.Random(items)
-			local droppedwep = ents.Create(dat[1])
-			droppedwep:SetPos(old.pos + Vector(0, 0, 50))
-			droppedwep:SetAngles(old.ang)
-			if dat[2] then
-				droppedwep:SetModel(dat[2])
-			end
-			droppedwep:Spawn()
-			droppedwep:Activate()
-			droppedwep.NeedsToBeCollected = true
-			timer.Simple(30, function()
-				if IsValid(droppedwep) then
-					droppedwep:Remove()
-				end
-			end)
-		end
 		--hook.Call("OnNPCKilled", GAMEMODE, self, dmg:GetAttacker(), dmg:GetInflictor())
 		self:OnNPCKilled(ent,dmg:GetInflictor())
 
