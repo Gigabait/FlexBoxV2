@@ -45,16 +45,20 @@ end
 
 local function GetModels(path,tbl)
 	for _,mdl in pairs(file.Find(path.."/*","GAME")) do
-		if not mdl:find(".mdl") or not mdl:find("arms") or not mdl:find("animations") then continue end
+		if not mdl:find(".mdl") then continue end
+		if mdl:find("_arms") then continue end
+		if mdl:find("_animations") then continue end
 		AppendToSpawnlist("model", path.."/"..mdl, SpawnTables[tbl])
 	end
 end
 
-local function GetModelsFromSub(path)
+local function GetModelsFromSub(path,tbl)
 	for _,dir in next,select(2,file.Find(path.."/*","GAME")) do
-		for _,mdl in pairs(file.Find(path..dir.."/*","GAME")) do
-			if not mdl:find(".mdl") or not mdl:find("arms") or not mdl:find("animations") then continue end
-			AppendToSpawnlist("model", path..dir.."/"..mdl, SpawnTables[tbl])
+		for _,mdl in pairs(file.Find(path.."/"..dir.."/*","GAME")) do
+			if not mdl:find(".mdl") then continue end
+			if mdl:find("_arms") then continue end
+			if mdl:find("_animations") then continue end
+			AppendToSpawnlist("model", path.."/"..dir.."/"..mdl, SpawnTables[tbl])
 		end
 	end
 end
@@ -242,8 +246,8 @@ GetModelsFromSub("models/workshop/player/items/sniper","WSSniper")
 GetModelsFromSub("models/workshop/player/items/spy","WSSpy")
 GetModelsFromSub("models/workshop/weapons/c_models","WSWep")
 
-hook.Add("PopulatePropMenu", "HSSpawnlistAdd", function()
-	if !tobool(LocalPlayer():GetInfo("pac_spawnlist")) then return end
+hook.Add("PopulatePropMenu", "PACSpawnlist", function()
+	if not PACSpawnlist:GetBool() then return end
 	for k, v in pairs(SpawnTables) do
 		spawnmenu.AddPropCategory("settings/spawnlist/" .. v.UID, v.Name, v.Contents, v.Icon, v.ID, v.ParentID)
 	end
