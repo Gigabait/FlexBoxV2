@@ -148,6 +148,9 @@ function PANEL:Init()
 		self.cscrl:AddItem(self.content[pnl.text])
 	end
 	--info
+	local home = vgui.Create("DHTML",self.content["Info"])
+	home:Dock(FILL)
+	home:SetURL("http://flexbox.us.to")
 	--addons
 	local tabs = vgui.Create("DPropertySheet",self.content["Addons"])
 	local ws_pan = vgui.Create("EditablePanel",tabs)
@@ -271,10 +274,6 @@ local stoptime = 2
 local function HUDPaintBackground(   )
 	local now = RealTime()
 
-	if scoreboard_panel and scoreboard_panel:IsVisible() then
-		stoptime = now
-	end
-
     local frac = (now - starttime) * 5
 	frac=frac>1 and 1 or frac<0 and 0 or frac
 	frac=math.sin(frac*math.pi*0.5)
@@ -287,11 +286,6 @@ local function HUDPaintBackground(   )
 	f2=f2>1 and 1 or f2<0 and 0 or f2
 	frac=frac-f2
 	frac=frac>1 and 1 or frac<0 and 0 or frac
-
-	if f2==1 then
-		hook.Remove("HUDPaintBackground","fbox_info")
-		--	print"remove"
-	end
 
     surface.SetMaterial( matBlurScreen )
     surface.SetDrawColor( 255, 255, 255, frac*255 )

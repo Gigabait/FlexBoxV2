@@ -1,17 +1,17 @@
-local META = FindMetaTable("Player")
+local PLAYER = FindMetaTable("Player")
 
-function META:GetMoney()
+function PLAYER:GetMoney()
 	if SERVER then
 	if tonumber(self:GetPData("fbox_player_money",100)) < 0 then self:SetPData("fbox_player_money",0) end
 	self:SetNWInt("fbox_money", self:GetPData("fbox_player_money")) end
 	return tonumber(self:GetNWInt("fbox_money"))
 end
 
-function META:CanAfford(price)
+function PLAYER:CanAfford(price)
 	return price <= self:GetMoney()
 end
 
-function META:TransferMoney(ply,num)
+function PLAYER:TransferMoney(ply,num)
 	if ply:IsBot() or not ply:IsPlayer() or ply == self then return false end
 	if self:GetMoney() < num then num = self:GetMoney() end
 
@@ -23,7 +23,7 @@ function META:TransferMoney(ply,num)
 	hook.Run("fbox_transfermoney", self,ply,num)
 end
 
-function META:SetMoney(num)
+function PLAYER:SetMoney(num)
 	if SERVER then
 		self:SetPData("fbox_player_money",num)
 		self:SetNWInt("fbox_money", self:GetPData("fbox_player_money"))
@@ -31,7 +31,7 @@ function META:SetMoney(num)
 	hook.Run("fbox_setmoney", self,num)
 end
 
-function META:GiveMoney(num)
+function PLAYER:GiveMoney(num)
 	if SERVER then
 		self:SetPData("fbox_player_money",self:GetPData("fbox_player_money", 100) + num )
 		self:SetNWInt("fbox_money", self:GetPData("fbox_player_money"))
@@ -39,7 +39,7 @@ function META:GiveMoney(num)
 	hook.Run("fbox_givemoney", self,num)
 end
 
-function META:TakeMoney(num)
+function PLAYER:TakeMoney(num)
 	if SERVER then
 		if self:GetMoney() < 0 then return end
 		self:SetPData("fbox_player_money",self:GetPData("fbox_player_money",100) - num )
@@ -49,20 +49,59 @@ function META:TakeMoney(num)
 	hook.Run("fbox_takemoney", self,num)
 end
 
-function META:SaveMoney()
-	self:SetPData("fbox_player_money", self:GetPData("fbox_player_money")) --useless code but yolo
+function PLAYER:SaveMoney()
+	self:SetPData("fbox_player_money", self:GetPData("fbox_player_money"))
 end
 
-function META:LoadMoney()
+function PLAYER:LoadMoney()
 	if SERVER then self:SetNWInt("fbox_money", self:GetPData("fbox_player_money")) end
 end
 
-function META:Katching()
+function PLAYER:Katching()
 	sound.Play("chatsounds/autoadd/dota2/buy.ogg",self:GetPos())
 end
 
-function META:PayMoney(price)
+function PLAYER:PayMoney(price)
 	self:SetMoney(self:GetMoney()-price)
+end
+
+local function sanitycheck(num)
+	if num and isnumber(num) and num>2^46 then
+		ErrorNoHalt("[Money] Number too big: "..tostring(num)..", precision would have been lost!\n")
+		return
+	end
+
+	if num and isnumber(num) and not math.isfinite(num) then
+		error("[Money] Malicious value passed: "..tostring(num).."!")
+	end
+	return num
+end
+
+function PLAYER:DropMoney(value,reason)
+	if CLIENT then return end
+	if not isnumber(value) then error"Missing value" end
+	assert(value>0,"Negative money value passed")
+	value=sanitycheck(value)
+	if not value then return end
+
+	value=math.Round(value)
+
+	self:DoAnimationEvent(ACT_GMOD_GESTURE_ITEM_DROP)
+	timer.Simple(0.8, function()
+		local pos = (self:GetPos()+self:GetUp()*32+self:GetRight()*-20)
+		local money = ents.Create("lua_money_pickup")
+		local phys = money:GetPhysicsObject()
+		money:SetPos(pos)
+		money.Value = value
+		money:Spawn()
+		money:Activate()
+		if IsValid(phys) then
+			phys:Wake()
+			phys:SetVelocity(self:GetAimVector()*200)
+		end
+		self:PayMoney(value)
+	end)
+	return true
 end
 
 hook.Add("PlayerDisconnected","fbox_money_save",function(ply)

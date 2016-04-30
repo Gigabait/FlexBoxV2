@@ -7,13 +7,25 @@
 function StartSky()
 
 	local SkyTable =  ents.FindByClass("env_skypaint")
-	SkyEnt =  SkyTable[1]
+	if IsValid(SkyTable[1]) then
+		SkyEnt = SkyTable[1]
+	else
+		SkyEnt = ents.Create("env_skypaint")
+		SkyEnt:SetPos(Vector(0,0,0))
+		SkyEnt:Spawn()
+	end
 
 --	local FogTable =  ents.FindByClass("env_fog_controller")
 --	FogEnt =  FogTable[1]
 
 	local SunTable =  ents.FindByClass("env_sun")
-	SunEnt =  SunTable[1]
+	if IsValid(SunTable[1]) then
+		SunEnt = SunTable[1]
+	else
+		SunEnt = ents.Create("env_sun")
+		SunEnt:SetPos(Vector(0,0,0))
+		SunEnt:Spawn()
+	end
 	
 	RunConsoleCommand("sv_skyname", "painted")
 

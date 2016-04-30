@@ -81,6 +81,14 @@ aowl.AddCommand({"setweather","weather"}, function(ply,line,weather)
 		SW.SetWeather(2)
 		PrintMessage(3,"Weather set to \"snow\"")
 		return true
+	elseif weather:match"blizzard" then
+		SW.SetWeather(4)
+		PrintMessage(3,"Weather set to \"blizzard\"")
+		return true
+	elseif weather:match"fog" then
+		SW.SetWeather(5)
+		PrintMessage(3,"Weather set to \"fog\"")
+		return true
 	elseif weather == "off" then
 		SW.AutoWeatherEnabled = false
 		PrintMessage(3,"Automatic weather disabled")
