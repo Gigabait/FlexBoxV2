@@ -4,8 +4,8 @@ function FBCheckGitHub()
 		timer.Simple(.5, function()
 			local tab = util.JSONToTable(data)[1]
 			
-			if cookie.GetNumber( "github_latest", 0 ) == tab["updated"] then return end
-			cookie.Set( "github_latest", tab["updated"] )
+			if cookie.GetString( "github_latest", "" ) == tab["sha"] then return end
+			cookie.Set( "github_latest", tab["sha"] )
 			ChatAddText("================================================")
 			ChatAddText(
 				Color(255, 255, 255),
