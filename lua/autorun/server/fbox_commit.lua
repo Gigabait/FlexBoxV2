@@ -5,7 +5,7 @@ function FBCheckGitHub()
 			local tab = util.JSONToTable(data)[1]
 			
 			if cookie.GetNumber( "github_latest", 0 ) == tab["updated"] then return end
-			cookie.Set( "newsbot440_date", tab["date"] )
+			cookie.Set( "github_latest", tab["date"] )
 			ChatAddText("================================================")
 			ChatAddText(
 				Color(255, 255, 255),
