@@ -1,32 +1,30 @@
 local ShowNodes = CreateClientConVar("mapdata_nodeviewer",0,false)
 
 local NODE_WALK = 0
-local NODE_SIT = 1
-local NODE_SPAWN = 2
-local NODE_TEMP = 3
+local NODE_SPAWN = 1
+local NODE_TEMP = 2
 local NPC_NONE = 0
 local NPC_METRO = 1
 local NPC_CITIZEN = 2
 
 local NodeColor = {
 	[0] = Color(0,255,255),
-	[1] = Color(255,0,255),
-	[2] = Color(255,255,0),
-	[3] = Color(255,0,0),
+	[1] = Color(255,255,0),
+	[2] = Color(255,0,0),
 }
 
 
 local function MapNode(node,type,npc)
 	local t = type or 0
 	local t_str
-	if t == 0 then t_str = "Walk" elseif t == 1 then t_str = "Sit" elseif t == 2 then t_str = "Spawn" elseif t == 3 then t_str = "Temp" else t_str = "Unknown type!?!?!" end
+	if t == 0 then t_str = "Walk" elseif t == 1 then t_str = "Spawn" elseif t == 2 then t_str = "Temp" else t_str = "Unknown type!?!?!" end
 	local n = npc or 1
 	local color = NodeColor[t]
 	cam.Start2D()
 		local pos = node:ToScreen()
 		if LocalPlayer():EyePos():Distance(node) <= 750 then
 			draw.DrawText(string.format("Vector(%d,%d,%d)",node.x,node.y.node.z),"BudgetLabel",pos.x,pos.y,color,TEXT_ALIGN_CENTER)
-			draw.DrawText("Type: "..t_str,"BudgetLabel",pos.x,t == NODE_SIT and pos.y-20 or pos.y-10,color,TEXT_ALIGN_CENTER)
+			draw.DrawText("Type: "..t_str,"BudgetLabel",pos.x,pos.y-10,color,TEXT_ALIGN_CENTER)
 			draw.DrawText("NPC: "..(n == 0 and "None" or n == 2 and "Citizen" or "Metrocop"),"BudgetLabel",pos.x,t == NODE_SIT and pos.y-30 or pos.y-20,color,TEXT_ALIGN_CENTER)
 		end
 	cam.End2D()
