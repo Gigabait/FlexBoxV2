@@ -58,7 +58,7 @@ local function node_add(ply,cmd,args)
 end
 
 local function node_export_temp(ply,cmd,args)
-	for _,node in pairs(FBoxMapData[game.GetMap()].temp) do
+	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.temp) do
 		print(string.format("Vector( %f, %f, %f ),",node.x,node.y,node.z))
 	end
 	chat.AddText(Color(255,255,255),"Temp nodes printed to console.")

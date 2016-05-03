@@ -14,10 +14,10 @@ local NPC_METRO = 0
 local NPC_CITIZEN = 1
 
 local function NodeEditor(ply,cmd,args)
-	local totalnodes = #FBoxMapData[game.GetMap()].metrocops.walktable + #FBoxMapData[game.GetMap()].metrocops.sittable + #FBoxMapData[game.GetMap()].metrocops.spawns + #FBoxMapData[game.GetMap()].wanderer.walktable + #FBoxMapData[game.GetMap()].wanderer.sittable + #FBoxMapData[game.GetMap()].wanderer.spawns
-	local totalwalk = #FBoxMapData[game.GetMap()].metrocops.walktable + #FBoxMapData[game.GetMap()].wanderer.walktable
-	local totalsit = #FBoxMapData[game.GetMap()].metrocops.sittable + #FBoxMapData[game.GetMap()].wanderer.sittable
-	local totalspawns = #FBoxMapData[game.GetMap()].metrocops.spawns + #FBoxMapData[game.GetMap()].wanderer.spawns
+	local totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
+	local totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
+	local totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
+	local totalspawns = #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
 
 	NE_frame = vgui.Create("DFrame")
 	NE_frame:SetPos(10,10)
@@ -40,7 +40,7 @@ local function NodeEditor(ply,cmd,args)
 	local c_spawn = c_nodes:AddNode("Spawn Nodes")
 	c_spawn:SetIcon(icons.node_spawn)
 
-	local m_nodes = root:AddNode("Metrocops")
+	local m_nodes = root:AddNode("nodes.metrocops")
 	m_nodes:SetIcon(icons.metrocop)
 	local m_walk = m_nodes:AddNode("Walk Nodes")
 	m_walk:SetIcon(icons.node_walk)
@@ -71,23 +71,23 @@ local function NodeEditor(ply,cmd,args)
 		end
 	end
 
-	for _,node in pairs(FBoxMapData[game.GetMap()].metrocops.walktable) do
+	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.walktable) do
 		AddNode(node,NODE_WALK,NPC_METRO)
 	end
-	for _,tbl in pairs(FBoxMapData[game.GetMap()].wanderer.sittable) do
+	for _,tbl in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.sittable) do
 		AddNode(tbl[1],NODE_SIT,NPC_METRO)
 	end
-	for _,node in pairs(FBoxMapData[game.GetMap()].metrocops.spawns) do
+	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.spawns) do
 		AddNode(node,NODE_SPAWN,NPC_METRO)
 	end
 
-	for _,node in pairs(FBoxMapData[game.GetMap()].wanderer.walktable) do
+	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.walktable) do
 		AddNode(node,NODE_WALK,NPC_CITIZEN)
 	end
-	for _,tbl in pairs(FBoxMapData[game.GetMap()].wanderer.sittable) do
+	for _,tbl in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.sittable) do
 		AddNode(tbl[1],NODE_SIT,NPC_CITIZEN)
 	end
-	for _,node in pairs(FBoxMapData[game.GetMap()].wanderer.spawns) do
+	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.spawns) do
 		AddNode(node,NODE_SPAWN,NPC_CITIZEN)
 	end
 

@@ -53,12 +53,14 @@ hook.Add("PostDrawOpaqueRenderables","FBoxMapData.DrawNodes",function()
 			MapNode(node,NODE_SPAWN,NPC_METRO)
 		end
 	end
-
-	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.walktable) do
-		MapNode(node,NODE_WALK,NPC_CITIZEN)
-	end
-	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.spawns) do
-		MapNode(node,NODE_SPAWN,NPC_CITIZEN)
+	
+	if FBoxMapData[game.GetMap()].nodes.wanderer then
+		for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.walktable) do
+			MapNode(node,NODE_WALK,NPC_CITIZEN)
+		end
+		for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.spawns) do
+			MapNode(node,NODE_SPAWN,NPC_CITIZEN)
+		end
 	end
 
 	if FBoxMapData[game.GetMap()].nodes.temp then
