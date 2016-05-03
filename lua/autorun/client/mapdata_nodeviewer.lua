@@ -1,4 +1,4 @@
-local ShowNodes = CreateClientConVar("fboxmapdata_shownodes",0,false)
+local ShowNodes = CreateClientConVar("mapdata_nodeviewer",0,false)
 
 local NODE_WALK = 0
 local NODE_SIT = 1
