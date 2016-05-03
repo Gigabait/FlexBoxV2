@@ -14,12 +14,33 @@ local NPC_METRO = 0
 local NPC_CITIZEN = 1
 
 local function NodeEditor(ply,cmd,args)
-
-	local totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
-	local totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
-	local totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
-	local totalspawns = #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
-
+	
+	local totalnodes = 0
+	local totalwalk = 0
+	local totalsit = 0
+	local totalspawns = 0
+	
+	if FBoxMapData[game.GetMap()].nodes.wanderer and FBoxMapData[game.GetMap()].nodes.metrocops then
+		totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
+		totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
+		totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
+		totalspawns = #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
+	end
+	
+	if FBoxMapData[game.GetMap()].nodes.wanderer then
+		totalnodes = #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
+		totalwalk = #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
+		totalsit = #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
+		totalspawns = #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
+	end
+	
+	if FBoxMapData[game.GetMap()].nodes.metrocops then
+		totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns
+		totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable
+		totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable
+		totalspawns = #FBoxMapData[game.GetMap()].nodes.metrocops.spawns
+	end
+	
 	NE_frame = vgui.Create("DFrame")
 	NE_frame:SetPos(10,10)
 	NE_frame:SetSize(700,600)
