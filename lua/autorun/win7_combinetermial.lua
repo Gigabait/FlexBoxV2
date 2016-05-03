@@ -42,6 +42,7 @@ if SERVER then
 		self.screen:SetParent(self)
 		self:SetOn(false)
 		self.idlesound = CreateSound(self, "ambient/machines/combine_terminal_loop1.wav")
+		self.TimerIndex = tostring(self:EntIndex())
 
 	end
 
@@ -73,22 +74,24 @@ if SERVER then
 				self.screen:SetSkin(2)
 				self:SetSkin(0)
 				self.idlesound:Play()
-				if timer.Exists("iccmainoff") then
-					timer.Destroy("iccmainoff")
+				if timer.Exists("iccmainoff"..self.TimerIndex) then
+					timer.Destroy("iccmainoff"..self.TimerIndex)
 				end
-				timer.Create("iccidlesound",5,0,function()
+				timer.Create("iccidlesound"..self.TimerIndex,10,0,function()
+					if not self then return end
 					self:EmitSound(idlesounds[math.Round(math.random(1,#idlesounds))])
 				end)
 				self:SetOn(true)
 			else
 				self:EmitSound("buttons/combine_button2.wav")
 				self.screen:SetSkin(1)
-				timer.Create("iccmainoff",1,1,function()
+				timer.Create("iccmainoff"..self.TimerIndex,1,1,function()
+					if not self then return end
 					self:SetSkin(1)
 				end)
 				self.idlesound:Stop()
-				if timer.Exists("iccidlesound") then
-					timer.Destroy("iccidlesound")
+				if timer.Exists("iccidlesound"..self.TimerIndex) then
+					timer.Destroy("iccidlesound"..self.TimerIndex)
 				end
 				self:SetOn(false)
 			end
@@ -104,8 +107,8 @@ if SERVER then
 		self.idlesound:Stop()
 		self.idlesound = nil
 		self.screen:Remove()
-		if timer.Exists("iccidlesound") then
-			timer.Destroy("iccidlesound")
+		if timer.Exists("iccidlesound"..self.TimerIndex) then
+			timer.Destroy("iccidlesound"..self.TimerIndex)
 		end
 	end
 end
