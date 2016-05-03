@@ -23,21 +23,18 @@ local function NodeEditor(ply,cmd,args)
 	if FBoxMapData[game.GetMap()].nodes.wanderer and FBoxMapData[game.GetMap()].nodes.metrocops then
 		totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
 		totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
-		totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
 		totalspawns = #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
 	end
 	
 	if FBoxMapData[game.GetMap()].nodes.wanderer then
 		totalnodes = #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
 		totalwalk = #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
-		totalsit = #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
 		totalspawns = #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
 	end
 	
 	if FBoxMapData[game.GetMap()].nodes.metrocops then
 		totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns
 		totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable
-		totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable
 		totalspawns = #FBoxMapData[game.GetMap()].nodes.metrocops.spawns
 	end
 	
@@ -73,22 +70,22 @@ local function NodeEditor(ply,cmd,args)
 
 	local function AddNode(pos,type,npc)
 		if type == NODE_WALK and npc == NPC_CITIZEN then
-			local node = c_walk:AddNode("Vector("..pos.x..","..pos.y..","..pos.z..")")
+			local node = c_walk:AddNode(string.format("Vector(%d,%d,%d)",pos.x,pos.y.pos.z))
 			node:SetIcon(icons.node_walk)
 		elseif type == NODE_SIT and npc == NPC_CITIZEN then
-			local node = c_sit:AddNode("Vector("..pos.x..","..pos.y..","..pos.z..")")
+			local node = c_sit:AddNode(string.format("Vector(%d,%d,%d)",pos.x,pos.y.pos.z))
 			node:SetIcon(icons.node_sit)
 		elseif type == NODE_SPAWN and npc == NPC_CITIZEN then
-			local node = c_spawn:AddNode("Vector("..pos.x..","..pos.y..","..pos.z..")")
+			local node = c_spawn:AddNode(string.format("Vector(%d,%d,%d)",pos.x,pos.y.pos.z))
 			node:SetIcon(icons.node_spawn)
 		elseif type == NODE_WALK and npc == NPC_METRO then
-			local node = m_walk:AddNode("Vector("..pos.x..","..pos.y..","..pos.z..")")
+			local node = m_walk:AddNode(string.format("Vector(%d,%d,%d)",pos.x,pos.y.pos.z))
 			node:SetIcon(icons.node_walk)
 		elseif type == NODE_SIT and npc == NPC_METRO then
-			local node = m_sit:AddNode("Vector("..pos.x..","..pos.y..","..pos.z..")")
+			local node = m_sit:AddNode(string.format("Vector(%d,%d,%d)",pos.x,pos.y.pos.z))
 			node:SetIcon(icons.node_sit)
 		elseif type == NODE_SPAWN and npc == NPC_METRO then
-			local node = m_spawn:AddNode("Vector("..pos.x..","..pos.y..","..pos.z..")")
+			local node = m_spawn:AddNode(string.format("Vector(%d,%d,%d)",pos.x,pos.y.pos.z))
 			node:SetIcon(icons.node_spawn)
 		end
 	end
@@ -96,18 +93,12 @@ local function NodeEditor(ply,cmd,args)
 	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.walktable) do
 		AddNode(node,NODE_WALK,NPC_METRO)
 	end
-	for _,tbl in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.sittable) do
-		AddNode(tbl[1],NODE_SIT,NPC_METRO)
-	end
 	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.metrocops.spawns) do
 		AddNode(node,NODE_SPAWN,NPC_METRO)
 	end
 
 	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.walktable) do
 		AddNode(node,NODE_WALK,NPC_CITIZEN)
-	end
-	for _,tbl in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.sittable) do
-		AddNode(tbl[1],NODE_SIT,NPC_CITIZEN)
 	end
 	for _,node in pairs(FBoxMapData[game.GetMap()].nodes.wanderer.spawns) do
 		AddNode(node,NODE_SPAWN,NPC_CITIZEN)
@@ -121,7 +112,7 @@ local function NodeEditor(ply,cmd,args)
 	node_txt:SetColor(Color(0,0,0))
 	node_txt:Dock(TOP)
 	node_txt:DockMargin(4,4,4,0)
-	node_txt:SetText(game.GetMap().." has a total of "..totalnodes.." nodes ("..totalwalk.." walk nodes, "..totalsit.." sit nodes, "..totalspawns.." spawn nodes)")
+	node_txt:SetText(string.format("%s has a total of %d nodes (%d walk nodes, %d spawn nodes)",game.GetMap(),totalnodes,totalwalk,totalspawns))
 	NE_propsheet = vgui.Create("DProperties",editpane)
 	NE_propsheet:Dock(FILL)
 	NE_propsheet:DockMargin(4,4,4,4)
