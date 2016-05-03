@@ -25,10 +25,7 @@ local function MapNode(node,type,npc)
 	cam.Start2D()
 		local pos = node:ToScreen()
 		if LocalPlayer():EyePos():Distance(node) <= 750 then
-			draw.DrawText("Vector("..node.x..","..node.y..","..node.z..")","BudgetLabel",pos.x,pos.y,color,TEXT_ALIGN_CENTER)
-			if t == NODE_SIT then
-				draw.DrawText("Angle("..node.x..","..node.y..","..node.z..")","BudgetLabel",pos.x,pos.y-10,color,TEXT_ALIGN_CENTER)
-			end
+			draw.DrawText(string.format("Vector(%d,%d,%d)",node.x,node.y.node.z),"BudgetLabel",pos.x,pos.y,color,TEXT_ALIGN_CENTER)
 			draw.DrawText("Type: "..t_str,"BudgetLabel",pos.x,t == NODE_SIT and pos.y-20 or pos.y-10,color,TEXT_ALIGN_CENTER)
 			draw.DrawText("NPC: "..(n == 0 and "None" or n == 2 and "Citizen" or "Metrocop"),"BudgetLabel",pos.x,t == NODE_SIT and pos.y-30 or pos.y-20,color,TEXT_ALIGN_CENTER)
 		end
