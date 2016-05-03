@@ -14,6 +14,7 @@ local NPC_METRO = 0
 local NPC_CITIZEN = 1
 
 local function NodeEditor(ply,cmd,args)
+
 	local totalnodes = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.metrocops.spawns + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.spawns
 	local totalwalk = #FBoxMapData[game.GetMap()].nodes.metrocops.walktable + #FBoxMapData[game.GetMap()].nodes.wanderer.walktable
 	local totalsit = #FBoxMapData[game.GetMap()].nodes.metrocops.sittable + #FBoxMapData[game.GetMap()].nodes.wanderer.sittable
@@ -40,7 +41,7 @@ local function NodeEditor(ply,cmd,args)
 	local c_spawn = c_nodes:AddNode("Spawn Nodes")
 	c_spawn:SetIcon(icons.node_spawn)
 
-	local m_nodes = root:AddNode("nodes.metrocops")
+	local m_nodes = root:AddNode("Metrocops")
 	m_nodes:SetIcon(icons.metrocop)
 	local m_walk = m_nodes:AddNode("Walk Nodes")
 	m_walk:SetIcon(icons.node_walk)
