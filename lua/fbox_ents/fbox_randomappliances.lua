@@ -56,6 +56,15 @@ function ENT:SpecialFunc(ply)
 
 end
 
+function ENT:COnRemove()
+	if timer.Exists("intphone_incall"..self.TimerIndex) then
+		timer.Destroy("intphone_incall"..self.TimerIndex)
+	end
+	if timer.Exists("intphone_phonecall"..self.TimerIndex) then
+		timer.Destroy("intphone_phonecall"..self.TimerIndex)
+	end
+end
+
 ENT.Model = "models/props/cs_office/phone.mdl"
 ENT.ScreenModel = ""
 
