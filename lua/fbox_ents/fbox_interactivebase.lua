@@ -33,6 +33,10 @@ function ENT:Init()
 	return
 end
 
+function ENT:COnRemove()
+	return
+end
+
 if SERVER then
 	
 	function ENT:Initialize()
@@ -127,6 +131,10 @@ if SERVER then
 		if timer.Exists("iccidlesound-"..self.TimerIndex) then
 			timer.Destroy("iccidlesound-"..self.TimerIndex)
 		end
+		if timer.Exists("iccmainoff-"..self.TimerIndex) then
+			timer.Destroy("iccmainoff-"..self.TimerIndex)
+		end
+		self:COnRemove()
 	end
 end
 
