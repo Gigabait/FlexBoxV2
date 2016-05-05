@@ -8,27 +8,35 @@ ENT.PrintName = "Interactive Phone"
 ENT.Spawnable = true
 
 function ENT:Init()
-	print("Init")
+	//print("Init")
 	self.InCall = false
 	self.CallRand = 0
+	self.TimerCreated = false
+	self.TimerIndex = tostring(self:EntIndex())
 	timer.Create("intphone_phonecall"..self.TimerIndex,10,0,function()
-		if self.InCall ~= false then return end
 		if not self then return end
+		if self.InCall ~= false then return end
 		if not self:GetOn() then return end
 		
-		print("trying to check phone "..self.CallRand)
+		//print("trying to check phone "..self.CallRand)
 		if self.CallRand == 10 then
-			print("PHONE GOT CALL")
-			print(self:GetOwner())
+			//print("PHONE GOT CALL")
+			self:CPPIGetOwner():ChatPrint("You're receiving a call on your phone!")
 			self.InCall = true
 			self.CallRand = math.random(0,10)
 			timer.Create("intphone_incall"..self.TimerIndex,3,0,function()
 				if not self then return end
 				self:EmitSound("chatsounds/autoadd/cartoon_sfx/computercalculate.ogg")
+				if self.TimerCreated then return end
+				//print("Creating Timer")
 				timer.Simple(math.random(20,60),function()
+					if not self then return end
 					timer.Destroy("intphone_incall"..self.TimerIndex)
 					self.InCall = false
+					self:CPPIGetOwner():ChatPrint("The caller hung up.")
+					self.TimerCreated = false
 				end)
+				self.TimerCreated = true
 			end)
 		else
 			self.CallRand = math.random(0,10)
@@ -42,7 +50,10 @@ function ENT:SpecialFunc(ply)
 		self:EmitSound("chatsounds/autoadd/sfx_domestic/phone pick up 1.ogg")
 		ply:ChatPrint("You pick up, they hang up.")
 		timer.Destroy("intphone_incall"..self.TimerIndex)
+	else
+
 	end
+
 end
 
 ENT.Model = "models/props/cs_office/phone.mdl"
@@ -158,17 +169,18 @@ if CLIENT then
 
 	function ENT:Draw()
 		self:DrawModel()
+		if self:GetOn() then
+			local ang = self:GetAngles()
+			ang:RotateAroundAxis(ang:Right(),90)
+			ang:RotateAroundAxis(ang:Forward(),180)
+			ang:RotateAroundAxis(ang:Up(),-90)
 
-		local ang = self:GetAngles()
-		ang:RotateAroundAxis(ang:Right(),90)
-		ang:RotateAroundAxis(ang:Forward(),180)
-		ang:RotateAroundAxis(ang:Up(),-90)
-
-		cam.Start3D2D(self:GetPos()+ang:Up(),ang,0.2)
-			//surface.DrawRect(-151,-110,8,81)
-			draw.RoundedBox(0,23.5,-165,60,15,Color(0,0,0))
-			draw.SimpleText("Coffee: $10","DermaDefault",25,-165,Color(255,255,255))
-		cam.End3D2D()
+			cam.Start3D2D(self:GetPos()+ang:Up(),ang,0.2)
+				//surface.DrawRect(-151,-110,8,81)
+				draw.RoundedBox(0,23.5,-165,60,15,Color(0,0,0))
+				draw.SimpleText("Coffee: $10","DermaDefault",25,-165,Color(255,255,255))
+			cam.End3D2D()
+		end
 
 	end
 
