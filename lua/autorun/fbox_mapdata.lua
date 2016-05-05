@@ -9,6 +9,9 @@ function FBoxMapData.LoadMapdata()
 	local starttime = CurTime()
 	
 	for _,file in pairs(file.Find("lua/mapdata/"..game.GetMap().."/*","GAME")) do
+		if SERVER then
+			AddCSLuaFile("mapdata/"..game.GetMap().."/"..file)
+		end
 		include("mapdata/"..game.GetMap().."/"..file)
 		mdata_print("Loaded "..file)
 	end
