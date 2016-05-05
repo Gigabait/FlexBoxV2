@@ -1,11 +1,12 @@
 //Interactive Consoles base entity
-easylua.StartEntity("win7_ibase")
+easylua.StartEntity("fbox_ibase")
 
 ENT.Type = "anim"
 ENT.Base = "base_gmodentity"
 ENT.PrintName = "Interactive Stuff Base"
 ENT.Author = "Win7yes"
 ENT.Spawnable = false
+ENT.Category = "Roleplay Entities"
 ENT.AdminSpawnable = false
 ENT.Model = "models/props_c17/computer01_keyboard.mdl"
 ENT.ScreenModel = "models/props_lab/monitor02.mdl"

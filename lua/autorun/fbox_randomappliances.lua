@@ -1,10 +1,49 @@
-easylua.StartEntity("win7_intphone")
+easylua.StartEntity("fbox_intphone")
 
 //Shit phone, requires chatsounds and CS:S.
 ENT.Type = "anim"
-ENT.Base = "win7_ibase"
+ENT.Base = "fbox_ibase"
+ENT.Category = "Roleplay Entities"
 ENT.PrintName = "Interactive Phone"
 ENT.Spawnable = true
+
+function ENT:Init()
+	print("Init")
+	self.InCall = false
+	self.CallRand = 0
+	timer.Create("intphone_phonecall"..self.TimerIndex,10,0,function()
+		if self.InCall ~= false then return end
+		if not self then return end
+		if not self:GetOn() then return end
+		
+		print("trying to check phone "..self.CallRand)
+		if self.CallRand == 10 then
+			print("PHONE GOT CALL")
+			print(self:GetOwner())
+			self.InCall = true
+			self.CallRand = math.random(0,10)
+			timer.Create("intphone_incall"..self.TimerIndex,3,0,function()
+				if not self then return end
+				self:EmitSound("chatsounds/autoadd/cartoon_sfx/computercalculate.ogg")
+				timer.Simple(math.random(20,60),function()
+					timer.Destroy("intphone_incall"..self.TimerIndex)
+					self.InCall = false
+				end)
+			end)
+		else
+			self.CallRand = math.random(0,10)
+		end
+	end)
+end
+
+function ENT:SpecialFunc(ply)
+	if self.InCall then
+		self.InCall = false
+		self:EmitSound("chatsounds/autoadd/sfx_domestic/phone pick up 1.ogg")
+		ply:ChatPrint("You pick up, they hang up.")
+		timer.Destroy("intphone_incall"..self.TimerIndex)
+	end
+end
 
 ENT.Model = "models/props/cs_office/phone.mdl"
 ENT.ScreenModel = ""
@@ -19,13 +58,16 @@ ENT.ScreenOffset = Vector(0,0,-10)
 
 easylua.EndEntity(false,false)
 
-easylua.StartEntity("win7_coffemachine")
+//End Phone
+
+easylua.StartEntity("fbox_coffemachine")
 //Coffee Machine
 
 
-ENT.Base = "win7_ibase"
+ENT.Base = "fbox_ibase"
 ENT.PrintName = "Coffee Machine"
 ENT.Spawnable = true
+ENT.Category = "Roleplay Entities"
 
 ENT.EnableLight = false
 ENT.Model = "models/props_2fort/coffeemachine.mdl"
@@ -105,14 +147,31 @@ if CLIENT then
 	function ENT:Think()
 		net.Receive("coffeequery",function(len,ply)
 			local ply = net.ReadEntity()
-			local query = Derma_Query("This coffee will cost you 10 coins, will you pay?","Payment Confirmation","Yes",function()
+			local query = Derma_Query("This coffee will cost you $10, Are you sure?","Payment Confirmation","Yes",function()
 				self.SendCoffee(ply) end,"No")
 		end)
 
 		net.Receive("coffeedenied",function(len,ply)
-			local message = Derma_Message("You cannot afford this","Sorry","Close")
+			local message = Derma_Message("You cannot afford this","Payment Problem","Close")
 		end)
 	end
+
+	function ENT:Draw()
+		self:DrawModel()
+
+		local ang = self:GetAngles()
+		ang:RotateAroundAxis(ang:Right(),90)
+		ang:RotateAroundAxis(ang:Forward(),180)
+		ang:RotateAroundAxis(ang:Up(),-90)
+
+		cam.Start3D2D(self:GetPos()+ang:Up(),ang,0.2)
+			//surface.DrawRect(-151,-110,8,81)
+			draw.RoundedBox(0,23.5,-165,60,15,Color(0,0,0))
+			draw.SimpleText("Coffee: $10","DermaDefault",25,-165,Color(255,255,255))
+		cam.End3D2D()
+
+	end
+
 
 
 end
