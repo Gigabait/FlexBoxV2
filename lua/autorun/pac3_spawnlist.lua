@@ -8,7 +8,6 @@ Based off of Homestuck Playset's spawnlist generator by ¦i?C (http://steamcommu
 if (SERVER) then AddCSLuaFile() return end
 
 local SpawnTables = {}
-local PACSpawnlist = CreateClientConVar("pac_spawnlist", 1)
 
 local function AppendToSpawnlist(kvtype, kvdata, kvtab)
 	if kvtype == "header" then
@@ -63,40 +62,43 @@ local function GetModelsFromSub(path,tbl)
 	end
 end
 
-GenerateSpawnlist("PAC3", "PAC3", 2000, nil, "icon16/user_edit.png")
-AppendToSpawnlist("header", "PAC3 Spawnlist made by Flex", SpawnTables["PAC3"])
+GenerateSpawnlist("TF2Weapons", "TF2 Weapons", 1, nil, "games/16/tf.png")
+GenerateSpawnlist("TF2Hats", "Hats", 2, nil, "spawnicons/models/player/items/all_class/all_domination_b_medic.png")
+GenerateSpawnlist("WS", "Workshop", 3, nil, "icon16/wrench.png")
+GenerateSpawnlist("MvM", "MvM", 4, nil, "spawnicons/models/player/items/mvm_loot/all_class/mvm_badge.png")
+GenerateSpawnlist("PModels", "Playermodels", 5, nil, "icon16/user.png")
+GenerateSpawnlist("PACMDL", "PAC Models", 6, nil, "spawnicons/models/pac/default.png")
 
-GenerateSpawnlist("TF2Weapons", "TF2 Weapons", 20000, "PAC3", "games/16/tf.png")
-GenerateSpawnlist("TF2Hats", "Hats", 20001, "PAC3", "spawnicons/models/player/items/all_class/all_domination_b_medic.png")
-GenerateSpawnlist("AllClass", "All Class", 200011, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Scout", "Scout", 200012, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Soldier", "Soldier", 200013, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Pyro", "Pyro", 200014, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Demo", "Demoman", 200015, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Heavy", "Heavy", 200016, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Engineer", "Engineer", 200017, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Medic", "Medic", 200018, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Sniper", "Sniper", 200019, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("Spy", "Spy", 2000110, "TF2Hats", "icon16/folder.png")
-GenerateSpawnlist("WS", "Workshop", 20002, "PAC3", "icon16/wrench.png")
-GenerateSpawnlist("WSAllClass", "All Class", 200021, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSScout", "Scout", 200022, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSSoldier", "Soldier", 200023, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSPyro", "Pyro", 200024, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSDemo", "Demoman", 200025, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSHeavy", "Heavy", 200026, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSEngineer", "Engineer", 200027, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSMedic", "Medic", 200028, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSSniper", "Sniper", 200029, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSSpy", "Spy", 2000210, "WS", "icon16/folder.png")
-GenerateSpawnlist("WSWep", "Weapons", 2000211, "WS", "icon16/gun.png")
-GenerateSpawnlist("MvM", "MvM", 20003, "PAC3", "spawnicons/models/player/items/mvm_loot/all_class/mvm_badge.png")
-GenerateSpawnlist("PModels", "Playermodels", 20004, "PAC3", "icon16/user.png")
-GenerateSpawnlist("PM_HL2", "Half-Life 2", 200041, "PModels", "icon16/user.png")
-GenerateSpawnlist("PM_CIT", "Citizens", 2000411, "PM_HL2", "icon16/user_green.png")
-GenerateSpawnlist("PM_CSS", "Counter-Strike", 200042, "PModels", "games/16/cstrike.png")
-GenerateSpawnlist("PM_GM", "Other", 200043, "PModels", "games/16/garrysmod.png")
-GenerateSpawnlist("PACMDL", "PAC Models", 20005, "PAC3", "spawnicons/models/pac/default.png")
+--Hats
+GenerateSpawnlist("AllClass", "All Class", 21, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Scout", "Scout", 22, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Soldier", "Soldier", 23, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Pyro", "Pyro", 24, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Demo", "Demoman", 25, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Heavy", "Heavy", 26, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Engineer", "Engineer", 27, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Medic", "Medic", 28, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Sniper", "Sniper", 29, "TF2Hats", "icon16/folder.png")
+GenerateSpawnlist("Spy", "Spy", 210, "TF2Hats", "icon16/folder.png")
+
+--Workshop
+GenerateSpawnlist("WSAllClass", "All Class", 31, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSScout", "Scout", 32, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSSoldier", "Soldier", 33, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSPyro", "Pyro", 34, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSDemo", "Demoman", 35, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSHeavy", "Heavy", 36, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSEngineer", "Engineer", 37, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSMedic", "Medic", 38, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSSniper", "Sniper", 39, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSSpy", "Spy", 310, "WS", "icon16/folder.png")
+GenerateSpawnlist("WSWep", "Weapons", 311, "WS", "icon16/gun.png")
+
+--Playermodels
+GenerateSpawnlist("PM_HL2", "Half-Life 2", 51, "PModels", "icon16/user.png")
+GenerateSpawnlist("PM_CIT", "Citizens", 511, "PM_HL2", "icon16/user_green.png")
+GenerateSpawnlist("PM_CSS", "Counter-Strike", 52, "PModels", "games/16/cstrike.png")
+GenerateSpawnlist("PM_GM", "Other", 53, "PModels", "games/16/garrysmod.png")
 
 -- Not gonna automate because we dunno what players have --
 
@@ -246,9 +248,52 @@ GetModelsFromSub("models/workshop/player/items/sniper","WSSniper")
 GetModelsFromSub("models/workshop/player/items/spy","WSSpy")
 GetModelsFromSub("models/workshop/weapons/c_models","WSWep")
 
-hook.Add("PopulatePropMenu", "PACSpawnlist", function()
-	if not PACSpawnlist:GetBool() then return end
-	for k, v in pairs(SpawnTables) do
-		spawnmenu.AddPropCategory("settings/spawnlist/" .. v.UID, v.Name, v.Contents, v.Icon, v.ID, v.ParentID)
+hook.Add("PopulateContent", "PACSpawnlist", function(pc,tree,node)
+	local ViewPanel = vgui.Create( "ContentContainer", pc )
+	ViewPanel:SetVisible( false )
+
+	local pac_node = tree:AddNode("PAC3","icon16/user_edit.png")
+	pac_node.DoClick = function()
+		ViewPanel:Clear( true )
+		pc:SwitchPanel( ViewPanel )
+	end
+
+	local nodes = {}
+
+	for _,t in SortedPairs(SpawnTables) do
+		nodes[t.ID] = pac_node:AddNode(t.Name,t.Icon)
+
+		nodes[t.ID].DoClick = function(s,node)
+			if ( ViewPanel && ViewPanel.CurrentNode && ViewPanel.CurrentNode == node ) then return end
+			ViewPanel:Clear( true )
+			ViewPanel.CurrentNode = node
+
+			if t.Contents then
+				for _,c in pairs(t.Contents) do
+					if c.type == "model" then
+						local cp = spawnmenu.GetContentType("model")
+						if cp then
+							cp( ViewPanel, { model = c.model} )
+						end
+					elseif c.type == "header" then
+						local cp = spawnmenu.GetContentType("header")
+						if cp then
+							cp( ViewPanel, { text = c.text} )
+						end
+					end
+				end
+			end
+
+			pc:SwitchPanel( ViewPanel )
+			ViewPanel.CurrentNode = node
+		end
+	end
+
+	for _,n in pairs(nodes) do
+		for _,t in pairs(SpawnTables) do
+			if t.ParentID and nodes[t.ParentID] then
+				nodes[t.ParentID]:InsertNode(nodes[t.ID])
+			end
+		end
 	end
 end)
