@@ -30,17 +30,23 @@ function PropSaver.AddPropToTable( entity, model, pos, ang, scale, owner, static
 
 end
 
-function PropSaver.LoadPropTable( LoadingTable , TableOwner )
+function PropSaver.LoadPropTable( LoadingTable , TableID )
+	for _,prop in pairs(PropSaver.LoadedProps[TableID]) do
+		if IsValid(v) then
+			v:Remove()
+		end
+	end
+	PropSaver.LoadedProps[TableID] = {}
 
 	for i=1,#LoadingTable do
 
-		PropSaver.SpawnPropFromTable( i , LoadingTable , TableOwner )
+		PropSaver.SpawnPropFromTable( i , LoadingTable , TableID )
 
 	end
 
 end
 
-function PropSaver.SpawnPropFromTable( index , CurrentPropTable , Owner )
+function PropSaver.SpawnPropFromTable( index , CurrentPropTable , ID )
 
 
 	local Loading = CurrentPropTable[index]
@@ -118,8 +124,7 @@ function PropSaver.SpawnPropFromTable( index , CurrentPropTable , Owner )
 
 	PropIndex = PropIndex + 1
 
-	PropSaver.LoadedProps[PropIndex] = SpawnedProp
-	PropSaver.LoadedOwners[PropIndex] = Owner
+	PropSaver.LoadedProps[ID][PropIndex] = SpawnedProp
 
 end
 

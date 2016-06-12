@@ -1,7 +1,6 @@
 ENT.Width	=	128
 ENT.Height	=	48
 ENT.Scale	=	0.3
-ENT.debug	=	true
 
 if SERVER then return end
 function SCREEN:create( ent )end
