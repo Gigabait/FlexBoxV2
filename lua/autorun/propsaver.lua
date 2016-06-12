@@ -31,9 +31,11 @@ function PropSaver.AddPropToTable( entity, model, pos, ang, scale, owner, static
 end
 
 function PropSaver.LoadPropTable( LoadingTable , TableID )
-	for _,prop in pairs(PropSaver.LoadedProps[TableID]) do
-		if IsValid(v) then
-			v:Remove()
+	if PropSaver.LoadedProps[TableID] then
+		for _,prop in pairs(PropSaver.LoadedProps[TableID]) do
+			if IsValid(v) then
+				v:Remove()
+			end
 		end
 	end
 	PropSaver.LoadedProps[TableID] = {}

@@ -283,4 +283,4 @@ FBoxMapData["gm_construct_15"].shop = {
 	},
 }
 
-PropSaver.LoadPropTable(shop,"gm15_shop")
+PropSaver.LoadPropTable(FBoxMapData["gm_construct_15"].shop,"gm15_shop")

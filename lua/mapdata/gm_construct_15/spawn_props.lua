@@ -111,4 +111,4 @@ FBoxMapData["gm_construct_15"].spawn = {
 	},
 }
 
-PropSaver.LoadPropTable(spawn,"gm15_spawn")
+PropSaver.LoadPropTable(FBoxMapData["gm_construct_15"].spawn,"gm15_spawn")
