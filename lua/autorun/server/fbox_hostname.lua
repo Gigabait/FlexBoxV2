@@ -18,6 +18,7 @@ gotcha faggot
 wowdistorted!!!!!
 this is not a trickkkk
 noot noot
+THANK'S A LOT FAT DUMB DUMB
 ]]
 ----------------------------------------------------
 -- ^ how long our quotes can be                 ^ --
