@@ -19,6 +19,8 @@ wowdistorted!!!!!
 this is not a trickkkk
 noot noot
 THANK'S A LOT FAT DUMB DUMB
+this joke is overused
+you wot m8 ill have you know i gra-- shadup
 ]]
 ----------------------------------------------------
 -- ^ how long our quotes can be                 ^ --
