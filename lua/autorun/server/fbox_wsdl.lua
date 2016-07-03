@@ -8,7 +8,8 @@ local maps = {
 	["gm_carconstruct_b1-8"]          = "138075711",
 	["gm_infinite_concrete"]          = "124358552",
 	["gm_construct_extended"]         = "509873419",
-	["gm_construct_15"]               = "693913132"
+	["gm_construct_15"]               = "693913132",
+	["gm_bigcity_winter"]             = "622351524"
 }
 
 resource.AddWorkshop(maps[game.GetMap()])
