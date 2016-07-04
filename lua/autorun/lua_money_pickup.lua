@@ -41,7 +41,15 @@ if SERVER then
 
 	function ENT:SetValue( num )
 
-		if num > 1e3 then
+		if num > 1e4 then
+			self:EmitSound( self.Configuration["defines"]["sfxValueChanged"] )
+			self:SetModel( "models/props/cs_assault/moneypallet.mdl" )
+
+			--self:PhysicsDestroy()
+			--self:PhysicsInit( SOLID_BBOX )
+
+			-- HOW THE FUCK DO YOU CHANGE COLLISION??
+
 			self.Value = num
 			return
 		end
@@ -57,19 +65,19 @@ if SERVER then
 				if extras == 0 then
 					for i=1, entsneeded - 1 do 
 						local newmoney = ents.Create( self:GetClass() )
-						newmoney:SetPos( self:GetPos() )
+						newmoney:SetPos( self:GetPos() + Vector( 0, 0, i*10 ) )
 						newmoney:Spawn()
 						newmoney:SetValue( self.Configuration["defines"]["max_value"] )
 					end
 				else
 					for i=1, entsneeded - 1 do 
 						local newmoney = ents.Create( self:GetClass() )
-						newmoney:SetPos( self:GetPos() )
+						newmoney:SetPos( self:GetPos() + Vector( 0, 0, i*10 )  )
 						newmoney:Spawn()
 						newmoney:SetValue( self.Configuration["defines"]["max_value"] )
 					end
 					local floatmoney = ents.Create( self:GetClass() )
-					floatmoney:SetPos( self:GetPos() )
+					floatmoney:SetPos( self:GetPos() + Vector( 0, 0, i*10 ) )
 					floatmoney:Spawn()
 					floatmoney:SetValue( math.floor( self.Configuration["defines"]["max_value"] * extras ) )
 				end
