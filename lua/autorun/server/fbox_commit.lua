@@ -15,7 +15,7 @@ function FBCheckGitHub()
 				cookie.Set( "github_latest_"..string.lower(repo:gsub("/","_")), tab["sha"] )
 				ChatAddText(Color(255,255,255),"Latest Commit for ",Color(220,70,100),repo)
 				ChatAddText(Color(255,255,255),"<texture=icon16/page_edit.png> ",Color(220,70,100),string.format("Commit %s by %s",tab["sha"],tab["commit"]["author"]["name"]))
-				ChatAddText(Color(255 255,255),tab["commit"]["message"])
+				ChatAddText(Color(255,255,255),tab["commit"]["message"])
 	
 				http.Fetch("https://api.github.com/repos/"..repo.."/commits/"..tab["sha"],
 				function(data)
