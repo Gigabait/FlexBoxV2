@@ -9,7 +9,9 @@ local maps = {
 	["gm_infinite_concrete"]          = "124358552",
 	["gm_construct_extended"]         = "509873419",
 	["gm_construct_15"]               = "693913132",
-	["gm_bigcity_winter"]             = "622351524"
+	["gm_bigcity_winter"]             = "622351524",
+	["rp_c18_winter_holiday2"]        = "603896057",
+	["rp_outercanals_winter"]         = "107641602",
 }
 
 resource.AddWorkshop(maps[game.GetMap()])
