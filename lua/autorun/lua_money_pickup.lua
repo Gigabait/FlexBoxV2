@@ -40,6 +40,11 @@ if SERVER then
 	end
 
 	function ENT:SetValue( num )
+
+		if num > 1e3 then
+			self.Value = num
+			return
+		end
 		if num < 0 and self.Configuration["defines"]["warn_negative"] then
 			self:SetColor( 255, 225, 225 )
 			self.Configuration["lighting"]["colour"] = Color( 255, 220, 220 )
