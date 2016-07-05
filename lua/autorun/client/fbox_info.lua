@@ -269,35 +269,20 @@ vgui.Register("fbox_info",PANEL,"DFrame")
 local matBlurScreen = Material( "pp/blurscreen" )
 
 local starttime = 0
-local stoptime = 2
 
-local function HUDPaintBackground(   )
-	local now = RealTime()
-
-    local frac = (now - starttime) * 5
-	frac=frac>1 and 1 or frac<0 and 0 or frac
-	frac=math.sin(frac*math.pi*0.5)
-
-
-	local f2 = (now - stoptime)* 5
-
-	local sw,sh = ScrW(), ScrH()
-
-	f2=f2>1 and 1 or f2<0 and 0 or f2
-	frac=frac-f2
-	frac=frac>1 and 1 or frac<0 and 0 or frac
+local function HUDPaintBackground()
 
     surface.SetMaterial( matBlurScreen )
-    surface.SetDrawColor( 255, 255, 255, frac*255 )
+    surface.SetDrawColor( 255, 255, 255, 255 )
 
     for i=0.33, 1, 0.33 do
-        matBlurScreen:SetFloat( "$blur", frac * 5 * i )
+        matBlurScreen:SetFloat( "$blur", 5 )
         matBlurScreen:Recompute()
         if ( render ) then render.UpdateScreenEffectTexture() end
-        surface.DrawTexturedRect( 0,0, sw, sh )
+        surface.DrawTexturedRect( 0,0, ScrW(), ScrH() )
     end
     surface.SetDrawColor(10,10,10,frac*55)
-    surface.DrawRect(0,0,sw,sh)
+    surface.DrawRect(0,0,ScrW(),ScrH())
 end
 
 
