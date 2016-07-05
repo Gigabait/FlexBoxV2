@@ -78,3 +78,5 @@ function RefreshDir()
 		AddSingle( strFileName )
 	end
 end
+
+hook.Add( "PostGamemodeLoaded", "modulePostLoad", RefreshDir )
