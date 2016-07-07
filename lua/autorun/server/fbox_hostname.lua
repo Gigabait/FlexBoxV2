@@ -1,3 +1,5 @@
+local Tag = "fbox_hostname"
+
 local slogans = [[
 whats an fps
 adminhelp
@@ -40,15 +42,44 @@ do
 	slogans = _slogans
 end
 
-local hostname = {}
-for k,slogan in pairs(slogans) do
-	hostname[k] = "FlexBox - " .. slogan
+if not file.Exists("hostnames.txt","DATA") then
+	local h = {}
+
+	for _,s in pairs(slogans) do
+		table.insert(h,{s,"default"})
+	end
+
+	file.Write("hostnames.txt",util.TableToJSON(h))
 end
 
-timer.Create("fbox_hostname",10,0,function()
-	RunConsoleCommand("hostname",tostring(table.Random(hostname)))
+timer.Create(Tag,10,0,function()
+	local hostnames = util.JSONToTable(file.Read("hostnames.txt","DATA"))
+	local hh = {}
+	for k,slogan in pairs(hostnames) do
+		hh[k] = "FlexBox - " .. slogan[1]
+	end
+	RunConsoleCommand("hostname",tostring(table.Random(hh)))
 end)
 
 hook.Add("GetGameDescription", "moddedboxhack", function()
 	return "Sandbox: ModdedBox"
+end)
+
+util.AddNetworkString(Tag)
+
+net.Receive(Tag,function(l,pl)
+	local t = net.ReadDouble()
+
+	if t == 1 then --read
+		Msg("[Hostnames] ") print("READ: ",tostring(pl))
+		net.Start(Tag)
+		net.WriteTable(util.JSONToTable(file.Read("hostnames.txt","DATA")))
+		net.WriteEntity(pl) --we need to verify
+		net.Broadcast()
+	elseif t == 2 then --write
+		if not pl:IsAdmin() then return end
+		Msg("[Hostnames] ") print("WRITE: ",tostring(pl))
+		local tbl = net.ReadTable()
+		file.Write("hostnames.txt",util.TableToJSON(tbl))
+	end
 end)
