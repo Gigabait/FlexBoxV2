@@ -52,18 +52,27 @@ if not file.Exists("hostnames.txt","DATA") then
 	file.Write("hostnames.txt",util.TableToJSON(h))
 end
 
-timer.Create(Tag,10,0,function()
-	local hostnames = util.JSONToTable(file.Read("hostnames.txt","DATA"))
-	local hh = {}
-	for k,slogan in pairs(hostnames) do
-		hh[k] = "FlexBox - " .. slogan[1]
-	end
-	RunConsoleCommand("hostname",tostring(table.Random(hh)))
-end)
+if not _G.fbox_is_dev_server then
+	timer.Create(Tag,10,0,function()
+		local hostnames = util.JSONToTable(file.Read("hostnames.txt","DATA"))
+		local hh = {}
+		for k,slogan in pairs(hostnames) do
+			hh[k] = "FlexBox - " .. slogan[1]
+		end
+		RunConsoleCommand("hostname",tostring(table.Random(hh)))
+	end)
 
-hook.Add("GetGameDescription", "moddedboxhack", function()
-	return "Sandbox: ModdedBox"
-end)
+	hook.Add("GetGameDescription", "moddedboxhack", function()
+		return "Sandbox: ModdedBox"
+	end)
+else
+	local gm = {
+		["darkrp"] = "wow darkrp, a new low",
+		["moddedbox"] = "just dev things"
+	}
+
+	RunConsoleCommand("hostname","FlexBox Dev Server - "..(gm[GAMEMODE.FolderName] and gm[GAMEMODE.FolderName] or "just dev things"))
+end
 
 util.AddNetworkString(Tag)
 
