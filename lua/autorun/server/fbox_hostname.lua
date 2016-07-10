@@ -70,8 +70,13 @@ else
 		["darkrp"] = "wow darkrp, a new low",
 		["moddedbox"] = "just dev things"
 	}
+	timer.Create(Tag,10,0,function()
+		RunConsoleCommand("hostname","FlexBox Dev Server - "..(gm[GAMEMODE.FolderName] and gm[GAMEMODE.FolderName] or "just dev things"))
+	end)
 
-	RunConsoleCommand("hostname","FlexBox Dev Server - "..(gm[GAMEMODE.FolderName] and gm[GAMEMODE.FolderName] or "just dev things"))
+	hook.Add("GetGameDescription", "moddedboxhack", function()
+		return "Developers Developers Developers Developers!"
+	end)
 end
 
 util.AddNetworkString(Tag)
