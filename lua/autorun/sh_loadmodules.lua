@@ -1,56 +1,51 @@
 module("moduleload", package.seeall)
 
-local TblSuffixEnum = { -- enumeration is easy and fun
+local TblSuffixEnum = {
 	["cl"] = 1,
 	["sv"] = 2,
-	["sh"] = 3,
-}
+	["sh"] = 3
+} -- enumeration is easy and fun
 
 Directory = "modules"
-
 Modules = {}
 
 function Load()
-
 	tblSwitch = {}
 
 	if SERVER then
 		tblSwitch = {
-			["Client"] = function( strFileNameFull )
-				AddCSLuaFile( strFileNameFull )
+			["Client"] = function(strFileNameFull)
+				AddCSLuaFile(strFileNameFull)
 			end,
-			["Server"] = function( strFileNameFull )
-				include( strFileNameFull )
+			["Server"] = function(strFileNameFull)
+				include(strFileNameFull)
 			end,
-			["Shared"] = function( strFileNameFull )
-				include( strFileNameFull )
-				AddCSLuaFile( strFileNameFull )
-			end,
+			["Shared"] = function(strFileNameFull)
+				include(strFileNameFull)
+				AddCSLuaFile(strFileNameFull)
+			end
 		}
 	else
 		tblSwitch = {
-			["Client"] = function( strFileNameFull )
-				include( strFileNameFull )
+			["Client"] = function(strFileNameFull)
+				include(strFileNameFull)
 			end,
-			["Server"] = function( strFileNameFull )
+			["Server"] = function(strFileNameFull)
 				ErrorNoHalt("client has server module '" .. strFileNameFull .. "'")
 			end,
-			["Shared"] = function( strFileNameFull )
-				include( strFileNameFull )
-			end,
+			["Shared"] = function(strFileNameFull)
+				include(strFileNameFull)
+			end
 		}
 	end
 
-
-	for strFileName, tblFileInfo in pairs( Modules ) do
-		tblSwitch[tblFileInfo.Type]( tblFileInfo.Location )
+	for strFileName, tblFileInfo in pairs(Modules) do
+		tblSwitch[tblFileInfo.Type](tblFileInfo.Location)
 	end
-
 end
 
-function AddSingle( strFileName )
-
-	iFileIntention = TblSuffixEnum[ string.sub( strFileName, 1, 2 ) ] and TblSuffixEnum[ string.sub( strFileName, 1, 2 ) ] or 3
+function AddSingle(strFileName)
+	iFileIntention = TblSuffixEnum[string.sub(strFileName, 1, 2)] and TblSuffixEnum[string.sub(strFileName, 1, 2)] or 3
 
 	if iFileIntention == 1 then
 		Modules[strFileName] = {}
@@ -64,19 +59,16 @@ function AddSingle( strFileName )
 	end
 
 	Modules[strFileName].Location = Directory .. "/" .. strFileName
-	Modules[strFileName].FileSize = file.Size( Directory .. "/" .. strFileName )
-
+	Modules[strFileName].FileSize = file.Size(Directory .. "/" .. strFileName)
 end
 
 function RefreshDir()
-
-	TblFiles = file.Find( Directory, "LUA" )
-
+	TblFiles = file.Find(Directory, "LUA")
 	Modules = {}
 
-	for _, strFileName in pairs( tblFiles ) do
-		AddSingle( strFileName )
+	for _, strFileName in pairs(tblFiles) do
+		AddSingle(strFileName)
 	end
 end
 
-hook.Add( "PostGamemodeLoaded", "modulePostLoad", RefreshDir )
+hook.Add("PostGamemodeLoaded", "modulePostLoad", RefreshDir)
