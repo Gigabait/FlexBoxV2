@@ -17,8 +17,9 @@ ENT.Configuration 			= {
 
 
 	["models"] = {
-		["low"] = "models/props/cs_assault/Dollar.mdl",
-		["high"] = "models/props/cs_assault/Money.mdl",
+		["low"] = "models/props/cs_assault/dollar.mdl",
+		["high"] = "models/props/cs_assault/money.mdl",
+		["humongous"] = "models/props/cs_assault/moneypallet.mdl",
 	},
 
 	["lighting"] = {
@@ -43,7 +44,7 @@ if SERVER then
 
 		if num > 1e4 then
 			self:EmitSound( self.Configuration["defines"]["sfxValueChanged"] )
-			self:SetModel( "models/props/cs_assault/moneypallet.mdl" )
+			self:SetModel( self.Configuration["models"]["humongous"] )
 
 			--self:PhysicsDestroy()
 			--self:PhysicsInit( SOLID_BBOX )
