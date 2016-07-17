@@ -46,7 +46,7 @@ end
 
 function AddSingle(strFileName)
 
-	print( "[Pococraft Base]: Now initializing module " .. strFileName .. "..." )
+	print( "[FlexBox]: Now initializing module " .. strFileName .. "..." )
 
 	iFileIntention = TblSuffixEnum[string.sub(strFileName, 1, 2)] and TblSuffixEnum[string.sub(strFileName, 1, 2)] or 3
 
