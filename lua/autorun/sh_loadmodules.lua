@@ -45,6 +45,9 @@ function Load()
 end
 
 function AddSingle(strFileName)
+
+	print( "[Pococraft Base]: Now initializing module " .. strFileName .. "..." )
+
 	iFileIntention = TblSuffixEnum[string.sub(strFileName, 1, 2)] and TblSuffixEnum[string.sub(strFileName, 1, 2)] or 3
 
 	if iFileIntention == 1 then
@@ -59,16 +62,26 @@ function AddSingle(strFileName)
 	end
 
 	Modules[strFileName].Location = Directory .. "/" .. strFileName
-	Modules[strFileName].FileSize = file.Size(Directory .. "/" .. strFileName)
+	Modules[strFileName].FileSize = file.Size(Directory .. "/" .. strFileName, "LUA" )
 end
 
-function RefreshDir()
-	TblFiles = file.Find(Directory, "LUA")
+function RefreshDir( bPostLoading )
+	
+	TblFiles = file.Find( string.format( "%s/*", Directory ), "LUA")
 	Modules = {}
 
-	for _, strFileName in pairs(tblFiles) do
+	for _, strFileName in pairs(TblFiles) do
 		AddSingle(strFileName)
 	end
+
+	if bPostLoading then
+		Load()
+	end
+	
 end
 
-hook.Add("PostGamemodeLoaded", "modulePostLoad", RefreshDir)
+function 
+
+hook.Add("PostGamemodeLoaded", "modulePostLoad", function()
+	RefreshDir( true )
+end)
